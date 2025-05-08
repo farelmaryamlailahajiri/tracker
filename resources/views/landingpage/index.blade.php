@@ -31,8 +31,8 @@
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#top" class="active">Beranda</a></li>
                             <li class="scroll-to-section"><a href="#abouts">About</a></li>
-                            <li class="scroll-to-section"><a href="#">Survei</a></li>
-                            <li class="scroll-to-section"><a href="#">Kepuasan</a></li>
+                            <li class="scroll-to-section"><a href="{{ route('alumni.create') }}">Alumni</a></li>
+                            <li class="scroll-to-section"><a href="{{ route('pengguna-alumni.create') }}">Pengguna Alumni</a></li>
                             <li class="scroll-to-section">
                                 <div class="main-red-button"><a href="#">Login</a></div>
                             </li>
@@ -168,5 +168,4 @@
             </div>
         </div>
     </div>
-
 @endsection

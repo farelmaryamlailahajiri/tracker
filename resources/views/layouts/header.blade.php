@@ -10,7 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <title>@yield('title', 'Space Dynamic')</title>
+    <title>@yield('title', 'JTI Tracker')</title>
+    <link rel="icon" href="{{ asset('templandingpage/assets/images/jti.png') }}" type="image/png">
+
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ asset('templandingpage/vendor/bootstrap/css/bootstrap.min.css') }}">
