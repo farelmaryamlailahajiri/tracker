@@ -30,9 +30,11 @@
 
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#top" class="active">Beranda</a></li>
-                            <li class="scroll-to-section"><a href="#abouts">About</a></li>
+                            <li class="scroll-to-section"><a href="#abouts">Tentang</a></li>
+                            <li class="scroll-to-section"><a href="#tujuan">Tujuan</a></li>
                             <li class="scroll-to-section"><a href="{{ route('alumni.create') }}">Alumni</a></li>
-                            <li class="scroll-to-section"><a href="{{ route('pengguna-alumni.create') }}">Pengguna Alumni</a></li>
+                            <li class="scroll-to-section"><a href="{{ route('pengguna-alumni.create') }}">Pengguna
+                                    Alumni</a></li>
                             <li class="scroll-to-section">
                                 <div class="main-red-button"><a href="#">Login</a></div>
                             </li>
@@ -75,7 +77,7 @@
             <div class="row">
                 <div class="col-lg-6 align-self-center wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s">
                     <div class="left-image">
-                        <img src="{{ asset('templandingpage/assets/images/search.jpg') }}" alt="">
+                        <img src="{{ asset('templandingpage/assets/images/tujuan.jpg') }}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
@@ -96,38 +98,54 @@
             </div>
         </div>
     </div>
-    <!-- About Section -->
-    <div id="about" class="about-us section">
+    <!-- Tujuan Tracer Study Section -->
+    <div id="tujuan" class="our-abouts section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="left-image wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s">
-                        <img src="{{ asset('templandingpage/assets/images/about-left-image.png') }}" alt="person graphic">
+                <!-- Teks Tujuan di Kiri -->
+                <div class="col-lg-6 wow fadeInLeft align-self-center" data-wow-duration="1s" data-wow-delay="0.2s">
+                    <div class="section-heading">
+                        <h2>Tujuan <em>Tracer Study</em></h2>
+                        <ul class="list-group list-group-flush mt-4">
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                <span>Mengetahui keterserapan alumni di dunia kerja</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                <span>Evaluasi kurikulum dan pembelajaran</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                <span>Pemetaan kompetensi lulusan</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                <span>Umpan balik untuk perbaikan institusi</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                <span>Mendukung akreditasi dan audit mutu pendidikan</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-start">
+                                <i class="bi bi-check-circle-fill text-success me-3"></i>
+                                <span>Menjalin relasi dengan alumni</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-lg-8 align-self-center">
-                    <div class="abouts">
-                        <div class="row">
-                            @foreach ([['icon' => 'service-icon-01.png', 'title' => 'Data Analysis'], ['icon' => 'service-icon-02.png', 'title' => 'Data Reporting'], ['icon' => 'service-icon-03.png', 'title' => 'Web Analytics'], ['icon' => 'service-icon-04.png', 'title' => 'SEO Suggestions']] as $item)
-                                <div class="col-lg-6">
-                                    <div class="item wow fadeIn" data-wow-duration="1s">
-                                        <div class="icon">
-                                            <img src="{{ asset('templandingpage/assets/images/' . $item['icon']) }}"
-                                                alt="">
-                                        </div>
-                                        <div class="right-text">
-                                            <h4>{{ $item['title'] }}</h4>
-                                            <p>Lorem ipsum dolor sit amet, ctetur aoi adipiscing eliter</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+
+                <!-- Gambar Ilustrasi di Kanan -->
+                <div class="col-lg-6 align-self-center wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
+                    <div class="right-image text-center">
+                        <img src="{{ asset('templandingpage/assets/images/search.jpg') }}"
+                            alt="Ilustrasi Tujuan Tracer Study" class="img-fluid rounded">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Portfolio Section -->
     <div id="portfolio" class="our-portfolio section">
         <div class="container">
@@ -158,8 +176,8 @@
                                     <p>{{ $name }}</p>
                                 </div>
                                 <div class="showed-content">
-                                    <img src="{{ asset('templandingpage/assets/images/portfolio-image.png') }}"
-                                        alt="">
+                                    <img src="{{ asset('templandingpage/assets/images/' . (in_array($name, ['Farel Maryam Laila Hajiri', 'Aidatul Rosida']) ? 'avatar3.png' : 'avatar2.png')) }}"
+                                        alt="{{ $name }}">
                                 </div>
                             </div>
                         </a>

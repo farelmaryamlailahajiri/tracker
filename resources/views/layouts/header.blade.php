@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('templandingpage/assets/css/owl.css') }}">
     <link rel="stylesheet" href="{{ asset('templandingpage/assets/css/animated.css') }}">
     <link rel="stylesheet" href="{{ asset('templandingpage/assets/css/templatemo-space-dynamic.css') }}">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
