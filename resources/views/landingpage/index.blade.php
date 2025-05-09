@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'JTI Tracker')
-
 @section('content')
-
+    @include('landingpage.login')
     <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
         <div class="preloader-inner">
@@ -36,11 +34,10 @@
                             <li class="scroll-to-section"><a href="{{ route('pengguna-alumni.create') }}">Pengguna
                                     Alumni</a></li>
                             <li class="scroll-to-section">
-                                <div class="main-red-button"><a href="#">Login</a></div>
+                                <button onclick="$('#loginModal').modal('show')" class="main-red-button">Login</button>
                             </li>
                         </ul>
                         <a class='menu-trigger'><span>Menu</span></a>
-                    </nav>
                 </div>
             </div>
         </div>

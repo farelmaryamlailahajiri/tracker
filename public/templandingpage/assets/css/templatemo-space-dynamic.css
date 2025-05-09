@@ -667,6 +667,36 @@ header
     color: #fcb418;
 }
 
+/* Styling untuk tombol Login di dalam nav */
+.nav .main-red-button {
+    display: inline-block;
+    background-color: #111f43;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    letter-spacing: 0.25px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+/* Hover effect untuk tombol Login */
+.nav .main-red-button:hover {
+    background-color: #fcb418;
+    color: #111f43;
+}
+
+/* Menjaga tombol agar tidak berubah bentuk pada klik atau focus */
+.nav .main-red-button:focus,
+.nav .main-red-button:active {
+    outline: none;
+    box-shadow: none;
+}
+
 @media (max-width: 1200px) {
     .header-area .main-nav .nav li {
         padding-left: 12px;
@@ -1595,85 +1625,104 @@ responsive
         flex: 1;
     }
 }
-
-
-/* Login Styling */
-/* Modal Login */
-.modal-login {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+/* ===== Modal Login Styling ===== */
+#loginModal .modal-content {
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Bayangan lebih besar untuk tampilan lebih dramatis */
+    border: none;
 }
 
-.login-box {
-  background: #fff;
-  padding: 30px;
-  max-width: 400px;
-  margin: 100px auto;
-  border-radius: 15px;
-  position: relative;
+#loginModal .modal-header {
+    background: linear-gradient(135deg, #111f43, #1a3c6e); /* Gradient biru lebih menarik */
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 20px;
 }
 
-.login-box h2 {
-  text-align: center;
-  margin-bottom: 20px;
+#loginModal .modal-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-transform: uppercase;
 }
 
-.login-box .form-group {
-  margin-bottom: 15px;
+#loginModal .form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #333;
 }
 
-.login-box input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+#loginModal input.form-control {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background-color: #f7f7f7;
 }
 
-.login-box button {
-  width: 100%;
-  background-color: #111f43;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
+#loginModal input.form-control:focus {
+    border-color: #111f43;
+    box-shadow: 0 0 8px rgba(17, 31, 67, 0.5);
+    background-color: #fff;
 }
 
-.login-box button:hover {
-  background-color: #fcb418;
+#loginModal .btn-primary {
+    background-color: #111f43;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
-.error {
-  color: red;
-  text-align: center;
-  margin-top: 10px;
+#loginModal .btn-primary:hover {
+    background-color: #fcb418;
+    color: #111f43;
+    transform: translateY(-2px); /* Efek tombol hover sedikit naik */
 }
 
-.close-btn {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 20px;
-  cursor: pointer;
+#loginModal .btn-secondary {
+    border-radius: 8px;
+    background-color: #e0e0e0;
+    border: none;
+    color: #333;
+    font-weight: bold;
+    padding: 10px 25px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-.btn-login-trigger {
-  background-color: #111f43;
-  color: #fff;
-  padding: 12px 25px;
-  border: none;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
+#loginModal .btn-secondary:hover {
+    background-color: #c0c0c0;
 }
 
-.btn-login-trigger:hover {
-  background-color: #fcb418;
+/* ===== Mobile Responsive Modal ===== */
+@media (max-width: 576px) {
+    #loginModal .modal-dialog {
+        margin: 1rem;
+        max-width: 90%;
+    }
+
+    #loginModal .modal-content {
+        border-radius: 12px;
+    }
+    
+    #loginModal .modal-header {
+        padding: 15px;
+    }
+
+    #loginModal .modal-title {
+        font-size: 1.25rem;
+    }
+}
+
+/* ===== Input Error Styling ===== */
+.form-text.text-danger {
+    font-size: 0.85rem;
+    color: #e74c3c;
+    margin-top: 4px;
 }
