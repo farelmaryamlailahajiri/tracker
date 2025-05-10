@@ -17,9 +17,6 @@ return new class extends Migration
             $table->string('nim')->unique();
             $table->foreignId('program_studi_id')->constrained('program_studi');
             $table->date('tanggal_lulus');
-            $table->date('tanggal_pertama_kerja');
-            $table->date('tanggal_mulai_kerja_saat_ini');
-            $table->string('telepon');
             $table->timestamps();
         });
     }
