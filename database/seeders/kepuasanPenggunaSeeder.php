@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class kepuasanPenggunaSeeder extends Seeder
 {
@@ -44,6 +45,6 @@ class kepuasanPenggunaSeeder extends Seeder
                 'updated_at' => now(),
             ]
             ];
-        DB::table('tracer')->insert($data);
+        DB::table('kepuasan_pengguna')->insert($data);
     }
 }

@@ -4,14 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class ProgramStudi extends Seeder
+class prodiSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        {
         $data = [
             [
 
@@ -36,5 +38,6 @@ class ProgramStudi extends Seeder
             ]
             ];
         DB::table('program_studi')->insert($data);
+    }
     }
 }
