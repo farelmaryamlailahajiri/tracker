@@ -26,3 +26,6 @@ Route::get('/pengguna-alumni', [PenggunaAlumniController::class, 'create'])->nam
 Route::post('/pengguna-alumni', [PenggunaAlumniController::class, 'store'])->name('pengguna-alumni.store');
 
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/dashboard', function () {
+    return view('dashboard.index'); // nama file: resources/views/dashboard.blade.php
+})->name('dashboard');
