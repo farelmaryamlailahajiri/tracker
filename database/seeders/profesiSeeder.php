@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class profesiSeeder extends Seeder
+class ProfesiSeeder extends Seeder
 {
     /**
      * Run the database seeds.

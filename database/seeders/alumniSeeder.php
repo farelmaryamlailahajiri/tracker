@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class alumniSeeder extends Seeder
+class AlumniSeeder extends Seeder
 {
     /**
      * Run the database seeds.
