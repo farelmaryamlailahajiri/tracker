@@ -9793,24 +9793,28 @@ a:focus {
 }
 
 /* Wrapper: berikan padding kiri agar tidak tertutup sidebar */
+/* Sidebar fixed di kiri, tidak perlu padding di wrapper */
 #wrapper {
   display: flex;
-  padding-left: 6.5rem; /* sesuaikan dengan lebar sidebar */
 }
 
-/* Content-wrapper tetap fleksibel */
+/* Content-wrapper geser ke kanan sesuai lebar sidebar */
 #wrapper #content-wrapper {
   background-color: #f8f9fc;
-  width: 100%;
+  margin-left: 6.5rem; /* 6.5rem = 104px, sesuaikan jika sidebar beda */
+  width: calc(100% - 6.5rem);
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
 
-/* Konten utama fleksibel */
-#wrapper #content-wrapper #content {
-  flex: 1 0 auto;
+
+body.sidebar-toggled #wrapper #content-wrapper {
+  margin-left: 4rem; /* misalnya sidebar menyusut ke 64px */
+  width: calc(100% - 4rem);
 }
+
+
 
 .container,
 .container-fluid,
@@ -10135,6 +10139,17 @@ a:focus {
 }
 
 .sidebar .nav-item.dropdown .dropdown-toggle::after,
+
+/* Geser topbar agar tidak tertindih sidebar */
+.topbar {
+  margin-left: 9.5rem;
+}
+
+/* Geser search bar di topbar */
+.topbar .navbar-search {
+  margin-left: 7rem;
+}
+
 .topbar .nav-item.dropdown .dropdown-toggle::after {
   width: 1rem;
   text-align: center;
