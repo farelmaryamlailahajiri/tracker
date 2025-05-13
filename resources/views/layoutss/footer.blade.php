@@ -23,4 +23,4 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('tempdashboard/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('tempdashboard/js/demo/chart-pie-demo.js') }}"></script>
+    <script src="{{ asset('tempdashboard/js/demo/chart-pie-demo.js') }}"></script> 
