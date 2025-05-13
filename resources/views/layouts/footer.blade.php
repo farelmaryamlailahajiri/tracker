@@ -16,3 +16,6 @@
 <script src="{{ asset('templandingpage/assets/js/animation.js') }}"></script>
 <script src="{{ asset('templandingpage/assets/js/imagesloaded.js') }}"></script>
 <script src="{{ asset('templandingpage/assets/js/templatemo-custom.js') }}"></script>
+</body>
+
+</html>
