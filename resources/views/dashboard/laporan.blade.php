@@ -16,7 +16,8 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h5 class="m-0 font-weight-bold text-primary">Laporan Rekap Data</h5>
-                            <p class="text-muted mb-0">Laporan hanya dalam bentuk file Excel.</p>
+                            <p class="text-muted mb-0">Laporan hanya
+                                 dalam bentuk file Excel.</p>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush mb-3 w-100">

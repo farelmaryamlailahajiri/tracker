@@ -1,7 +1,13 @@
 @extends('layoutss.app')
 
 @section('content')
-<!-- DataTales Example -->
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Data Profesi</h6>
@@ -44,3 +50,4 @@
         </div>
     </div>
 </div>
+@endsection
