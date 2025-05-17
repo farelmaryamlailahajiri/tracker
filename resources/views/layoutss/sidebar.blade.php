@@ -21,7 +21,7 @@
 
     <!-- Nav Item - Import Lulusan -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('dashboard.importLulusan') }}">
+        <a class="nav-link" href="{{ route('lulusan.index') }}">
             <i class="fas fa-fw fa-file-import"></i>
             <span>Import Lulusan</span>
         </a>

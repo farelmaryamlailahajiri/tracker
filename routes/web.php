@@ -34,4 +34,7 @@ Route::get('/dashboard', function () {
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-Route::get('/importLulusan', [LulusanController::class, 'index'])->name('dashboard.importLulusan');
+
+Route::get('/importLulusan', [LulusanController::class, 'index'])->name('lulusan.index');
+Route::post('/importLulusan', [LulusanController::class, 'import'])->name('lulusan.import');
+Route::post('/ajak/import_ajax', [LulusanController::class, 'importAjax'])->name('ajak.import_ajax');
