@@ -39,4 +39,5 @@ Route::get('/importLulusan', [LulusanController::class, 'index'])->name('lulusan
 Route::post('/importLulusan', [LulusanController::class, 'import'])->name('lulusan.import');
 Route::post('/ajak/import_ajax', [LulusanController::class, 'importAjax'])->name('ajak.import_ajax');
 
+
 Route::resource('/profesi', ProfesiController::class);
