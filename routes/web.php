@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumniController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PenggunaAlumniController;
 use App\Http\Controllers\Auth\LoginAdminController;
 use App\Http\Controllers\AdminAuthController;
-
+use App\Http\Controllers\LulusanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +41,5 @@ Route::middleware(['auth:admin'])->group(function () {
         return view('dashboard.index'); // arahkan ke view yang kamu buat
     })->name('admin.dashboard');
 });
+
+Route::get('/importLulusan', [LulusanController::class, 'index'])->name('dashboard.importLulusan');

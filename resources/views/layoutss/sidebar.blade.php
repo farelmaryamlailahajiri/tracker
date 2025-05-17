@@ -21,11 +21,12 @@
 
     <!-- Nav Item - Import Lulusan -->
     <li class="nav-item">
-        <a class="nav-link" href="import-lulusan">
+        <a class="nav-link" href="{{ route('dashboard.importLulusan') }}">
             <i class="fas fa-fw fa-file-import"></i>
             <span>Import Lulusan</span>
         </a>
     </li>
+
 
     <!-- Nav Item - Kelola Profesi -->
     <li class="nav-item">
@@ -58,4 +59,3 @@
 
 </ul>
 <!-- End of Sidebar -->
- 
