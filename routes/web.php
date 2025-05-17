@@ -43,4 +43,4 @@ Route::get('/laporan/export/kepuasan', [LaporanController::class, 'exportKepuasa
 Route::get('/laporan/export/tracer/belum', [LaporanController::class, 'exportTracerBelum'])->name('laporan.export.tracer.belum');
 Route::get('/laporan/export/kepuasan/belum', [LaporanController::class, 'exportKepuasanBelum'])->name('laporan.export.kepuasan.belum');
 
-Route::get('/profesi', [LaporanController::class, 'profesi']);
+Route::get('/profesi', [ProfesiController::class, 'profesi']);
