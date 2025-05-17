@@ -4,7 +4,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard">
         <div class="sidebar-brand-icon">
-            <img src="templandingpage/assets/images/logo.png" alt="Logo" style="height: 40px;">
+            <img src="tempdashboard/img/logo-tracker.png" alt="Logo" style="height: 40px;">
         </div>
     </a>
 
