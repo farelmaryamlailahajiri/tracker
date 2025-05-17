@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\PenggunaAlumniController;
-use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfesiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +35,6 @@ Route::get('/dashboard', function () {
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/importLulusan', [LulusanController::class, 'index'])->name('dashboard.importLulusan');
+
+
+Route::resource('profesi', ProfesiController::class);
