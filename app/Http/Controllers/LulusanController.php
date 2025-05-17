@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Lulusan;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\LulusanImport;
-use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Illuminate\Support\Facades\Validator;
 
 class LulusanController extends Controller
@@ -15,104 +13,89 @@ class LulusanController extends Controller
     // Menampilkan halaman import lulusan
     public function index()
     {
-        return view('dashboard.importLulusan');
+        return view('dashboard.importLulusan'); // Ganti sesuai view yang kamu gunakan
     }
 
-    // Fungsi untuk mengimpor data lulusan via AJAX
+    // Fungsi untuk mengimpor data lulusan lewat AJAX
     public function importAjax(Request $request)
     {
-        try {
+        if ($request->ajax() || $request->wantsJson()) {
             // Validasi input file
-            $request->validate([
-                'file_ajak' => 'required|mimes:xlsx,xls'
-            ]);
+            $rules = [
+                'file_ajax' => ['required', 'mimes:xlsx,xls', 'max:2048']
+            ];
 
-            // Import menggunakan LulusanImport
-            Excel::import(new LulusanImport, $request->file('file_ajak'));
+            $validator = Validator::make($request->all(), $rules);
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Data lulusan berhasil diimpor.'
-            ]);
-
-        } catch (\Exception $e) {
-            // Logging error untuk debugging
-            Log::error('Gagal import lulusan: ' . $e->getMessage());
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Terjadi kesalahan saat mengimpor data.',
-                'error' => $e->getMessage(), // optional untuk debug
-            ]);
-        }
-    }
-
-    // Menampilkan form import lulusan
-public function import()
-{
-    return view('lulusan.importajax'); // Sesuaikan dengan nama view kamu
-}
-
-// Import data lulusan via Ajax
-public function import_ajax(Request $request)
-{
-    if ($request->ajax() || $request->wantsJson()) {
-        $rules = [
-            'file_lulusan' => ['required', 'mimes:xlsx', 'max:2048']
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validasi gagal.',
-                'msgField' => $validator->errors()
-            ]);
-        }
-
-        $file = $request->file('file_lulusan');
-
-        try {
-            $reader = IOFactory::createReader('Xlsx');
-            $reader->setReadDataOnly(true);
-            $spreadsheet = $reader->load($file->getRealPath());
-            $sheet = $spreadsheet->getActiveSheet();
-            $data = $sheet->toArray(null, false, true, true); // Format kolom A, B, C, D
-
-            $inserted = 0;
-            foreach ($data as $key => $row) {
-                if ($key === 1) continue; // Skip header
-
-                $tahunLulus             = $row['A'] ?? null;
-                $jumlahLulusan          = $row['B'] ?? null;
-                $jumlahLulusanTeracak   = $row['C'] ?? null;
-                $rataRataWaktuTunggu    = $row['D'] ?? null;
-
-                if ($tahunLulus && $jumlahLulusan && $jumlahLulusanTeracak && $rataRataWaktuTunggu) {
-                    Lulusan::create([
-                        'tahun_lulus'              => $tahunLulus,
-                        'jumlah_lulusan'           => $jumlahLulusan,
-                        'jumlah_lulusan_teracak'   => $jumlahLulusanTeracak,
-                        'rata_rata_waktu_tunggu'   => $rataRataWaktuTunggu,
-                    ]);
-                    $inserted++;
-                }
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors()
+                ]);
             }
 
-            return response()->json([
-                'status' => true,
-                'message' => "Import berhasil. $inserted data lulusan ditambahkan."
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Terjadi kesalahan saat memproses file: ' . $e->getMessage()
-            ]);
+            $file = $request->file('file_ajax');
+
+            try {
+                $reader = IOFactory::createReader('Xlsx');
+                $reader->setReadDataOnly(true);
+                $spreadsheet = $reader->load($file->getRealPath());
+                $sheet = $spreadsheet->getActiveSheet();
+                $data = $sheet->toArray(null, false, true, true); // Format: A = NIM, B = Nama, C = Prodi, D = Tanggal
+
+                $inserted = 0;
+                foreach ($data as $key => $row) {
+                    if ($key === 1) continue; // Lewati baris header
+
+                    $nim           = $row['A'] ?? null;
+                    $nama          = $row['B'] ?? null;
+                    $program_studi = $row['C'] ?? null;
+                    $tanggal_lulus = $row['D'] ?? null;
+
+                    // Lewati baris kosong
+                    if (empty($nim) && empty($nama) && empty($program_studi) && empty($tanggal_lulus)) {
+                        continue;
+                    }
+
+                    // Pastikan semua data tersedia
+                    if ($nim && $nama && $program_studi && $tanggal_lulus) {
+                        // Cek apakah data dengan NIM tersebut sudah ada
+                        $existing = Lulusan::where('nim', $nim)->first();
+                        if (!$existing) {
+                            // Konversi tanggal Excel ke format Y-m-d
+                            try {
+                                $tgl = is_numeric($tanggal_lulus)
+                                    ? Date::excelToDateTimeObject($tanggal_lulus)->format('Y-m-d')
+                                    : date('Y-m-d', strtotime($tanggal_lulus));
+                            } catch (\Exception $e) {
+                                $tgl = null;
+                            }
+
+                            Lulusan::create([
+                                'nim' => $nim,
+                                'nama' => $nama,
+                                'program_studi_id' => $program_studi,
+                                'tanggal_lulus' => $tgl
+                            ]);
+
+                            $inserted++;
+                        }
+                    }
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Import berhasil. $inserted data lulusan ditambahkan."
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan saat memproses file: ' . $e->getMessage()
+                ]);
+            }
         }
+
+        return redirect('/');
     }
-
-    return redirect('/');
-}
-
 }

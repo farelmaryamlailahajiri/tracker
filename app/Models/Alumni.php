@@ -13,10 +13,10 @@ class Alumni extends Model
     public $timestamps = false;
 
     // Jika kamu ingin mengatur kolom yang bisa diisi
-    protected $fillable = ['id','nama', 'nim', 'program_studi_id', 'tahun_lulus']; // sesuaikan dengan tabelmu
+    protected $fillable = ['id', 'nama', 'nim', 'program_studi_id', 'tahun_lulus']; // sesuaikan dengan tabelmu
 
     public function programStudi()
     {
-        return $this->belongsTo(ProgramStudi::class);   // FK: program_studi_id
+        return $this->belongsTo(ProgramStudi::class, 'program_studi_id');
     }
 }

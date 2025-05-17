@@ -19,36 +19,29 @@
                             <table class="table table-bordered w-100" id="dataTable" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th style="min-width: 180px;">Tahun Lulus</th>
-                                        <th style="min-width: 400px;">Jumlah Lulusan</th>
-                                        <th style="min-width: 400px;">Jumlah Lulusan Teracak</th>
-                                        <th style="min-width: 400px;">Rata-rata Waktu Tunggu</th>
+                                        <th>No</th>
+                                        <th>Program Studi</th>
+                                        <th>NIM</th>
+                                        <th>Nama</th>
+                                        <th>Tanggal Lulus</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($lulusan as $index => $item)
                                     <tr>
-                                        <td>2020</td>
-                                        <td>150</td>
-                                        <td>30</td>
-                                        <td>3.2 bulan</td>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $item->program_studi }}</td>
+                                        <td>{{ $item->nim }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_lulus)->format('d-m-Y') }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>2021</td>
-                                        <td>165</td>
-                                        <td>35</td>
-                                        <td>2.8 bulan</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2022</td>
-                                        <td>172</td>
-                                        <td>40</td>
-                                        <td>2.4 bulan</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -68,8 +61,8 @@
                 <form id="import-form" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <label for="file">Pilih File XLSX</label>
-                        <input type="file" name="file" class="form-control" required>
+                        <label for="file_lulusan">Pilih File XLSX</label>
+                        <input type="file" name="file_lulusan" id="file_lulusan" class="form-control" required>
                     </div>
                     <div id="success-message" class="alert alert-success" style="display: none;"></div>
                     <div id="error-message" class="alert alert-danger" style="display: none;"></div>
@@ -80,6 +73,7 @@
     </div>
 </div>
 
+<!-- Script -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -100,14 +94,18 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    $('#success-message').text(response.success).show();
+                    $('#success-message').text(response.message).show();
                     $('#error-message').hide();
                     $('#import-form')[0].reset();
                     $('#importModal').modal('hide');
-                    // Refresh data table here (implement refresh logic)
+                    location.reload(); // reload halaman untuk menampilkan data terbaru
                 },
                 error: function(jqXHR) {
-                    $('#error-message').text('Terjadi kesalahan saat mengimpor data.').show();
+                    let errMsg = 'Terjadi kesalahan saat mengimpor data.';
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                        errMsg = jqXHR.responseJSON.message;
+                    }
+                    $('#error-message').text(errMsg).show();
                     $('#success-message').hide();
                 }
             });
