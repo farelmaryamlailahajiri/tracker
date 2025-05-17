@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\PenggunaAlumniController;
-use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProfesiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,27 +28,19 @@ Route::post('/form-alumni', [AlumniController::class, 'store'])->name('alumni.st
 Route::get('/pengguna-alumni', [PenggunaAlumniController::class, 'create'])->name('pengguna-alumni.create');
 Route::post('/pengguna-alumni', [PenggunaAlumniController::class, 'store'])->name('pengguna-alumni.store');
 
+// Dashboard (hanya GET untuk menampilkan halaman dashboard)
 Route::get('/dashboard', function () {
-    return view('dashboard.index'); // nama file: resources/views/dashboard.blade.php
+    return view('dashboard.index'); // Sesuaikan nama file blade yang benar
 })->name('dashboard');
 
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [LoginController::class, 'login']);
+Route::get('/importLulusan', [LulusanController::class, 'index'])->name('dashboard.importLulusan');
 
-Route::get('/admin/dashboard', [LoginController::class, 'dashboard']);
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/laporan/export/tracer', [LaporanController::class, 'exportTracer'])->name('laporan.export.tracer');
+Route::get('/laporan/export/kepuasan', [LaporanController::class, 'exportKepuasan'])->name('laporan.export.kepuasan');
+Route::get('/laporan/export/tracer/belum', [LaporanController::class, 'exportTracerBelum'])->name('laporan.export.tracer.belum');
+Route::get('/laporan/export/kepuasan/belum', [LaporanController::class, 'exportKepuasanBelum'])->name('laporan.export.kepuasan.belum');
 
-
-Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('dashboard.index'); // arahkan ke view yang kamu buat
-    })->name('admin.dashboard');
-});
-
-
-Route::get('/importLulusan', [LulusanController::class, 'index'])->name('lulusan.index');
-Route::post('/importLulusan', [LulusanController::class, 'import'])->name('lulusan.import');
-Route::post('/ajak/import_ajax', [LulusanController::class, 'importAjax'])->name('ajak.import_ajax');
+Route::resource('/profesi', ProfesiController::class);
