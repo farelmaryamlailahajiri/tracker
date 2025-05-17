@@ -39,5 +39,10 @@ Route::get('/importLulusan', [LulusanController::class, 'index'])->name('lulusan
 Route::post('/importLulusan', [LulusanController::class, 'import'])->name('lulusan.import');
 Route::post('/ajak/import_ajax', [LulusanController::class, 'importAjax'])->name('ajak.import_ajax');
 
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/laporan/export/tracer', [LaporanController::class, 'exportTracer'])->name('laporan.export.tracer');
+Route::get('/laporan/export/kepuasan', [LaporanController::class, 'exportKepuasan'])->name('laporan.export.kepuasan');
+Route::get('/laporan/export/tracer/belum', [LaporanController::class, 'exportTracerBelum'])->name('laporan.export.tracer.belum');
+Route::get('/laporan/export/kepuasan/belum', [LaporanController::class, 'exportKepuasanBelum'])->name('laporan.export.kepuasan.belum');
 
 Route::resource('/profesi', ProfesiController::class);
