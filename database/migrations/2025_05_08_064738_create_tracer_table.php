@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('alumni_id')->constrained('alumni');
             $table->foreignId('profesi_id')->constrained('profesi');
             $table->foreignId('instansi_id')->constrained('instansi');
+            $table->string('email');
+            $table->string('no_hp');
+            $table->string('tahun_lulus');
             $table->date('tanggal_pertama_kerja');
             $table->date('tanggal_mulai_kerja_saat_ini');
             $table->string('lokasi_kerja');
