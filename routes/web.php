@@ -27,12 +27,25 @@ Route::post('/form-alumni', [AlumniController::class, 'store'])->name('alumni.st
 Route::get('/pengguna-alumni', [PenggunaAlumniController::class, 'create'])->name('pengguna-alumni.create');
 Route::post('/pengguna-alumni', [PenggunaAlumniController::class, 'store'])->name('pengguna-alumni.store');
 
-// Dashboard (hanya GET untuk menampilkan halaman dashboard)
 Route::get('/dashboard', function () {
-    return view('dashboard.index'); // Sesuaikan nama file blade yang benar
+    return view('dashboard.index'); // nama file: resources/views/dashboard.blade.php
 })->name('dashboard');
 
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [LoginController::class, 'login']);
+
+Route::get('/admin/dashboard', [LoginController::class, 'dashboard']);
+
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('dashboard.index'); // arahkan ke view yang kamu buat
+    })->name('admin.dashboard');
+});
 
 
 Route::get('/importLulusan', [LulusanController::class, 'index'])->name('lulusan.index');
