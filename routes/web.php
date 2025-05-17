@@ -6,6 +6,7 @@ use App\Http\Controllers\PenggunaAlumniController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LaporanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,10 @@ Route::get('/dashboard', function () {
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/importLulusan', [LulusanController::class, 'index'])->name('dashboard.importLulusan');
+
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/laporan/export/tracer', [LaporanController::class, 'exportTracer'])->name('laporan.export.tracer');
+Route::get('/laporan/export/kepuasan', [LaporanController::class, 'exportKepuasan'])->name('laporan.export.kepuasan');
+Route::get('/laporan/export/tracer/belum', [LaporanController::class, 'exportTracerBelum'])->name('laporan.export.tracer.belum');
+Route::get('/laporan/export/kepuasan/belum', [LaporanController::class, 'exportKepuasanBelum'])->name('laporan.export.kepuasan.belum');
+
