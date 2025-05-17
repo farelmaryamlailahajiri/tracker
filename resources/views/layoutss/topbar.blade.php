@@ -28,6 +28,7 @@
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-search fa-fw"></i>
             </a>
+            
             <!-- Dropdown - Messages -->
             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                 aria-labelledby="searchDropdown">
@@ -44,6 +45,7 @@
                 </form>
             </div>
         </li>
+
 
         <!-- Nav Item - Alerts -->
         <li class="nav-item dropdown no-arrow mx-1">
@@ -95,6 +97,7 @@
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
             </div>
         </li>
+        
 
         <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1">

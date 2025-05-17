@@ -7,6 +7,60 @@
         <div id="content">
             <!-- Begin Page Content -->
             <div class="container-fluid">
+
+            <!-- INI FILTERNYA YA WKWK -->
+            <div class="mb-4">
+            <form method="GET" action="{{ route('dashboard') }}">
+                <div class="row g-1 align-items-center">
+                    {{-- Label Program Studi --}}
+                    <div class="col-auto">
+                        <label for="program_studi" class="col-form-label">Program Studi:</label>
+                    </div>
+                    {{-- Select Program Studi --}}
+                    <div class="col-md-2">
+                        <select name="program_studi" id="program_studi" class="form-control">
+                            @php
+                                $prodis = ['D4 TI', 'D4 SIB', 'D2 PPLS', 'S2 MRTI'];
+                                $selectedProdi = request('program_studi', 'D4 TI');
+                            @endphp
+                            @foreach ($prodis as $prodi)
+                                <option value="{{ $prodi }}" {{ $selectedProdi == $prodi ? 'selected' : '' }}>{{ $prodi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Label Tahun --}}
+                    <div class="col-auto">
+                        <label for="tahun_awal" class="col-form-label">Tahun:</label>
+                    </div>
+                    {{-- Tahun Awal --}}
+                    <div class="col-md-2">
+                        @php
+                            $tahunSekarang = date('Y');
+                            $tahunAwalDefault = request('tahun_awal', $tahunSekarang - 3);
+                            $tahunAkhirDefault = request('tahun_akhir', $tahunSekarang);
+                        @endphp
+                        <input type="number" name="tahun_awal" id="tahun_awal" class="form-control" value="{{ $tahunAwalDefault }}" min="2000" max="{{ $tahunSekarang }}">
+                    </div>
+                    {{-- Teks s.d --}}
+                    <div class="col-auto">
+                        <span class="form-text">s.d</span>
+                    </div>
+                    {{-- Tahun Akhir --}}
+                    <div class="col-md-2">
+                        <input type="number" name="tahun_akhir" class="form-control" value="{{ $tahunAkhirDefault }}" min="2000" max="{{ $tahunSekarang }}">
+                    </div>
+
+                    {{-- Tombol Terapkan --}}
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Terapkan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
                 <!-- Content Row -->
                 <div class="row">
                     @php
@@ -65,6 +119,17 @@
                         </div>
                     @endforeach
                 </div>
+                
+                @php
+                    $filteredProdi = request('program_studi', 'D4 TI');
+                    $tahunAwal = request('tahun_awal', date('Y') - 3);
+                    $tahunAkhir = request('tahun_akhir', date('Y'));
+                @endphp
+
+                {{-- Contoh penggunaan --}}
+                <p>Menampilkan data untuk Program Studi <strong>{{ $filteredProdi }}</strong> dari tahun <strong>{{ $tahunAwal }}</strong> sampai <strong>{{ $tahunAkhir }}</strong>.</p>
+
+
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
