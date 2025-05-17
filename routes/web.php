@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\PenggunaAlumniController;
-use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProfesiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +43,4 @@ Route::get('/laporan/export/kepuasan', [LaporanController::class, 'exportKepuasa
 Route::get('/laporan/export/tracer/belum', [LaporanController::class, 'exportTracerBelum'])->name('laporan.export.tracer.belum');
 Route::get('/laporan/export/kepuasan/belum', [LaporanController::class, 'exportKepuasanBelum'])->name('laporan.export.kepuasan.belum');
 
+Route::get('/profesi', [LaporanController::class, 'profesi']);

@@ -30,11 +30,12 @@
 
     <!-- Nav Item - Kelola Profesi -->
     <li class="nav-item">
-        <a class="nav-link" href="kelola-profesi">
+        <a class="nav-link" href="{{ route('profesi.index') }}">
             <i class="fas fa-fw fa-briefcase"></i>
             <span>Kelola Profesi</span>
         </a>
     </li>
+
 
     <!-- Nav Item - Laporan -->
     <li class="nav-item">
