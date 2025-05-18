@@ -16,3 +16,10 @@
 <script src="{{ asset('templandingpage/assets/js/animation.js') }}"></script>
 <script src="{{ asset('templandingpage/assets/js/imagesloaded.js') }}"></script>
 <script src="{{ asset('templandingpage/assets/js/templatemo-custom.js') }}"></script>
+<!-- jQuery – harus paling dulu --> 
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <br>
+ <!-- Select2 – setelah jQuery --> 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> 
+<!-- Bootstrap (jika pakai v4) --> 
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> 
+ @stack('scripts')

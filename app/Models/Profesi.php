@@ -7,15 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profesi extends Model
 {
-    use HasFactory;
-
-    // Nama tabel (opsional jika nama model sesuai konvensi)
     protected $table = 'profesi';
+    protected $fillable = ['nama_profesi', 'kategori'];
 
-    // Kolom yang dapat diisi
-    protected $fillable = [
-        'nama_profesi',
-        'kategori',
-    ];
-
+    public function tracers()
+    {
+        return $this->hasMany(Tracer::class);
+    }
 }

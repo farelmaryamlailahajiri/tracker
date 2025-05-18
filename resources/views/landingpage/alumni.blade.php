@@ -1,6 +1,23 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('alumni.store') }}" method="POST" class="alumni-form">
             @csrf
             <div class="section-heading text-center">
@@ -9,30 +26,19 @@
             </div>
 
             <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="program_studi">Program Studi</label>
-                    <select name="program_studi" id="program_studi" class="form-control" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="D4 SIB">D4 SIB</option>
-                        <option value="D4 TI">D4 TI</option>
-                        <option value="D2 PPLS">D2 PPLS</option>
-                        <option value="S2 MMR-TI">S2 MMR-TI</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="tahun_lulus">Tahun Lulus</label>
-                    <select name="tahun_lulus" id="tahun_lulus" class="form-control" required>
-                        <option value="">-- Pilih --</option>
-                        @for ($year = date('Y'); $year >= 2000; $year--)
-                            <option value="{{ $year }}">{{ $year }}</option>
-                        @endfor
-                    </select>
-                </div>
-
                 <div class="form-group col-md-12">
-                    <label for="nama">Nama (NIM - Nama)</label>
-                    <input type="text" name="nama" id="nama" class="form-control" placeholder="Cari berdasarkan NIM atau Nama" required>
+                    <label for="alumni_id">Silahkan Cari nama Anda</label>
+                    <select name="alumni_id" id="alumni_id" class="form-control" required></select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Prodi</label>
+                    <input type="text" id="prodi" class="form-control" readonly>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Tahun Lulus</label>
+                    <input type="text" id="tahun_lulus" class="form-control" readonly>
                 </div>
 
                 <div class="form-group col-md-6">
@@ -44,6 +50,7 @@
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control" required>
                 </div>
+
 
                 <div class="form-group col-md-6">
                     <label for="tgl_pertama_kerja">Tanggal Pertama Kerja</label>
@@ -135,5 +142,39 @@
                 </div>
             </div>
         </form>
-    </div>
+    @push('scripts')
+
+    <script>
+        $(document).ready(function () {
+            $('#alumni_id').select2({
+                placeholder: 'Cari Nama',
+                ajax: {
+                    url: '{{ route('alumni.search') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('#alumni_id').on('select2:select', function (e) {
+                const id = e.params.data.id;
+                $.getJSON(`{{ url('/form-alumni/detail') }}/${id}`, function (res) {
+                    $('#prodi').val(res.prodi ?? '');
+                    $('#tahun_lulus').val(res.tahun_lulus ?? '');
+                });
+            });
+        });
+    </script>
+    @endpush
+</div>
 @endsection

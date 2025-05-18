@@ -24,6 +24,8 @@ Route::get('/', function () {
 });
 Route::get('/form-alumni', [AlumniController::class, 'create'])->name('alumni.create');
 Route::post('/form-alumni', [AlumniController::class, 'store'])->name('alumni.store');
+Route::get('form-alumni/search', [AlumniController::class, 'searchNama'])->name('alumni.search');
+Route::get('/form-alumni/detail/{id}', [AlumniController::class, 'detail'])->name('alumni.detail');
 
 Route::get('/pengguna-alumni', [PenggunaAlumniController::class, 'create'])->name('pengguna-alumni.create');
 Route::post('/pengguna-alumni', [PenggunaAlumniController::class, 'store'])->name('pengguna-alumni.store');
