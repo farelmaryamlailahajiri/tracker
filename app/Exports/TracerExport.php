@@ -7,11 +7,18 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class TracerExport implements FromCollection
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $tahun;
+
+    public function __construct($tahun)
+    {
+        $this->tahun = $tahun;
+    }
+
     public function collection()
     {
-        return Lulusan::all();
+        return Lulusan::whereYear('tahun_kelulusan', $this->tahun)
+            ->whereNotNull('isian_tracer') // Ganti kolom sesuai struktur tabel
+            ->get();
     }
 }
+

@@ -8,31 +8,41 @@ use App\Exports\TracerExport;
 use App\Exports\KepuasanExport;
 use App\Exports\TracerBelumExport;
 use App\Exports\KepuasanBelumExport;
+use App\Models\Lulusan; // Ganti dengan model yang sesuai jika perlu
 
 class LaporanController extends Controller
 {
+    // Menampilkan halaman laporan
     public function index()
     {
         return view('dashboard.laporan');
     }
 
-    public function exportTracer()
+    // Export untuk Tracer Study, dengan filter tahun
+    public function exportTracer(Request $request)
     {
-        return Excel::download(new TracerExport, 'rekap_tracer_study.xlsx');
+        $tahun = $request->input('tahun', date('Y')); // Ambil tahun dari filter (default ke tahun sekarang)
+        return Excel::download(new TracerExport($tahun), "rekap_tracer_study_{$tahun}.xlsx");
     }
 
-    public function exportKepuasan()
+    // Export untuk Kepuasan Pengguna, dengan filter tahun
+    public function exportKepuasan(Request $request)
     {
-        return Excel::download(new KepuasanExport, 'rekap_kepuasan_pengguna.xlsx');
+        $tahun = $request->input('tahun', date('Y')); // Ambil tahun dari filter (default ke tahun sekarang)
+        return Excel::download(new KepuasanExport($tahun), "rekap_kepuasan_pengguna_{$tahun}.xlsx");
     }
 
-    public function exportTracerBelum()
+    // Export untuk Lulusan yang belum isi Tracer Study, dengan filter tahun
+    public function exportTracerBelum(Request $request)
     {
-        return Excel::download(new TracerBelumExport, 'lulusan_belum_isi_tracer.xlsx');
+        $tahun = $request->input('tahun', date('Y')); // Ambil tahun dari filter (default ke tahun sekarang)
+        return Excel::download(new TracerBelumExport($tahun), "lulusan_belum_isi_tracer_{$tahun}.xlsx");
     }
 
-    public function exportKepuasanBelum()
+    // Export untuk Pengguna yang belum isi Survei Kepuasan, dengan filter tahun
+    public function exportKepuasanBelum(Request $request)
     {
-        return Excel::download(new KepuasanBelumExport, 'pengguna_belum_isi_kepuasan.xlsx');
+        $tahun = $request->input('tahun', date('Y')); // Ambil tahun dari filter (default ke tahun sekarang)
+        return Excel::download(new KepuasanBelumExport($tahun), "pengguna_belum_isi_kepuasan_{$tahun}.xlsx");
     }
 }

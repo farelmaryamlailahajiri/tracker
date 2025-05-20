@@ -2,16 +2,23 @@
 
 namespace App\Exports;
 
-use App\Models\Kepuasan;
+use App\Models\Lulusan; // Ganti jika kamu menggunakan model lain
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class KepuasanExport implements FromCollection
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $tahun;
+
+    public function __construct($tahun)
+    {
+        $this->tahun = $tahun;
+    }
+
     public function collection()
     {
-        return Kepuasan::all();
+        return Lulusan::whereYear('tahun_kelulusan', $this->tahun)
+            ->whereNotNull('kepuasan_pengguna') // Mengambil data yang sudah mengisi survei kepuasan
+            ->get();
     }
 }
+

@@ -7,11 +7,17 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class TracerBelumExport implements FromCollection
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $tahun;
+
+    public function __construct($tahun)
+    {
+        $this->tahun = $tahun;
+    }
+
     public function collection()
     {
-        return Lulusan::all();
+        return Lulusan::whereYear('tahun_kelulusan', $this->tahun)
+            ->whereNull('isian_tracer') // Asumsinya ini kolom yang menunjukkan sudah mengisi atau belum
+            ->get();
     }
 }
