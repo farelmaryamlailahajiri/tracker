@@ -57,12 +57,6 @@ class ProfesiSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'nama_profesi' => 'QA Engineer/Tester',
-                'kategori' => 'Infokom',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'nama_profesi' => 'IT Enterpreneur',
                 'kategori' => 'Infokom',
                 'created_at' => now(),
@@ -70,12 +64,6 @@ class ProfesiSeeder extends Seeder
             ],
             [
                 'nama_profesi' => 'Trainer/Guru/Dosen (IT)',
-                'kategori' => 'Infokom',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_profesi' => 'Lainnya: ...',
                 'kategori' => 'Infokom',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -100,12 +88,6 @@ class ProfesiSeeder extends Seeder
             ],
             [
                 'nama_profesi' => 'Mahasiswa',
-                'kategori' => 'Non-Infokom',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_profesi' => 'Lainnya: ...',
                 'kategori' => 'Non-Infokom',
                 'created_at' => now(),
                 'updated_at' => now(),
