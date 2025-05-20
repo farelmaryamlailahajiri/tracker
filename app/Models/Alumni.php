@@ -9,12 +9,11 @@ class Alumni extends Model
 {
     protected $table = 'alumni';
 
-    // Jika kamu ingin mengatur kolom yang bisa diisi
-    protected $fillable = ['nama', 'nim', 'program_studi_id', 'tahun_lulus']; // sesuaikan dengan tabelmu
+    protected $fillable = ['nama', 'nim', 'program_studi_id', 'tanggal_lulus'];
 
     public function programStudi()
     {
-        return $this->belongsTo(ProgramStudi::class);
+        return $this->belongsTo(ProgramStudi::class, 'program_studi_id'); 
     }
 
     public function tracer()

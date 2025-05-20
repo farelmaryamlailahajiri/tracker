@@ -1,10 +1,9 @@
 @extends('layoutss.app')
 
 @section('content')
-<div id="content-wrapper" class="d-flex flex-column">
-    <div id="content">
-        <div class="container-fluid">
-            <div class="row">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid">
 
                 <!-- Tabel Data Lulusan -->
                 <div class="card shadow mb-4">
@@ -17,99 +16,104 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered w-100" id="dataTable" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Program Studi</th>
-                                        <th>NIM</th>
-                                        <th>Nama</th>
-                                        <th>Tanggal Lulus</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($lulusan as $index => $item)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $item->program_studi }}</td>
-                                        <td>{{ $item->nim }}</td>
-                                        <td>{{ $item->nama }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_lulus)->format('d-m-Y') }}</td>
-                                    </tr>
-                                    @endforeach
+                                <table class="table table-bordered w-100" id="dataTable" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Program Studi</th>
+                                            <th>Nama</th>
+                                            <th>NIM</th>
+                                            <th>Tanggal Lulus</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($alumni as $index)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td> <!-- Nomor urut -->
+                                                <td>{{ $index->programStudi ? $index->programStudi->nama : '-' }}</td>
+                                                <!-- Nama Program Studi -->
+                                                <td>{{ $index->nama }}</td> <!-- Nama Alumni -->
+                                                <td>{{ $index->nim }}</td> <!-- NIM -->
+                                                <td>{{ $index->tanggal_lulus }}</td> <!-- Tanggal Lulus -->
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
-</div>
+    </div>
 
-<!-- Modal Import -->
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="importModalLabel">Import Data Lulusan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="import-form" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label for="file_lulusan">Pilih File XLSX</label>
-                        <input type="file" name="file_lulusan" id="file_lulusan" class="form-control" required>
-                    </div>
-                    <div id="success-message" class="alert alert-success" style="display: none;"></div>
-                    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
-                    <button type="submit" class="btn btn-primary">Impor Lulusan</button>
-                </form>
+    <!-- Modal Import -->
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importModalLabel">Import Data Lulusan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="import-form" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="file_lulusan">Pilih File XLSX</label>
+                            <input type="file" name="file_lulusan" id="file_lulusan" class="form-control" required>
+                        </div>
+                        <div id="success-message" class="alert alert-success" style="display: none;"></div>
+                        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                        <button type="submit" class="btn btn-primary">Impor Lulusan</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Script -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Tampilkan modal saat tombol diklik
-        $('#importLulusanBtn').click(function() {
-            $('#importModal').modal('show');
-        });
+    <!-- Script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Tampilkan modal saat tombol diklik
+            $('#importLulusanBtn').click(function() {
+                $('#importModal').modal('show');
+            });
 
-        // Proses pengiriman form dengan Ajax
-        $('#import-form').on('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
+            // Proses pengiriman form dengan Ajax
+            $('#import-form').on('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
 
-            $.ajax({
-                url: '{{ route('lulusan.import') }}',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    $('#success-message').text(response.message).show();
-                    $('#error-message').hide();
-                    $('#import-form')[0].reset();
-                    $('#importModal').modal('hide');
-                    location.reload(); // reload halaman untuk menampilkan data terbaru
-                },
-                error: function(jqXHR) {
-                    let errMsg = 'Terjadi kesalahan saat mengimpor data.';
-                    if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
-                        errMsg = jqXHR.responseJSON.message;
+                $.ajax({
+                    url: '{{ route('lulusan.import') }}',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $('#success-message').text(response.message).show();
+                        $('#error-message').hide();
+                        $('#import-form')[0].reset();
+                        $('#importModal').modal('hide');
+                        location.reload(); // reload halaman untuk menampilkan data terbaru
+                    },
+                    error: function(jqXHR) {
+                        let errMsg = 'Terjadi kesalahan saat mengimpor data.';
+                        if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                            errMsg = jqXHR.responseJSON.message;
+                        }
+                        $('#error-message').text(errMsg).show();
+                        $('#success-message').hide();
                     }
-                    $('#error-message').text(errMsg).show();
-                    $('#success-message').hide();
-                }
+                });
             });
         });
-    });
-</script>
+    </script>
 @endsection

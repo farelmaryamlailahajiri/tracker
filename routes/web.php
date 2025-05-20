@@ -41,8 +41,11 @@ Route::get('/dashboard', function () {
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
+
 Route::get('/import-lulusan', [LulusanController::class, 'index'])->name('lulusan.index');
-Route::post('/ajak/import_ajax', [LulusanController::class, 'importAjax']);
+Route::post('/import-lulusan/ajax', [LulusanController::class, 'importAjax'])->name('lulusan.import');
+
+
 
 
 Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
