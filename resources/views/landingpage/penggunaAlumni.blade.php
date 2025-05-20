@@ -10,8 +10,8 @@
             </div>
 
             <div class="form-group">
-                <label for="nama">Nama</label>
-                <input type="text" name="nama" id="nama" required>
+                <label for="pengguna_id">Silahkan Cari Nama Anda</label>
+                <select name="pengguna_id" id="pengguna_id" class="form-control" required></select>
             </div>
 
             <div class="form-group">
@@ -30,9 +30,8 @@
             </div>
 
             <div class="form-group">
-                <label for="alumni_info">Nama Alumni, Program Studi, Tahun Lulus</label>
-                <input type="text" name="alumni_info" id="alumni_info"
-                    placeholder="Contoh: Informatika - 2022 - Budi Santoso" required>
+                <label for="alumni_id">Silahkan Cari Alumni</label>
+                <select name="alumni_id" id="alumni_id" class="form-control" required></select>
             </div>
 
             @php
@@ -73,5 +72,50 @@
                 <button type="submit" class="btn btn-kirim mt-3">Kirim Data</button>
             </div>
         </form>
-    </div>
+    @push('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#alumni_id').select2({
+                placeholder: 'Program Studi - Tahun Lulus - Nama Alumni',
+                ajax: {
+                    url: '{{ route('pengguna-alumni.search') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+            
+            $('#pengguna_id').select2({
+                placeholder: 'Nama Anda',
+                ajax: {
+                    url: '{{ route('pengguna-alumni.searchPenggunaLulusan') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+    </script>
+    @endpush
+</div>
 @endsection

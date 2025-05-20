@@ -62,4 +62,28 @@ class ProfesiController extends Controller
 
         return redirect()->route('profesi.index')->with('success', 'Profesi berhasil dihapus.');
     }
+
+    public function getByKategori(Request $request)
+    {
+        $request->validate([
+            'kategori' => 'required|string'
+        ]);
+
+        $profesi = Profesi::where('kategori', $request->kategori)
+            ->orderBy('nama_profesi')
+            ->get();
+
+        return response()->json($profesi);
+    }
+
+    public function getAllKategori()
+    {
+        $kategori = Profesi::select('kategori')
+        ->distinct()
+        ->orderBy('kategori')
+        ->get()
+        ->pluck('kategori');
+
+        return response()->json($kategori->toArray());
+    }
 }

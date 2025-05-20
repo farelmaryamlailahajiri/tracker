@@ -69,6 +69,12 @@ class ProfesiSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'nama_profesi' => 'Lainnya',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'nama_profesi' => 'Procurement & Operational Team',
                 'kategori' => 'Non-Infokom',
                 'created_at' => now(),
@@ -88,6 +94,12 @@ class ProfesiSeeder extends Seeder
             ],
             [
                 'nama_profesi' => 'Mahasiswa',
+                'kategori' => 'Non-Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Lainnya',
                 'kategori' => 'Non-Infokom',
                 'created_at' => now(),
                 'updated_at' => now(),

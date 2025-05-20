@@ -14,4 +14,9 @@ class Profesi extends Model
     {
         return $this->hasMany(Tracer::class);
     }
+
+    public function scopeByKategori($query, $kategori)
+    {
+        return $query->where('kategori', $kategori);
+    }
 }

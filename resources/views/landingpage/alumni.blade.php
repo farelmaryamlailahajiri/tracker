@@ -50,8 +50,23 @@
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control" required>
                 </div>
+                
+                <div class="form-group col-md-12">
+                    <label for="kategori_profesi">Kategori Profesi</label>
+                    <select name="kategori_profesi" id="kategori_profesi" class="form-control">
+                        <option value="">-- Pilih Kategori --</option>
+                        <!-- Options akan diisi oleh JavaScript -->
+                    </select>
+                </div>
 
-
+                <div class="form-group col-md-12">
+                    <label for="profesi">Profesi</label>
+                    <select name="profesi" id="profesi" class="form-control" disabled>
+                        <option value="">-- Pilih Profesi --</option>
+                        <!-- Options akan diisi setelah kategori dipilih -->
+                    </select>
+                </div>
+                
                 <div class="form-group col-md-6">
                     <label for="tgl_pertama_kerja">Tanggal Pertama Kerja</label>
                     <input type="date" name="tgl_pertama_kerja" id="tgl_pertama_kerja" class="form-control">
@@ -90,32 +105,6 @@
                     <input type="text" name="lokasi_instansi" id="lokasi_instansi" class="form-control">
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label for="kategori_profesi">Kategori Profesi</label>
-                    <select name="kategori_profesi" id="kategori_profesi" class="form-control">
-                        <option value="">-- Pilih --</option>
-                        <option value="Infokom">Infokom</option>
-                        <option value="Non-Infokom">Non-Infokom</option>
-                        <option value="Tidak Bekerja">Tidak Bekerja</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="profesi">Profesi</label>
-                    <select name="profesi" id="profesi" class="form-control">
-                        <option value="">-- Pilih --</option>
-                        <option value="Web Developer">Web Developer</option>
-                        <option value="App Developer">App Developer</option>
-                        <option value="Data Analyst">Data Analyst</option>
-                        <option value="UI/UX Designer">UI/UX Designer</option>
-                        <option value="Network Engineer">Network Engineer</option>
-                        <option value="IT Support">IT Support</option>
-                        <option value="Project Manager">Project Manager</option>
-                        <option value="Digital Marketer">Digital Marketer</option>
-                        <option value="Freelancer">Freelancer</option>
-                        <option value="Lainnya">Lainnya</option>
-                    </select>
-                </div>
 
                 <div class="form-group col-md-6">
                     <label for="nama_atasan">Nama Atasan Langsung</label>
@@ -171,6 +160,41 @@
                 $.getJSON(`{{ url('/form-alumni/detail') }}/${id}`, function (res) {
                     $('#prodi').val(res.prodi ?? '');
                     $('#tahun_lulus').val(res.tahun_lulus ?? '');
+                });
+            });
+
+            $.getJSON('{{ url('/form-alumni/kategori') }}', function(data) {
+                const select = $('#kategori_profesi');
+                select.empty().append('<option value="">-- Pilih Kategori --</option>');
+                
+                data.forEach(function(kategori) {
+                    select.append(`<option value="${kategori}">${kategori}</option>`);
+                });
+            });
+
+            // Ketika kategori profesi dipilih
+            $('#kategori_profesi').change(function() {
+                const kategori = $(this).val();
+                const profesiSelect = $('#profesi');
+                
+                profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
+                profesiSelect.prop('disabled', true);
+                
+                if (!kategori) return;
+
+                // Tampilkan loading
+                profesiSelect.prop('disabled', true);
+                profesiSelect.html('<option value="">Memuat data...</option>');
+
+                // Ambil profesi berdasarkan kategori
+                $.getJSON('{{ url('/form-alumni/by-kategori') }}', { kategori: kategori }, function(data) {
+                    profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
+                    
+                    data.forEach(function(profesi) {
+                        profesiSelect.append(`<option value="${profesi.nama_profesi}">${profesi.nama_profesi}</option>`);
+                    });
+                    
+                    profesiSelect.prop('disabled', false);
                 });
             });
         });

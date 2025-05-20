@@ -9,103 +9,115 @@ use App\Models\Tracer;
 use App\Models\Instansi;
 use App\Models\PenggunaLulusan;
 use App\Models\Profesi;
+use App\Models\ProgramStudi;
 
 class AlumniController extends Controller
 {
     public function create()
     {
-        return view('landingpage.alumni');
+        // Ambil data kategori profesi untuk dropdown
+        $kategoriProfesi = Profesi::select('kategori')
+            ->distinct()
+            ->orderBy('kategori')
+            ->pluck('kategori');
+
+        return view('landingpage.alumni', compact('kategoriProfesi'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        // Validasi input
+        $validated = $request->validate([
             'alumni_id' => 'required|exists:alumni,id',
-            'no_hp' => 'required',
-            'email' => 'required|email',
+            'no_hp' => 'required|string|max:15',
+            'email' => 'required|email|max:100',
             'tgl_pertama_kerja' => 'nullable|date',
-            'tgl_mulai_instansi' => 'nullable|date',
-            'jenis_instansi' => 'required',
-            'nama_instansi' => 'nullable|required_if:kategori_profesi,!=,Tidak Bekerja',
-            'skala_instansi' => 'nullable',
-            'lokasi_instansi' => 'nullable',
-            'kategori_profesi' => 'required',
-            'profesi' => 'nullable|required_if:kategori_profesi,!=,Tidak Bekerja',
-            'nama_atasan' => 'nullable',
-            'jabatan_atasan' => 'nullable',
-            'no_hp_atasan' => 'nullable',
-            'email_atasan' => 'nullable|email',
+            'tgl_mulai_instansi' => 'nullable|date|after_or_equal:tgl_pertama_kerja',
+            'jenis_instansi' => 'required_if:kategori_profesi,!=,Tidak Bekerja|string|max:50',
+            'nama_instansi' => 'nullable|required_if:kategori_profesi,!=,Tidak Bekerja|string|max:100',
+            'skala_instansi' => 'nullable|string|max:20',
+            'lokasi_instansi' => 'nullable|string|max:100',
+            'kategori_profesi' => 'required|string|max:50',
+            'profesi' => 'nullable|required_if:kategori_profesi,!=,Tidak Bekerja|string|max:100',
+            'nama_atasan' => 'nullable|string|max:100',
+            'jabatan_atasan' => 'nullable|string|max:100',
+            'no_hp_atasan' => 'nullable|string|max:15',
+            'email_atasan' => 'nullable|email|max:100',
         ]);
 
-        // Start transaction to ensure data consistency
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
-            // Update alumni contact info
-            $alumni = Alumni::findOrFail($request->alumni_id);
+            // 1. Update data alumni
+            $alumni = Alumni::findOrFail($validated['alumni_id']);
             $alumni->update([
-                'no_hp' => $request->no_hp,
-                'email' => $request->email,
+                'no_hp' => $validated['no_hp'],
+                'email' => $validated['email'],
             ]);
 
-            // Handle instansi data if not "Tidak Bekerja"
+            // 2. Handle data pekerjaan (jika bukan "Tidak Bekerja")
             $instansi = null;
             $profesi = null;
             $penggunaLulusan = null;
 
-            if ($request->kategori_profesi !== 'Tidak Bekerja') {
-                // Create or update instansi
+            if ($validated['kategori_profesi'] !== 'Tidak Bekerja') {
+                // 2a. Simpan instansi
                 $instansi = Instansi::updateOrCreate(
-                    ['nama_instansi' => $request->nama_instansi],
+                    ['nama_instansi' => $validated['nama_instansi']],
                     [
-                        'jenis_instansi' => $request->jenis_instansi,
-                        'skala' => $request->skala_instansi,
-                        'lokasi' => $request->lokasi_instansi,
+                        'jenis_instansi' => $validated['jenis_instansi'],
+                        'skala' => $validated['skala_instansi'],
+                        'lokasi' => $validated['lokasi_instansi'],
                     ]
                 );
 
-                // Create or update profesi
+                // 2b. Simpan profesi
                 $profesi = Profesi::updateOrCreate(
-                    ['nama_profesi' => $request->profesi],
-                    ['kategori' => $request->kategori_profesi]
+                    ['nama_profesi' => $validated['profesi']],
+                    ['kategori' => $validated['kategori_profesi']]
                 );
 
-                // Create pengguna lulusan if atasan data is provided
-                if ($request->nama_atasan) {
+                // 2c. Simpan atasan jika ada data
+                if (!empty($validated['nama_atasan'])) {
                     $penggunaLulusan = PenggunaLulusan::create([
-                        'nama' => $request->nama_atasan,
-                        'jabatan' => $request->jabatan_atasan,
-                        'email' => $request->email_atasan,
-                        'telepon' => $request->no_hp_atasan,
+                        'nama' => $validated['nama_atasan'],
+                        'jabatan' => $validated['jabatan_atasan'],
+                        'email' => $validated['email_atasan'],
+                        'telepon' => $validated['no_hp_atasan'],
                         'instansi_id' => $instansi->id,
                     ]);
                 }
             }
 
-            // Create tracer record
-            $tracer = Tracer::create([
-                'alumni_id' => $alumni->id,
-                'profesi_id' => $profesi ? $profesi->id : null,
-                'instansi_id' => $instansi ? $instansi->id : null,
-                'email' => $request->email,
-                'no_hp' => $request->no_hp,
-                'tahun_lulus' => date('Y', strtotime($alumni->tanggal_lulus)),
-                'tanggal_pertama_kerja' => $request->tgl_pertama_kerja,
-                'tanggal_mulai_kerja_saat_ini' => $request->tgl_mulai_instansi,
-                'lokasi_kerja' => $request->lokasi_instansi,
-                'waktu_tunggu' => $this->calculateWaitingTime($alumni->tanggal_lulus, $request->tgl_pertama_kerja),
-            ]);
+            // 3. Simpan tracer study
+            Tracer::updateOrCreate(
+                ['alumni_id' => $alumni->id],
+                [
+                    'profesi_id' => $profesi ? $profesi->id : null,
+                    'instansi_id' => $instansi ? $instansi->id : null,
+                    'email' => $validated['email'],
+                    'no_hp' => $validated['no_hp'],
+                    'tahun_lulus' => date('Y', strtotime($alumni->tanggal_lulus)),
+                    'tanggal_pertama_kerja' => $validated['tgl_pertama_kerja'],
+                    'tanggal_mulai_kerja_saat_ini' => $validated['tgl_mulai_instansi'],
+                    'lokasi_kerja' => $validated['lokasi_instansi'],
+                    'waktu_tunggu' => $this->calculateWaitingTime(
+                        $alumni->tanggal_lulus, 
+                        $validated['tgl_pertama_kerja']
+                    ),
+                ]
+            );
 
-            \DB::commit();
+            DB::commit();
 
-            return redirect()->route('alumni.create')->with([
-                'success' => 'Data berhasil disimpan!',
-                'alumni_id' => $alumni->id // Untuk prepopulate form jika perlu
-            ]);
+            return redirect()->route('alumni.create')
+                ->with('success', 'Data berhasil disimpan!');
+
         } catch (\Exception $e) {
-                return redirect()->back()->withInput()->with([
-                'error' => 'Gagal menyimpan data: ' . $e->getMessage()
-            ]);
+            DB::rollBack();
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
 
@@ -113,34 +125,53 @@ class AlumniController extends Controller
     {
         $search = $request->q;
 
-        $alumni = DB::table('alumni')
-            ->select('id', 'nama', 'nim')
-            ->where('nama', 'like', '%' . $search . '%')
-            ->limit(10)
-            ->get();
-
-        $results = [];
-
-        foreach ($alumni as $a) {
-            $results[] = [
-                'id' => $a->id,
-                'text' => $a->nama . ' - ' . $a->nim
-            ];
+        if (empty($search) || strlen($search) < 2) {
+            return response()->json([]);
         }
-        
 
-        return response()->json($results);
+        $alumni = Alumni::with('programStudi:id,nama')
+            ->where('nama', 'like', '%' . $search . '%')
+            ->orWhere('nim', 'like', '%' . $search . '%')
+            ->limit(10)
+            ->get(['id', 'nama', 'nim', 'program_studi_id']);
+
+        return response()->json(
+            $alumni->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nama . ' - ' . $item->nim . ' - ' . optional($item->programStudi)->nama,
+                    'prodi' => optional($item->programStudi)->nama,
+                    'tahun_lulus' => date('Y', strtotime($item->tanggal_lulus))
+                ];
+            })
+        );
+    }
+
+    public function getProfesiByKategori(Request $request)
+    {
+        $request->validate(['kategori' => 'required|in:Infokom, Non-Infokom,Tidak Bekerja']);
+
+        $profesi = Profesi::where('kategori', $request->kategori)
+            ->orderBy('nama_profesi')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nama_profesi,
+                ];
+            });
+
+        return response()->json($profesi);
     }
 
     public function detail($id)
     {
         $alumni = Alumni::with('programStudi:id,nama')
-            ->select('id','program_studi_id','tanggal_lulus')
-            ->findOrFail($id);
+            ->findOrFail($id, ['id', 'program_studi_id', 'tanggal_lulus']);
 
         return response()->json([
-            'prodi'       => optional($alumni->programStudi)->nama,
-            'tahun_lulus' => $alumni->tanggal_lulus,
+            'prodi' => optional($alumni->programStudi)->nama,
+            'tahun_lulus' => date('Y', strtotime($alumni->tanggal_lulus)),
         ]);
     }
 
@@ -152,13 +183,12 @@ class AlumniController extends Controller
 
         $graduation = new \DateTime($graduationDate);
         $firstJob = new \DateTime($firstJobDate);
-        $interval = $graduation->diff($firstJob);
-
-        if ($graduation->m == $firstJob->m && $graduation->y == $firstJob->y) {
-            return 0; // No waiting time
+        
+        if ($firstJob < $graduation) {
+            return 0;
         }
 
-        // Return in months
+        $interval = $graduation->diff($firstJob);
         return ($interval->y * 12) + $interval->m;
     }
 }
