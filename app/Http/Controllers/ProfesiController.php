@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class ProfesiController extends Controller
 
     public function create()
     {
-        return view('profesi.create');
+        return view('dashboard.createProfesi');
     }
 
     public function store(Request $request)
@@ -35,14 +36,14 @@ class ProfesiController extends Controller
     public function edit($id)
     {
         $profesi = Profesi::findOrFail($id);
-        return view('profesi.edit', compact('profesi'));
+        return view('dashboard.editProfesi', compact('profesi'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama_profesi' => 'required|string|max:255',
-            'kategori' => 'required|string|max:255',
+            'kategori' => 'required|in:Infokom,Non-Infokom',
         ]);
 
         $profesi = Profesi::findOrFail($id);
@@ -51,7 +52,7 @@ class ProfesiController extends Controller
             'kategori' => $request->kategori,
         ]);
 
-        return redirect()->route('profesi.index')->with('success', 'Profesi berhasil diupdate.');
+        return response()->json(['message' => 'Berhasil diperbarui']);
     }
 
     public function destroy($id)
