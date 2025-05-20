@@ -15,14 +15,104 @@ class ProfesiSeeder extends Seeder
     {
         $data = [
             [
-                'nama_profesi' => 'Dosen',
+                'nama_profesi' => 'Developer/Programmer/Software Engineer',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'IT Support/IT Administrator',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Infrastructure Enggineer',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Digital Marketing Specialist',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Graphic Designer/Multimedia Designer',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Business Analyst',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'QA Engineer/Tester',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'QA Engineer/Tester',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'IT Enterpreneur',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Trainer/Guru/Dosen (IT)',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Lainnya: ...',
+                'kategori' => 'Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Procurement & Operational Team',
                 'kategori' => 'Non-Infokom',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_profesi' => 'Pegawai Negeri Sipil',
+                'nama_profesi' => 'Wirausahawan (Non-IT)',
                 'kategori' => 'Non-Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Trainer/Guru/Dosen (Non-IT)',
+                'kategori' => 'Non-Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Mahasiswa',
+                'kategori' => 'Non-Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => 'Lainnya: ...',
+                'kategori' => 'Non-Infokom',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_profesi' => '-Tidak Bekerja-',
+                'kategori' => 'Tidak Bekerja',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
