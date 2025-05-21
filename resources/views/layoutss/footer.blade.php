@@ -2,7 +2,7 @@
 <footer class="sticky-footer bg-white">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
+            <span>Copyright &copy; 2025 Kelompok 6 JTI TRACKER </span>
         </div>
     </div>
 </footer>
@@ -22,8 +22,8 @@
 <script src="{{ asset('tempdashboard/vendor/chart.js/Chart.min.js') }}"></script>
 
 <!-- Page level custom scripts -->
-<script src="{{ asset('tempdashboard/js/demo/chart-area-demo.js') }}"></script>
-<script src="{{ asset('tempdashboard/js/demo/chart-pie-demo.js') }}"></script>
+
+
 <!-- Bootstrap 5 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
