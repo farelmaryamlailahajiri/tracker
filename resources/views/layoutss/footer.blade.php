@@ -11,6 +11,7 @@
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('tempdashboard/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('tempdashboard/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="{{ asset('tempdashboard/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

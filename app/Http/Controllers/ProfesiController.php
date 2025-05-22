@@ -52,7 +52,7 @@ class ProfesiController extends Controller
             'kategori' => $request->kategori,
         ]);
 
-        return response()->json(['message' => 'Berhasil diperbarui']);
+        return response()->json(['message' => 'Profesi berhasil diperbarui!']); // Changed success message
     }
 
     public function destroy($id)
@@ -60,7 +60,8 @@ class ProfesiController extends Controller
         $profesi = Profesi::findOrFail($id);
         $profesi->delete();
 
-        return redirect()->route('profesi.index')->with('success', 'Profesi berhasil dihapus.');
+        // Return a JSON response for AJAX requests
+        return response()->json(['message' => 'Profesi berhasil dihapus!']);
     }
 
     public function getByKategori(Request $request)
