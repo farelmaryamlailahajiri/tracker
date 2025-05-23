@@ -57,12 +57,10 @@ class ProfesiController extends Controller
 
     public function destroy($id)
     {
-        $profesi = Profesi::findOrFail($id);
-        $profesi->delete();
-
-        // Return a JSON response for AJAX requests
-        return response()->json(['message' => 'Profesi berhasil dihapus!']);
+        Profesi::destroy($id);
+        return redirect()->route('profesi.index')->with('success', 'Profesi berhasil dihapus!');
     }
+
 
     public function getByKategori(Request $request)
     {
@@ -80,10 +78,10 @@ class ProfesiController extends Controller
     public function getAllKategori()
     {
         $kategori = Profesi::select('kategori')
-        ->distinct()
-        ->orderBy('kategori')
-        ->get()
-        ->pluck('kategori');
+            ->distinct()
+            ->orderBy('kategori')
+            ->get()
+            ->pluck('kategori');
 
         return response()->json($kategori->toArray());
     }

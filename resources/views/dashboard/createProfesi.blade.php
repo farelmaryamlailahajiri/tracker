@@ -18,6 +18,7 @@
                         <option value="">-- Pilih Kategori --</option>
                         <option value="Infokom">Infokom</option>
                         <option value="Non-Infokom">Non-Infokom</option>
+                        <option value="Non-Infokom">Tidak Bekerja</option>
                     </select>
                 </div>
             </div>

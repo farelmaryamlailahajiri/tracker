@@ -12,7 +12,6 @@
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahProfesi">+
                             Tambah Profesi</button>
                     </div>
-
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -39,7 +38,8 @@
                                                 </button>
 
                                                 <button type="button" class="btn btn-sm btn-danger btnHapus"
-                                                    data-id="{{ $profesi->id }}">
+                                                    data-id="{{ $profesi->id }}" data-bs-toggle="modal"
+                                                    data-bs-target="#modalDeleteProfesi">
                                                     Hapus
                                                 </button>
                                             </td>
@@ -55,53 +55,10 @@
                         </div>
                     </div>
                 </div>
-
-                {{-- Include the createProfesi modal partial --}}
                 @include('dashboard.createProfesi')
                 @include('dashboard.editProfesi')
+                @include('dashboard.deleteProfesi')
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-
-            // Setup Ajax to include CSRF token in request header
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-
-            // Event delegation for delete button - use on() with document
-            $(document).on('click', '.btnHapus', function() {
-                const id = $(this).data('id');
-                console.log('Tombol hapus diklik untuk ID:', id);
-
-                if (confirm('Yakin ingin menghapus data ini?')) {
-                    $.ajax({
-                        url: '/profesi/' + id,
-                        type: 'POST', // Use POST with _method spoofing
-                        data: {
-                            _method: 'DELETE'
-                        },
-                        success: function(response) {
-                            alert(response.message); // Display message from controller
-                            location.reload(); // Reload page to reflect changes
-                        },
-                        error: function(xhr) {
-                            console.error("AJAX error:", xhr.responseText);
-                            let errorMessage = 'Gagal menghapus data!';
-                            if (xhr.responseJSON && xhr.responseJSON.message) {
-                                errorMessage = xhr.responseJSON.message;
-                            }
-                            alert(errorMessage);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
 @endsection

@@ -19,6 +19,7 @@
                     <select name="kategori" id="edit_kategori" class="form-control" required>
                         <option value="Infokom">Infokom</option>
                         <option value="Non-Infokom">Non-Infokom</option>
+                        <option value="Non-Infokom">Tidak Bekerja</option>
                     </select>
                 </div>
             </div>
