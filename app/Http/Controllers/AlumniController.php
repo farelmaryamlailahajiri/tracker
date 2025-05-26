@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Vinkla\Hashids\Facades\Hashids;
 use App\Models\Alumni;
 use App\Models\Tracer;
 use App\Models\Instansi;
 use App\Models\PenggunaLulusan;
 use App\Models\Profesi;
 use App\Models\ProgramStudi;
+use App\Models\linkPenggunaLulusan;
 
 class AlumniController extends Controller
 {
@@ -28,17 +30,18 @@ class AlumniController extends Controller
     {
         // Validasi input
         $validated = $request->validate([
+            'token' => 'required|string|max:6',
             'alumni_id' => 'required|exists:alumni,id',
             'no_hp' => 'required|string|max:15',
             'email' => 'required|email|max:100',
             'tgl_pertama_kerja' => 'nullable|date',
             'tgl_mulai_instansi' => 'nullable|date|after_or_equal:tgl_pertama_kerja',
-            'jenis_instansi' => 'required_if:kategori_profesi,!=,Tidak Bekerja|string|max:50',
-            'nama_instansi' => 'nullable|required_if:kategori_profesi,!=,Tidak Bekerja|string|max:100',
+            'jenis_instansi' => 'required_unless:kategori_profesi,Tidak Bekerja|string|max:50',
+            'nama_instansi' => 'required_unless:kategori_profesi,Tidak Bekerja|string|max:100',
             'skala_instansi' => 'nullable|string|max:20',
             'lokasi_instansi' => 'nullable|string|max:100',
             'kategori_profesi' => 'required|string|max:50',
-            'profesi' => 'nullable|required_if:kategori_profesi,!=,Tidak Bekerja|string|max:100',
+            'profesi' => 'required_unless:kategori_profesi,Tidak Bekerja|string|max:100',
             'nama_atasan' => 'nullable|string|max:100',
             'jabatan_atasan' => 'nullable|string|max:100',
             'no_hp_atasan' => 'nullable|string|max:15',
@@ -48,14 +51,17 @@ class AlumniController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1. Update data alumni
             $alumni = Alumni::findOrFail($validated['alumni_id']);
-            $alumni->update([
-                'no_hp' => $validated['no_hp'],
-                'email' => $validated['email'],
-            ]);
+            if (Tracer::where('alumni_id', $validated['alumni_id'])->exists()) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Data untuk alumni ini sudah pernah diinput.');
+            } elseif ($alumni->token !== $validated['token']) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Token yang dimasukkan tidak valid.');
+            }
 
-            // 2. Handle data pekerjaan (jika bukan "Tidak Bekerja")
             $instansi = null;
             $profesi = null;
             $penggunaLulusan = null;
@@ -85,9 +91,22 @@ class AlumniController extends Controller
                         'email' => $validated['email_atasan'],
                         'telepon' => $validated['no_hp_atasan'],
                         'instansi_id' => $instansi->id,
+                        
                     ]);
+
+                    $penggunaLulusan->link_form = $this->generateLink($penggunaLulusan->id, $validated['alumni_id']);
+                    $penggunaLulusan->save();
                 }
+
+            } else {
+                // Jika Tidak Bekerja, pastikan semua kolom relasi null
+                $instansi = null;
+                $profesi = null;
+                $penggunaLulusan = null;
             }
+
+            // Ambil data alumni
+            $alumni = Alumni::findOrFail($validated['alumni_id']);
 
             // 3. Simpan tracer study
             Tracer::updateOrCreate(
@@ -100,7 +119,6 @@ class AlumniController extends Controller
                     'tahun_lulus' => date('Y', strtotime($alumni->tanggal_lulus)),
                     'tanggal_pertama_kerja' => $validated['tgl_pertama_kerja'],
                     'tanggal_mulai_kerja_saat_ini' => $validated['tgl_mulai_instansi'],
-                    'lokasi_kerja' => $validated['lokasi_instansi'],
                     'waktu_tunggu' => $this->calculateWaitingTime(
                         $alumni->tanggal_lulus, 
                         $validated['tgl_pertama_kerja']
@@ -112,7 +130,6 @@ class AlumniController extends Controller
 
             return redirect()->route('alumni.create')
                 ->with('success', 'Data berhasil disimpan!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
@@ -190,5 +207,29 @@ class AlumniController extends Controller
 
         $interval = $graduation->diff($firstJob);
         return ($interval->y * 12) + $interval->m;
+    }
+
+    public function verifikasi(Request $request)
+    {
+        $alumni = Alumni::where('id', $request->alumni_id)
+            ->where('token', $request->token)
+            ->first();
+
+        if ($alumni) {
+            return response()->json(['status' => 'success']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Nama atau token tidak cocok.']);
+        }
+    }
+
+    public function generateLink($penggunaId, $tracerId) 
+    {
+        
+        $url = route('pengguna-alumni.create', [
+            'pengguna_id' => $penggunaId,
+            'tracer_id' => $tracerId,
+        ]);
+
+        return $url;
     }
 }

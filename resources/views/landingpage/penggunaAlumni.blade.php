@@ -1,6 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+@if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     <div class="container">
         <form action="{{ route('pengguna-alumni.store') }}" method="POST" class="alumni-form">
             @csrf
@@ -9,30 +30,8 @@
                 <p>Silakan lengkapi data berikut sebagai salah satu indikator JTI dalam evaluasi dan perbaikan</p>
             </div>
 
-            <div class="form-group">
-                <label for="pengguna_id">Silahkan Cari Nama Anda</label>
-                <select name="pengguna_id" id="pengguna_id" class="form-control" required></select>
-            </div>
-
-            <div class="form-group">
-                <label for="instansi">Instansi</label>
-                <input type="text" name="instansi" id="instansi" required>
-            </div>
-
-            <div class="form-group">
-                <label for="jabatan">Jabatan</label>
-                <input type="text" name="jabatan" id="jabatan" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="alumni_id">Silahkan Cari Alumni</label>
-                <select name="alumni_id" id="alumni_id" class="form-control" required></select>
-            </div>
+            <input type="hidden" name="pengguna_id" id="pengguna_id" value="{{ $penggunaId }}">
+            <input type="hidden" name="tracer_id" id="tracer_id" value="{{ $tracerId }}">
 
             @php
                 $aspek = [
@@ -72,50 +71,5 @@
                 <button type="submit" class="btn btn-kirim mt-3">Kirim Data</button>
             </div>
         </form>
-    @push('scripts')
-    <script>
-        $(document).ready(function () {
-            $('#alumni_id').select2({
-                placeholder: 'Program Studi - Tahun Lulus - Nama Alumni',
-                ajax: {
-                    url: '{{ route('pengguna-alumni.search') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data
-                        };
-                    },
-                    cache: true
-                }
-            });
-            
-            $('#pengguna_id').select2({
-                placeholder: 'Nama Anda',
-                ajax: {
-                    url: '{{ route('pengguna-alumni.searchPenggunaLulusan') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data
-                        };
-                    },
-                    cache: true
-                }
-            });
-        });
-    </script>
-    @endpush
-</div>
+    </div>
 @endsection

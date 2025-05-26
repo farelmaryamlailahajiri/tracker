@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str as str;
 
 
 class AlumniSeeder extends Seeder
@@ -20,6 +21,7 @@ class AlumniSeeder extends Seeder
                 'nim' => '2147436713',
                 'program_studi_id' => 1,
                 'tanggal_lulus' => '2025-07-15',
+                'token' => str::random(6),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -28,6 +30,7 @@ class AlumniSeeder extends Seeder
                 'nim' => '2147436714',
                 'program_studi_id' => 2,
                 'tanggal_lulus' => '2025-07-15',
+                'token' => str::random(6),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

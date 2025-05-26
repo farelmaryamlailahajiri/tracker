@@ -105,7 +105,7 @@ class ProfesiSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'nama_profesi' => '-Tidak Bekerja-',
+                'nama_profesi' => 'Tidak Bekerja',
                 'kategori' => 'Tidak Bekerja',
                 'created_at' => now(),
                 'updated_at' => now(),

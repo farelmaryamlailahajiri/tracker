@@ -8,6 +8,12 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         @if($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -26,110 +32,126 @@
             </div>
 
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-12">
                     <label for="alumni_id">Silahkan Cari nama Anda</label>
                     <select name="alumni_id" id="alumni_id" class="form-control" required></select>
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label>Prodi</label>
-                    <input type="text" id="prodi" class="form-control" readonly>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label>Tahun Lulus</label>
-                    <input type="text" id="tahun_lulus" class="form-control" readonly>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="no_hp">No. HP</label>
-                    <input type="text" name="no_hp" id="no_hp" class="form-control" required>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" class="form-control" required>
-                </div>
-                
                 <div class="form-group col-md-12">
-                    <label for="kategori_profesi">Kategori Profesi</label>
-                    <select name="kategori_profesi" id="kategori_profesi" class="form-control">
-                        <option value="">-- Pilih Kategori --</option>
-                        <!-- Options akan diisi oleh JavaScript -->
-                    </select>
-                </div>
-
-                <div class="form-group col-md-12">
-                    <label for="profesi">Profesi</label>
-                    <select name="profesi" id="profesi" class="form-control" disabled>
-                        <option value="">-- Pilih Profesi --</option>
-                        <!-- Options akan diisi setelah kategori dipilih -->
-                    </select>
-                </div>
-                
-                <div class="form-group col-md-6">
-                    <label for="tgl_pertama_kerja">Tanggal Pertama Kerja</label>
-                    <input type="date" name="tgl_pertama_kerja" id="tgl_pertama_kerja" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="tgl_mulai_instansi">Tanggal Mulai di Instansi Saat Ini</label>
-                    <input type="date" name="tgl_mulai_instansi" id="tgl_mulai_instansi" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="jenis_instansi">Jenis Instansi</label>
-                    <select name="jenis_instansi" id="jenis_instansi" class="form-control" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="BUMN">BUMN</option>
-                        <option value="Wiraswasta">Wiraswasta</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="nama_instansi">Nama Instansi</label>
-                    <input type="text" name="nama_instansi" id="nama_instansi" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="skala_instansi">Skala Instansi</label>
-                    <select name="skala_instansi" id="skala_instansi" class="form-control">
-                        <option value="">-- Pilih --</option>
-                        <option value="Nasional">Nasional</option>
-                        <option value="Internasional">Internasional</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="lokasi_instansi">Lokasi Instansi</label>
-                    <input type="text" name="lokasi_instansi" id="lokasi_instansi" class="form-control">
-                </div>
-
-
-                <div class="form-group col-md-6">
-                    <label for="nama_atasan">Nama Atasan Langsung</label>
-                    <input type="text" name="nama_atasan" id="nama_atasan" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="jabatan_atasan">Jabatan Atasan Langsung</label>
-                    <input type="text" name="jabatan_atasan" id="jabatan_atasan" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="no_hp_atasan">No. HP Atasan</label>
-                    <input type="text" name="no_hp_atasan" id="no_hp_atasan" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="email_atasan">Email Atasan</label>
-                    <input type="email" name="email_atasan" id="email_atasan" class="form-control">
+                    <label for="token">Masukkan token yang telah diberikan</label>
+                    <input type="password" name="token" id="token" class="form-control" required>
                 </div>
 
                 <div class="form-group col-12 text-center">
-                    <button type="submit" class="btn btn-kirim mt-3">Kirim Data</button>
+                    <button type="button" id="btn-verifikasi" class="btn btn-primary mt-2">Verifikasi</button>
                 </div>
-            </div>
+
+                <div class="row" id="form-lanjutan" style="display: none;">
+                    <div class="form-group col-md-6">
+                        <label>Prodi</label>
+                        <input type="text" id="prodi" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>Tahun Lulus</label>
+                        <input type="text" id="tahun_lulus" class="form-control" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="no_hp">No. HP</label>
+                        <input type="text" name="no_hp" id="no_hp" class="form-control" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group col-md-12">
+                        <label for="kategori_profesi">Kategori Profesi</label>
+                        <select name="kategori_profesi" id="kategori_profesi" class="form-control">
+                            <option value="">-- Pilih Kategori --</option>
+                            <!-- Options akan diisi oleh JavaScript -->
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="profesi">Profesi</label>
+                        <select name="profesi" id="profesi" class="form-control" disabled>
+                            <option value="">-- Pilih Profesi --</option>
+                            <!-- Options akan diisi setelah kategori dipilih -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                        <label for="tgl_pertama_kerja">Tanggal Pertama Kerja</label>
+                        <input type="date" name="tgl_pertama_kerja" id="tgl_pertama_kerja" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="tgl_mulai_instansi">Tanggal Mulai di Instansi Saat Ini</label>
+                        <input type="date" name="tgl_mulai_instansi" id="tgl_mulai_instansi" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="jenis_instansi">Jenis Instansi</label>
+                        <select name="jenis_instansi" id="jenis_instansi" class="form-control">
+                            <option value="">-- Pilih --</option>
+                            <option value="BUMN">BUMN</option>
+                            <option value="Wiraswasta">Wiraswasta</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="nama_instansi">Nama Instansi</label>
+                        <input type="text" name="nama_instansi" id="nama_instansi" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="skala_instansi">Skala Instansi</label>
+                        <select name="skala_instansi" id="skala_instansi" class="form-control">
+                            <option value="">-- Pilih --</option>
+                            <option value="Nasional">Nasional</option>
+                            <option value="Internasional">Internasional</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="lokasi_instansi">Lokasi Instansi</label>
+                        <input type="text" name="lokasi_instansi" id="lokasi_instansi" class="form-control">
+                    </div>
+
+
+                    <div class="form-group col-md-6">
+                        <label for="nama_atasan">Nama Atasan Langsung</label>
+                        <input type="text" name="nama_atasan" id="nama_atasan" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="jabatan_atasan">Jabatan Atasan Langsung</label>
+                        <input type="text" name="jabatan_atasan" id="jabatan_atasan" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="no_hp_atasan">No. HP Atasan</label>
+                        <input type="text" name="no_hp_atasan" id="no_hp_atasan" class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="email_atasan">Email Atasan</label>
+                        <input type="email" name="email_atasan" id="email_atasan" class="form-control">
+                    </div>
+
+                    <div class="form-group col-12 text-center">
+                        <button type="submit" class="btn btn-kirim mt-3">Kirim Data</button>
+                    </div>
+
+                    <div class="form-group col-12 text-center">
+                        <a href="{{ url('/') }}" class="btn btn-danger mb-3">
+                            &larr; Kembali
+                        </a>
+                    </div>
+                </div>
         </form>
     @push('scripts')
 
@@ -195,6 +217,56 @@
                     });
                     
                     profesiSelect.prop('disabled', false);
+                });
+            });
+
+            $('#kategori_profesi').change(function() {
+                const isTidakBekerja = $(this).val() === 'Tidak Bekerja';
+                
+                // Disable/enable instansi fields
+                $('#jenis_instansi, #nama_instansi, #skala_instansi, #lokasi_instansi')
+                    .prop('disabled', isTidakBekerja)
+                    .val('');
+                    
+                // Disable/enable profesi dropdown
+                $('#profesi').prop('disabled', isTidakBekerja);
+                
+                // Disable/enable atasan fields
+                $('#nama_atasan, #jabatan_atasan, #no_hp_atasan, #email_atasan')
+                    .prop('disabled', isTidakBekerja)
+                    .val('');
+            }).trigger('change'); // Trigger initially
+
+            $('#btn-verifikasi').click(function () {
+                const alumniId = $('#alumni_id').val();
+                const token = $('#token').val();
+
+                if (!alumniId || !token) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Data Belum Lengkap',
+                        text: 'Silakan pilih nama dan masukkan token.',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                $.getJSON('{{ url('/form-alumni/verifikasi') }}', {
+                    alumni_id: alumniId,
+                    token: token
+                }, function (res) {
+                    if (res.status === 'success') {
+                        $('#form-lanjutan').slideDown();
+                        $('#alumni_id, #token').prop('readonly', true);
+                        $('#btn-verifikasi').prop('disabled', true).text('Terverifikasi');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Verifikasi Gagal',
+                            text: res.message || 'Nama atau token salah. Silakan coba lagi.',
+                            confirmButtonText: 'Coba Lagi'
+                        });
+                    }
                 });
             });
         });

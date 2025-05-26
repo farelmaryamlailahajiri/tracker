@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('telepon')->nullable();
             $table->foreignId('instansi_id')->constrained('instansi');
+            $table->string('link_form')->nullable();
             $table->timestamps();
         });
     }

@@ -7,6 +7,8 @@ use App\Http\Controllers\LulusanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfesiController;
+use App\Http\Controllers\AlumniLoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,12 +26,13 @@ Route::get('/', function () {
 });
 Route::get('/form-alumni', [AlumniController::class, 'create'])->name('alumni.create');
 Route::post('/form-alumni', [AlumniController::class, 'store'])->name('alumni.store');
+Route::get('/form-alumni/verifikasi', [AlumniController::class, 'verifikasi']);
 Route::get('form-alumni/search', [AlumniController::class, 'searchNama'])->name('alumni.search');
 Route::get('/form-alumni/detail/{id}', [AlumniController::class, 'detail'])->name('alumni.detail');
 Route::get('/form-alumni/kategori', [ProfesiController::class, 'getAllKategori'])->name('alumni.kategori');
 Route::get('/form-alumni/by-kategori', [ProfesiController::class, 'getByKategori'])->name('alumni.by-kategori');
 
-Route::get('/pengguna-alumni', [PenggunaAlumniController::class, 'create'])->name('pengguna-alumni.create');
+Route::get('/pengguna-alumni/create', [PenggunaAlumniController::class, 'create'])->name('pengguna-alumni.create');
 Route::post('/pengguna-alumni', [PenggunaAlumniController::class, 'store'])->name('pengguna-alumni.store');
 Route::get('pengguna-alumni/search', [PenggunaAlumniController::class, 'searchNama'])->name('pengguna-alumni.search');
 Route::get('pengguna-alumni/searchPengguna', [PenggunaAlumniController::class, 'searchNamaPengguna'])->name('pengguna-alumni.searchPenggunaLulusan');
