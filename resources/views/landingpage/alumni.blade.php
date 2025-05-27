@@ -147,7 +147,7 @@
                     </div>
 
                     <div class="form-group col-12 text-center">
-                        <a href="{{ url('/') }}" class="btn btn-danger mb-3">
+                        <a href="{{ url('/') }}" class="btn btn-kembali mt-3">
                             &larr; Kembali
                         </a>
                     </div>
@@ -198,44 +198,39 @@
             $('#kategori_profesi').change(function() {
                 const kategori = $(this).val();
                 const profesiSelect = $('#profesi');
-                
-                profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
-                profesiSelect.prop('disabled', true);
-                
-                if (!kategori) return;
+                const isTidakBekerja = kategori === 'Tidak Bekerja';
 
-                // Tampilkan loading
-                profesiSelect.prop('disabled', true);
-                profesiSelect.html('<option value="">Memuat data...</option>');
-
-                // Ambil profesi berdasarkan kategori
-                $.getJSON('{{ url('/form-alumni/by-kategori') }}', { kategori: kategori }, function(data) {
-                    profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
-                    
-                    data.forEach(function(profesi) {
-                        profesiSelect.append(`<option value="${profesi.nama_profesi}">${profesi.nama_profesi}</option>`);
-                    });
-                    
-                    profesiSelect.prop('disabled', false);
-                });
-            });
-
-            $('#kategori_profesi').change(function() {
-                const isTidakBekerja = $(this).val() === 'Tidak Bekerja';
-                
                 // Disable/enable instansi fields
-                $('#jenis_instansi, #nama_instansi, #skala_instansi, #lokasi_instansi')
+                $('#jenis_instansi, #nama_instansi, #skala_instansi, #lokasi_instansi, #tgl_pertama_kerja, #tgl_mulai_instansi')
                     .prop('disabled', isTidakBekerja)
                     .val('');
-                    
-                // Disable/enable profesi dropdown
-                $('#profesi').prop('disabled', isTidakBekerja);
-                
+
                 // Disable/enable atasan fields
                 $('#nama_atasan, #jabatan_atasan, #no_hp_atasan, #email_atasan')
                     .prop('disabled', isTidakBekerja)
                     .val('');
-            }).trigger('change'); // Trigger initially
+
+                if (isTidakBekerja) {
+                    profesiSelect.empty()
+                        .append('<option value="Tidak Bekerja" selected>Tidak Bekerja</option>')
+                        .prop('disabled', true);
+                } else if (kategori) {
+                    profesiSelect.empty().append('<option value="">Memuat data...</option>');
+                    profesiSelect.prop('disabled', true);
+
+                    // Ambil profesi berdasarkan kategori
+                    $.getJSON('{{ url('/form-alumni/by-kategori') }}', { kategori: kategori }, function(data) {
+                        profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
+                        data.forEach(function(profesi) {
+                            profesiSelect.append(`<option value="${profesi.nama_profesi}">${profesi.nama_profesi}</option>`);
+                        });
+                        profesiSelect.prop('disabled', false);
+                    });
+                } else {
+                    profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
+                    profesiSelect.prop('disabled', true);
+                }
+            }).trigger('change');
 
             $('#btn-verifikasi').click(function () {
                 const alumniId = $('#alumni_id').val();

@@ -93,9 +93,6 @@ class AlumniController extends Controller
                         'instansi_id' => $instansi->id,
                         
                     ]);
-
-                    $penggunaLulusan->link_form = $this->generateLink($penggunaLulusan->id, $validated['alumni_id']);
-                    $penggunaLulusan->save();
                 }
 
             } else {
@@ -109,7 +106,7 @@ class AlumniController extends Controller
             $alumni = Alumni::findOrFail($validated['alumni_id']);
 
             // 3. Simpan tracer study
-            Tracer::updateOrCreate(
+            $tracer = Tracer::updateOrCreate(
                 ['alumni_id' => $alumni->id],
                 [
                     'profesi_id' => $profesi ? $profesi->id : null,
@@ -125,6 +122,11 @@ class AlumniController extends Controller
                     ),
                 ]
             );
+
+            if ($penggunaLulusan) {
+                $penggunaLulusan->link_form = $this->generateLink($penggunaLulusan->id, $tracer->id);
+                $penggunaLulusan->save();
+            }
 
             DB::commit();
 
@@ -214,7 +216,11 @@ class AlumniController extends Controller
         $alumni = Alumni::where('id', $request->alumni_id)
             ->where('token', $request->token)
             ->first();
-
+        
+        if (Tracer::where('alumni_id', $request->alumni_id)->exists()) {
+            return response()->json(['status' => 'error', 'message' => 'Data untuk alumni ini sudah pernah diinput.']);
+        }
+        
         if ($alumni) {
             return response()->json(['status' => 'success']);
         } else {
