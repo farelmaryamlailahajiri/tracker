@@ -93,6 +93,13 @@
                 <form id="import-form" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
+                        <label>Template</label><br>
+                        <!-- Tombol Download Template dengan warna hijau -->
+                        <a href="{{ asset('Template_Lulusan.xlsx') }}" class="btn btn-sm btn-success mb-3" download>
+                            <i class="fas fa-download"></i> Download Template
+                        </a>
+                    </div>
+                    <div class="form-group">
                         <label for="file_lulusan">Pilih File XLSX</label>
                         <input type="file" name="file_lulusan" id="file_lulusan" class="form-control" required>
                     </div>
