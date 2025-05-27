@@ -9,7 +9,7 @@ class Alumni extends Model
 {
     protected $table = 'alumni';
 
-    protected $fillable = ['nama', 'nim', 'program_studi_id', 'tanggal_lulus'];
+    protected $fillable = ['nama', 'nim', 'program_studi_id', 'tanggal_lulus', 'token'];
 
     public function programStudi()
     {

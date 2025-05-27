@@ -45,9 +45,11 @@ class LulusanController extends Controller
                     'program_studi_id' => $programStudi->id,
                     'nim' => $row[1],
                     'nama' => $row[2],
-                    'tanggal_lulus' => date('Y-m-d', strtotime($row[3]))
+                    'tanggal_lulus' => date('Y-m-d', strtotime($row[3])),
+                    'token' => $row[4]
                 ]);
             }
+
 
             DB::commit();
 

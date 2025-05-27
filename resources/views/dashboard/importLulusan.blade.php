@@ -23,6 +23,7 @@
                                     <th>Nama</th>
                                     <th>NIM</th>
                                     <th>Tanggal Lulus</th>
+                                    <th>Token</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,6 +34,7 @@
                                     <td>{{ $index->nama }}</td>
                                     <td>{{ $index->nim }}</td>
                                     <td>{{ $index->tanggal_lulus }}</td>
+                                    <td>{{ $index->token }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
