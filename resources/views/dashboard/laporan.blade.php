@@ -7,60 +7,67 @@
     <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <!-- Content Row -->
-            <div class="row">
-                <div class="col-12">
-
-                    <!-- INI FILTERNYA YA WKWK -->
-                    <div class="mb-4">
-                    <form method="GET" action="{{ route('profesi.index') }}">
-                        <div class="row g-1 align-items-center">
-                            {{-- Label Program Studi --}}
-                            <div class="col-auto">
-                                <label for="program_studi" class="col-form-label">Program Studi:</label>
-                            </div>
-                            {{-- Select Program Studi --}}
-                            <div class="col-md-2">
-                                <select name="program_studi" id="program_studi" class="form-control">
-                                    @php
-                                        $prodis = ['D4 TI', 'D4 SIB', 'D2 PPLS', 'S2 MRTI'];
-                                        $selectedProdi = request('program_studi', 'D4 TI');
-                                    @endphp
-                                    @foreach ($prodis as $prodi)
-                                        <option value="{{ $prodi }}" {{ $selectedProdi == $prodi ? 'selected' : '' }}>{{ $prodi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            {{-- Label Tahun --}}
-                            <div class="col-auto">
-                                <label for="tahun_awal" class="col-form-label">Tahun:</label>
-                            </div>
-                            {{-- Tahun Awal --}}
-                            <div class="col-md-2">
-                                @php
-                                    $tahunSekarang = date('Y');
-                                    $tahunAwalDefault = request('tahun_awal', $tahunSekarang - 3);
-                                    $tahunAkhirDefault = request('tahun_akhir', $tahunSekarang);
-                                @endphp
-                                <input type="number" name="tahun_awal" id="tahun_awal" class="form-control" value="{{ $tahunAwalDefault }}" min="2000" max="{{ $tahunSekarang }}">
-                            </div>
-                            {{-- Teks s.d --}}
-                            <div class="col-auto">
-                                <span class="form-text">s.d</span>
-                            </div>
-                            {{-- Tahun Akhir --}}
-                            <div class="col-md-2">
-                                <input type="number" name="tahun_akhir" class="form-control" value="{{ $tahunAkhirDefault }}" min="2000" max="{{ $tahunSekarang }}">
-                            </div>
-
-                            {{-- Tombol Terapkan --}}
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-primary">Terapkan</button>
-                            </div>
-                        </div>
-                    </form>
+            <div class="container-fluid px-4">
+                <!-- Top Navigation -->
+                <div class="d-flex justify-content-between align-items-center py-3 mb-4 border-bottom">
+                    <h1 class="h3 mb-0 text-primary">
+                        <i class="fas fa-fw fa-file-alt"></i>Laporan
+                    </h1>
+                    <button class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-1"></i> Keluar
+                    </button>
                 </div>
+
+
+                    <!-- Filter Card -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-filter me-2"></i> Filter Data</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="GET" action="{{ route('dashboard') }}">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Program Studi</label>
+                                        @php
+                                            $prodis = ['D4 TI', 'D4 SIB', 'D2 PPLS', 'S2 MRTI'];
+                                            $selectedProdi = request('program_studi', 'D4 TI');
+                                        @endphp
+                                        <select name="program_studi" class="form-select">
+                                            @foreach ($prodis as $prodi)
+                                                <option value="{{ $prodi }}" {{ $selectedProdi == $prodi ? 'selected' : '' }}>{{ $prodi }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Tahun Mulai</label>
+                                        @php
+                                            $tahunSekarang = date('Y');
+                                            $tahunAwalDefault = request('tahun_awal', $tahunSekarang - 3);
+                                        @endphp
+                                        <input type="number" name="tahun_awal" class="form-control" value="{{ $tahunAwalDefault }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Tahun Akhir</label>
+                                        @php
+                                            $tahunAkhirDefault = request('tahun_akhir', $tahunSekarang);
+                                        @endphp
+                                        <input type="number" name="tahun_akhir" class="form-control" value="{{ $tahunAkhirDefault }}">
+                                    </div>
+                                    <div class="col-12 text-end">
+                                        <button type="submit" class="btn btn-primary px-4">
+                                            <i class="fas fa-sync-alt me-2"></i> Terapkan
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Info Alert -->
+                        <div class="alert alert-info mb-4">
+                            <i class="fas fa-info-circle me-2"></i> 
+                            Menampilkan data untuk <strong>{{ $selectedProdi }}</strong> tahun <strong>{{ $tahunAwalDefault }} - {{ $tahunAkhirDefault }}</strong>
+                        </div>
 
 
                     <!-- Halaman Laporan Rekap Tracer & Kepuasan (Export Excel Only) -->

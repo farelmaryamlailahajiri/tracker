@@ -1,15 +1,28 @@
 @extends('layoutss.app')
 
 @section('content')
+<!-- Content Wrapper -->
 <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
     <div id="content">
+        <!-- Begin Page Content -->
         <div class="container-fluid">
+            <div class="container-fluid px-4">
+                <!-- Top Navigation -->
+                <div class="d-flex justify-content-between align-items-center py-3 mb-4 border-bottom">
+                    <h1 class="h3 mb-0 text-primary">
+                        <i class="fas fa-fw fa-file-import"></i>Import Lulusan
+                    </h1>
+                    <button class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-1"></i> Keluar
+                    </button>
+                </div>
 
             <!-- Tabel Data Lulusan -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold text-primary">Data Lulusan</h6>
-                    <button class="btn btn-sm btn-success shadow-sm" id="importLulusanBtn">
+                    <button class="btn btn-primary btn-sm" id="importLulusanBtn">
                         <i class="fas fa-upload fa-sm text-white-50"></i> Import Lulusan
                     </button>
                 </div>

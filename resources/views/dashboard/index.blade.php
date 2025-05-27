@@ -7,16 +7,16 @@
     <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-<div class="container-fluid px-4">
-    <!-- Top Navigation -->
-    <div class="d-flex justify-content-between align-items-center py-3 mb-4 border-bottom">
-        <h1 class="h3 mb-0 text-primary">
-            <i class="fas fa-tachometer-alt me-2"></i>Dashboard Admin
-        </h1>
-        <button class="btn btn-outline-danger">
-            <i class="fas fa-sign-out-alt me-1"></i> Keluar
-        </button>
-    </div>
+            <div class="container-fluid px-4">
+                <!-- Top Navigation -->
+                <div class="d-flex justify-content-between align-items-center py-3 mb-4 border-bottom">
+                    <h1 class="h3 mb-0 text-primary">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Admin
+                    </h1>
+                    <button class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-1"></i> Keluar
+                    </button>
+                </div>
 
     <!-- Filter Card -->
     <div class="card border-0 shadow-sm mb-4">
@@ -61,7 +61,6 @@
                 </div>
             </form>
         </div>
-    </div>
 
     <!-- Info Alert -->
     <div class="alert alert-info mb-4">
