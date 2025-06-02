@@ -252,7 +252,7 @@
                                     @forelse ($waktuTungguData as $item)
                                         @php
                                             $totalLulusanWaktu += $item->total_lulusan ?? 0;
-                                            $totalTerlacakWaktu += $item->total_lulusan ?? 0; // Fix: seharusnya menggunakan data terlacak yang sesuai
+                                            $totalTerlacakWaktu += $item->total_terlacak ?? 0; // Fix: seharusnya menggunakan data terlacak yang sesuai
                                             $waktuTunggu = $item->rata_waktu_tunggu ?? 0;
                                             $totalWaktuTunggu += $waktuTunggu;
                                             $countTahun++;
@@ -260,7 +260,7 @@
                                         <tr>
                                             <td>{{ $item->tahun }}</td>
                                             <td>{{ number_format($item->total_lulusan ?? 0) }}</td>
-                                            <td>{{ number_format($item->total_lulusan ?? 0) }}</td> <!-- Sesuaikan dengan data terlacak yang tepat -->
+                                            <td>{{ number_format($item->total_terlacak ?? 0) }}</td> <!-- Perbaiki: gunakan $item->total_terlacak -->
                                             <td>{{ number_format($waktuTunggu, 2) }}</td>
                                         </tr>
                                     @empty

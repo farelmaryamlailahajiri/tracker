@@ -32,19 +32,20 @@ class DashboardController extends Controller
             ->whereNotNull('tanggal_pertama_kerja')
             ->count();
 
-        $tabelLingkupKerja = Tracer::select(
+        // PERBAIKAN: Query tabel lingkup kerja
+        $tabelLingkupKerja = Alumni::select(
             DB::raw('YEAR(alumni.tanggal_lulus) as tahun'),
-            DB::raw('count(*) as total_lulusan'),
-            DB::raw('count(case when tanggal_pertama_kerja is not null then 1 end) as total_terlacak'),
-            DB::raw('sum(case when profesi.kategori = "Infokom" then 1 else 0 end) as infokom'),
-            DB::raw('sum(case when profesi.kategori = "Non-Infokom" then 1 else 0 end) as non_infokom'),
-            DB::raw('sum(case when instansi.skala = "Multinasional" then 1 else 0 end) as internasional'),
-            DB::raw('sum(case when lower(instansi.skala) = "nasional" then 1 else 0 end) as nasional'),
-            DB::raw('sum(case when lower(profesi.nama_profesi) like "%wirausaha%" or lower(profesi.nama_profesi) like "%usaha%" then 1 else 0 end) as wirausaha')
+            DB::raw('COUNT(DISTINCT alumni.id) as total_lulusan'), // Hitung semua alumni per tahun
+            DB::raw('COUNT(tracer.id) as total_terlacak'), // Hitung yang ada data tracer
+            DB::raw('SUM(CASE WHEN profesi.kategori = "Infokom" THEN 1 ELSE 0 END) as infokom'),
+            DB::raw('SUM(CASE WHEN profesi.kategori = "Non-Infokom" THEN 1 ELSE 0 END) as non_infokom'),
+            DB::raw('SUM(CASE WHEN instansi.skala = "Multinasional" THEN 1 ELSE 0 END) as internasional'),
+            DB::raw('SUM(CASE WHEN LOWER(instansi.skala) = "nasional" THEN 1 ELSE 0 END) as nasional'),
+            DB::raw('SUM(CASE WHEN LOWER(profesi.nama_profesi) LIKE "%wirausaha%" OR LOWER(profesi.nama_profesi) LIKE "%usaha%" THEN 1 ELSE 0 END) as wirausaha')
         )
-        ->join('alumni', 'alumni.id', '=', 'tracer.alumni_id')
-        ->join('profesi', 'profesi.id', '=', 'tracer.profesi_id')
-        ->join('instansi', 'instansi.id', '=', 'tracer.instansi_id')
+        ->leftJoin('tracer', 'alumni.id', '=', 'tracer.alumni_id')
+        ->leftJoin('profesi', 'profesi.id', '=', 'tracer.profesi_id')
+        ->leftJoin('instansi', 'instansi.id', '=', 'tracer.instansi_id')
         ->where('alumni.program_studi_id', $selectedProdi)
         ->whereBetween(DB::raw('YEAR(alumni.tanggal_lulus)'), [$tahunAwal, $tahunAkhir])
         ->groupBy(DB::raw('YEAR(alumni.tanggal_lulus)'))
@@ -71,18 +72,25 @@ class DashboardController extends Controller
             ->orderBy('total', 'desc')
             ->get();
 
-        // Data untuk rata-rata waktu tunggu
-        $waktuTungguData = Tracer::select(
+        // PERBAIKAN: Data untuk rata-rata waktu tunggu
+        $waktuTungguData = Alumni::select(
             DB::raw('YEAR(alumni.tanggal_lulus) as tahun'),
-            DB::raw('COUNT(*) as total_lulusan'),
-            DB::raw('AVG(waktu_tunggu) as rata_waktu_tunggu')
+            DB::raw('COUNT(DISTINCT alumni.id) as total_lulusan'), // Pastikan unique alumni
+            DB::raw('COUNT(tracer.id) as total_terlacak'),
+            DB::raw('AVG(tracer.waktu_tunggu) as rata_waktu_tunggu')
         )
-        ->join('alumni', 'alumni.id', '=', 'tracer.alumni_id')
+        ->leftJoin('tracer', 'alumni.id', '=', 'tracer.alumni_id')
         ->where('alumni.program_studi_id', $selectedProdi)
         ->whereBetween(DB::raw('YEAR(alumni.tanggal_lulus)'), [$tahunAwal, $tahunAkhir])
         ->groupBy(DB::raw('YEAR(alumni.tanggal_lulus)'))
         ->orderBy('tahun')
         ->get();
+
+        // Konsistensi totalLulusan: gunakan sum dari $waktuTungguData agar sama dengan tabel
+        $totalLulusan = $waktuTungguData->sum('total_lulusan');
+
+        // Konsistensi totalTerlacak: gunakan sum dari $waktuTungguData agar sama dengan tabel
+        $totalTerlacak = $waktuTungguData->sum('total_terlacak');
 
         // Hitung rata-rata waktu tunggu keseluruhan
         $rataWaktuTunggu = Tracer::whereHas('alumni', function($query) use ($selectedProdi, $tahunAwal, $tahunAkhir) {
