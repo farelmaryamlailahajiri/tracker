@@ -18,294 +18,511 @@
                     </button>
                 </div>
 
-    <!-- Filter Card -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0"><i class="fas fa-filter me-2"></i> Filter Data</h5>
-        </div>
-        <div class="card-body">
-            <form method="GET" action="{{ route('dashboard') }}">
-                <div class="row g-3">
+                <!-- Filter Card -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-filter me-2"></i> Filter Data</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" action="{{ route('dashboard') }}">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Program Studi</label>
+                                    @php
+                                        $prodis = \App\Models\ProgramStudi::all();
+                                        $selectedProdi = request('program_studi', $prodis->first()->id ?? 1);
+                                    @endphp
+                                    <select name="program_studi" class="form-select">
+                                        @foreach ($prodis as $prodi)
+                                            <option value="{{ $prodi->id }}" {{ $selectedProdi == $prodi->id ? 'selected' : '' }}>
+                                                {{ $prodi->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Tahun Mulai</label>
+                                    @php
+                                        $tahunSekarang = date('Y');
+                                        $tahunAwalDefault = request('tahun_awal', $tahunSekarang - 3);
+                                    @endphp
+                                    <input type="number" name="tahun_awal" class="form-control" value="{{ $tahunAwalDefault }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Tahun Akhir</label>
+                                    @php
+                                        $tahunAkhirDefault = request('tahun_akhir', $tahunSekarang);
+                                    @endphp
+                                    <input type="number" name="tahun_akhir" class="form-control" value="{{ $tahunAkhirDefault }}">
+                                </div>
+                                <div class="col-12 text-end">
+                                    <button type="submit" class="btn btn-primary px-4">
+                                        <i class="fas fa-sync-alt me-2"></i> Terapkan
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Info Alert -->
+                <div class="alert alert-info mb-4">
+                    <i class="fas fa-info-circle me-2"></i> 
+                    Menampilkan data untuk <strong>{{ \App\Models\ProgramStudi::find($selectedProdi)->nama ?? 'Semua Program Studi' }}</strong> 
+                    tahun <strong>{{ $tahunAwalDefault }} - {{ $tahunAkhirDefault }}</strong>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-4 mb-4">
                     <div class="col-md-4">
-                        <label class="form-label">Program Studi</label>
-                        @php
-                            $prodis = ['D4 TI', 'D4 SIB', 'D2 PPLS', 'S2 MRTI'];
-                            $selectedProdi = request('program_studi', 'D4 TI');
-                        @endphp
-                        <select name="program_studi" class="form-select">
-                            @foreach ($prodis as $prodi)
-                                <option value="{{ $prodi }}" {{ $selectedProdi == $prodi ? 'selected' : '' }}>{{ $prodi }}</option>
-                            @endforeach
-                        </select>
+                        <div class="card border-0 bg-gradient-secondary text-white shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="text-uppercase">Total Lulusan</h6>
+                                        <h2 class="mb-0">{{ $totalLulusan }}</h2>
+                                    </div>
+                                    <i class="fas fa-graduation-cap fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Tahun Mulai</label>
-                        @php
-                            $tahunSekarang = date('Y');
-                            $tahunAwalDefault = request('tahun_awal', $tahunSekarang - 3);
-                        @endphp
-                        <input type="number" name="tahun_awal" class="form-control" value="{{ $tahunAwalDefault }}">
+                        <div class="card border-0 bg-gradient-success text-white shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="text-uppercase">Terlacak</h6>
+                                        <h2 class="mb-0">{{ $totalTerlacak }}</h2>
+                                    </div>
+                                    <i class="fas fa-search fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Tahun Akhir</label>
-                        @php
-                            $tahunAkhirDefault = request('tahun_akhir', $tahunSekarang);
-                        @endphp
-                        <input type="number" name="tahun_akhir" class="form-control" value="{{ $tahunAkhirDefault }}">
-                    </div>
-                    <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary px-4">
-                            <i class="fas fa-sync-alt me-2"></i> Terapkan
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-    <!-- Info Alert -->
-    <div class="alert alert-info mb-4">
-        <i class="fas fa-info-circle me-2"></i> 
-        Menampilkan data untuk <strong>{{ $selectedProdi }}</strong> tahun <strong>{{ $tahunAwalDefault }} - {{ $tahunAkhirDefault }}</strong>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 bg-gradient-secondary text-white shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h6 class="text-uppercase">Total Lulusan</h6>
-                            <h2 class="mb-0">834</h2>
+                        <div class="card border-0 bg-gradient-info text-white shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="text-uppercase">Waktu Tunggu</h6>
+                                        <h2 class="mb-0">{{ number_format($rataWaktuTunggu, 1) }} <small>bulan</small></h2>
+                                    </div>
+                                    <i class="fas fa-clock fa-2x opacity-50"></i>
+                                </div>
+                            </div>
                         </div>
-                        <i class="fas fa-graduation-cap fa-2x opacity-50"></i>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 bg-gradient-success text-white shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h6 class="text-uppercase">Terlacak</h6>
-                            <h2 class="mb-0">389</h2>
+
+                <!-- Main Charts -->
+                <div class="row g-4 mb-4">
+                    <!-- Profession Chart -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="mb-0 text-primary"><i class="fas fa-briefcase me-2"></i> Profesi Lulusan</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container position-relative" style="height:300px">
+                                    <canvas id="professionChart"></canvas>
+                                </div>
+                            </div>
                         </div>
-                        <i class="fas fa-search fa-2x opacity-50"></i>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 bg-gradient-info text-white shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h6 class="text-uppercase">Waktu Tunggu</h6>
-                            <h2 class="mb-0">4.8 <small>bulan</small></h2>
+
+                    <!-- Institution Chart -->
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="mb-0 text-primary"><i class="fas fa-building me-2"></i> Jenis Instansi</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container position-relative" style="height:300px">
+                                    <canvas id="institutionChart"></canvas>
+                                </div>
+                            </div>
                         </div>
-                        <i class="fas fa-clock fa-2x opacity-50"></i>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Main Charts -->
-    <div class="row g-4 mb-4">
-        <!-- Profession Chart -->
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 text-primary"><i class="fas fa-briefcase me-2"></i> Profesi Lulusan</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container position-relative" style="height:300px">
-                        <canvas id="professionChart"></canvas>
+                <!-- Workplace Distribution Table -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="mb-0 text-primary"><i class="fas fa-map-marker-alt me-2"></i> Sebaran Lingkup Tempat Kerja</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th rowspan="2">Tahun</th>
+                                        <th rowspan="2">Lulusan</th>
+                                        <th rowspan="2">Terlacak</th>
+                                        <th colspan="2" class="text-center">Profesi Kerja</th>
+                                        <th colspan="3" class="text-center">Lingkup Kerja</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Infokom</th>
+                                        <th>Non-Infokom</th>
+                                        <th>Multinasional</th>
+                                        <th>Nasional</th>
+                                        <th>Wirausaha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $totalLulusanSum = 0;
+                                        $totalTerlacakSum = 0;
+                                        $totalInfokomSum = 0;
+                                        $totalNonInfokomSum = 0;
+                                        $totalInternasionalSum = 0;
+                                        $totalNasionalSum = 0;
+                                        $totalWirausahaSum = 0;
+                                    @endphp
+                                    
+                                    @forelse ($tabelLingkupKerja as $item)
+                                        @php
+                                            $totalLulusanSum += $item->total_lulusan ?? 0;
+                                            $totalTerlacakSum += $item->total_terlacak ?? 0;
+                                            $totalInfokomSum += $item->infokom ?? 0;
+                                            $totalNonInfokomSum += $item->non_infokom ?? 0;
+                                            $totalInternasionalSum += $item->internasional ?? 0;
+                                            $totalNasionalSum += $item->nasional ?? 0;
+                                            $totalWirausahaSum += $item->wirausaha ?? 0;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $item->tahun }}</td>
+                                            <td>{{ number_format($item->total_lulusan ?? 0) }}</td>
+                                            <td>{{ number_format($item->total_terlacak ?? 0) }}</td>
+                                            <td>{{ number_format($item->infokom ?? 0) }}</td>
+                                            <td>{{ number_format($item->non_infokom ?? 0) }}</td>
+                                            <td>{{ number_format($item->internasional ?? 0) }}</td>
+                                            <td>{{ number_format($item->nasional ?? 0) }}</td>
+                                            <td>{{ number_format($item->wirausaha ?? 0) }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted">Tidak ada data tersedia</td>
+                                        </tr>
+                                    @endforelse
+                                    
+                                    @if($tabelLingkupKerja->count() > 0)
+                                    <tr class="table-active fw-bold">
+                                        <td>Total</td>
+                                        <td>{{ number_format($totalLulusanSum) }}</td>
+                                        <td>{{ number_format($totalTerlacakSum) }}</td>
+                                        <td>{{ number_format($totalInfokomSum) }}</td>
+                                        <td>{{ number_format($totalNonInfokomSum) }}</td>
+                                        <td>{{ number_format($totalInternasionalSum) }}</td>
+                                        <td>{{ number_format($totalNasionalSum) }}</td>
+                                        <td>{{ number_format($totalWirausahaSum) }}</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Institution Chart -->
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 text-primary"><i class="fas fa-building me-2"></i> Jenis Instansi</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container position-relative" style="height:300px">
-                        <canvas id="institutionChart"></canvas>
+                <!-- Waiting Time Table -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="mb-0 text-primary"><i class="fas fa-clock me-2"></i> Rata-Rata Masa Tunggu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tahun</th>
+                                        <th>Lulusan</th>
+                                        <th>Terlacak</th>
+                                        <th>Rata-rata Waktu Tunggu (Bulan)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $totalLulusanWaktu = 0;
+                                        $totalTerlacakWaktu = 0;
+                                        $totalWaktuTunggu = 0;
+                                        $countTahun = 0;
+                                    @endphp
+                                    
+                                    @forelse ($waktuTungguData as $item)
+                                        @php
+                                            $totalLulusanWaktu += $item->total_lulusan ?? 0;
+                                            $totalTerlacakWaktu += $item->total_lulusan ?? 0; // Fix: seharusnya menggunakan data terlacak yang sesuai
+                                            $waktuTunggu = $item->rata_waktu_tunggu ?? 0;
+                                            $totalWaktuTunggu += $waktuTunggu;
+                                            $countTahun++;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $item->tahun }}</td>
+                                            <td>{{ number_format($item->total_lulusan ?? 0) }}</td>
+                                            <td>{{ number_format($item->total_lulusan ?? 0) }}</td> <!-- Sesuaikan dengan data terlacak yang tepat -->
+                                            <td>{{ number_format($waktuTunggu, 2) }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">Tidak ada data tersedia</td>
+                                        </tr>
+                                    @endforelse
+                                    
+                                    @if($waktuTungguData->count() > 0)
+                                        @php
+                                            $rataRataKeseluruhan = $countTahun > 0 ? $totalWaktuTunggu / $countTahun : 0;
+                                        @endphp
+                                        <tr class="table-active fw-bold">
+                                            <td>Rata-rata</td>
+                                            <td>{{ number_format($totalLulusanWaktu) }}</td>
+                                            <td>{{ number_format($totalTerlacakWaktu) }}</td>
+                                            <td>{{ number_format($rataRataKeseluruhan, 2) }}</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Workplace Distribution Table -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white border-bottom">
-            <h5 class="mb-0 text-primary"><i class="fas fa-map-marker-alt me-2"></i> Sebaran Lingkup Tempat Kerja</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th rowspan="2">Tahun</th>
-                            <th rowspan="2">Lulusan</th>
-                            <th rowspan="2">Terlacak</th>
-                            <th colspan="2" class="text-center">Profesi Kerja</th>
-                            <th colspan="3" class="text-center">Lingkup Kerja</th>
-                        </tr>
-                        <tr>
-                            <th>Infokom</th>
-                            <th>Non-Infokom</th>
-                            <th>Internasional</th>
-                            <th>Nasional</th>
-                            <th>Wirausaha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2021</td>
-                            <td>213</td>
-                            <td>64</td>
-                            <td>46</td>
-                            <td>18</td>
-                            <td>0</td>
-                            <td>63</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>2022</td>
-                            <td>188</td>
-                            <td>115</td>
-                            <td>73</td>
-                            <td>42</td>
-                            <td>4</td>
-                            <td>108</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>2023</td>
-                            <td>233</td>
-                            <td>98</td>
-                            <td>70</td>
-                            <td>28</td>
-                            <td>2</td>
-                            <td>90</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>2024</td>
-                            <td>200</td>
-                            <td>112</td>
-                            <td>82</td>
-                            <td>30</td>
-                            <td>3</td>
-                            <td>107</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="table-active fw-bold">
-                            <td>Total</td>
-                            <td>834</td>
-                            <td>389</td>
-                            <td>271</td>
-                            <td>118</td>
-                            <td>9</td>
-                            <td>368</td>
-                            <td>12</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Waiting Time Table -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white border-bottom">
-            <h5 class="mb-0 text-primary"><i class="fas fa-clock me-2"></i> Rata-Rata Masa Tunggu</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Tahun</th>
-                            <th>Lulusan</th>
-                            <th>Terlacak</th>
-                            <th>Rata-rata Waktu Tunggu (Bulan)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2021</td>
-                            <td>213</td>
-                            <td>64</td>
-                            <td>4.92</td>
-                        </tr>
-                        <tr>
-                            <td>2022</td>
-                            <td>188</td>
-                            <td>115</td>
-                            <td>4.77</td>
-                        </tr>
-                        <tr>
-                            <td>2023</td>
-                            <td>233</td>
-                            <td>98</td>
-                            <td>3.38</td>
-                        </tr>
-                        <tr>
-                            <td>2024</td>
-                            <td>200</td>
-                            <td>112</td>
-                            <td>6.01</td>
-                        </tr>
-                        <tr class="table-active fw-bold">
-                            <td>Total</td>
-                            <td>834</td> <!-- Total Lulusan -->
-                            <td>389</td> <!-- Total Terlacak -->
-                            <td>4.77</td> <!-- Average Waktu Tunggu (per your calculation) -->
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Satisfaction Charts -->
-    <div class="row g-4">
-        @php
-            $satisfactionCharts = [
-                ['title' => 'Kerjasama Tim', 'icon' => 'users', 'color' => 'primary'],
-                ['title' => 'Keahlian TI', 'icon' => 'laptop-code', 'color' => 'success'],
-                ['title' => 'Bahasa Inggris', 'icon' => 'language', 'color' => 'info'],
-                ['title' => 'Komunikasi', 'icon' => 'comments', 'color' => 'warning'],
-                ['title' => 'Pengembangan Diri', 'icon' => 'user-graduate', 'color' => 'danger'],
-                ['title' => 'Kepemimpinan', 'icon' => 'chess-king', 'color' => 'secondary'],
-                ['title' => 'Etos Kerja', 'icon' => 'business-time', 'color' => 'dark']
-            ];
-        @endphp
-
-        @foreach($satisfactionCharts as $index => $chart)
-        <div class="col-xl-4 col-lg-4 col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0 text-{{ $chart['color'] }}">
-                        <i class="fas fa-{{ $chart['icon'] }} me-2"></i> {{ $chart['title'] }}
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container" style="height:200px">
-                        <canvas id="chart{{ $index }}"></canvas>
+                <!-- Ganti bagian tabel kepuasan pengguna dengan ini -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="mb-0 text-primary">
+                            <i class="fas fa-star me-2"></i> Penilaian Kepuasan Pengguna Lulusan
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th rowspan="2" class="align-middle">No</th>
+                                        <th rowspan="2" class="align-middle">Jenis Kemampuan</th>
+                                        <th colspan="4" class="text-center">Tingkat Kepuasan Pengguna (%)</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center bg-success bg-opacity-10">Sangat Baik</th>
+                                        <th class="text-center bg-info bg-opacity-10">Baik</th>
+                                        <th class="text-center bg-warning bg-opacity-10">Cukup</th>
+                                        <th class="text-center bg-danger bg-opacity-10">Kurang</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $kepuasanFields = [
+                                            'kerjasama_tim' => 'Kerjasama Tim',
+                                            'keahlian_ti' => 'Keahlian di bidang TI',
+                                            'bahasa_asing' => 'Kemampuan berbahasa asing (Inggris)',
+                                            'komunikasi' => 'Kemampuan berkomunikasi',
+                                            'pengembangan_diri' => 'Pengembangan diri',
+                                            'kepemimpinan' => 'Kepemimpinan',
+                                            'etos_kerja' => 'Etos Kerja'
+                                        ];
+                                        
+                                        $totalSangatBaik = 0;
+                                        $totalBaik = 0;
+                                        $totalCukup = 0;
+                                        $totalKurang = 0;
+                                        $countFields = 0;
+                                        
+                                        // Hitung total data kepuasan untuk setiap field
+                                        $totalResponden = $kepuasanGroupData->count();
+                                    @endphp
+                                    
+                                    @foreach($kepuasanFields as $field => $label)
+                                        @php
+                                            // Hitung persentase berdasarkan data grup kepuasan
+                                            $sangatBaik = 0;
+                                            $baik = 0;
+                                            $cukup = 0;
+                                            $kurang = 0;
+                                            
+                                            if ($totalResponden > 0) {
+                                                foreach ($kepuasanGroupData as $data) {
+                                                    switch ($data->$field) {
+                                                        case 'Sangat Baik':
+                                                            $sangatBaik++;
+                                                            break;
+                                                        case 'Baik':
+                                                            $baik++;
+                                                            break;
+                                                        case 'Cukup':
+                                                            $cukup++;
+                                                            break;
+                                                        case 'Kurang':
+                                                            $kurang++;
+                                                            break;
+                                                    }
+                                                }
+                                                
+                                                // Konversi ke persentase
+                                                $sangatBaikPct = ($sangatBaik / $totalResponden) * 100;
+                                                $baikPct = ($baik / $totalResponden) * 100;
+                                                $cukupPct = ($cukup / $totalResponden) * 100;
+                                                $kurangPct = ($kurang / $totalResponden) * 100;
+                                            } else {
+                                                $sangatBaikPct = $baikPct = $cukupPct = $kurangPct = 0;
+                                            }
+                                            
+                                            // Hitung total untuk rata-rata
+                                            $totalSangatBaik += $sangatBaikPct;
+                                            $totalBaik += $baikPct;
+                                            $totalCukup += $cukupPct;
+                                            $totalKurang += $kurangPct;
+                                            $countFields++;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $label }}</td>
+                                            <td class="text-center">{{ number_format($sangatBaikPct, 1) }}%</td>
+                                            <td class="text-center">{{ number_format($baikPct, 1) }}%</td>
+                                            <td class="text-center">{{ number_format($cukupPct, 1) }}%</td>
+                                            <td class="text-center">{{ number_format($kurangPct, 1) }}%</td>
+                                        </tr>
+                                    @endforeach
+                                    <tr class="table-active fw-bold">
+                                        <td colspan="2" class="text-end">Rata-rata</td>
+                                        <td class="text-center">{{ number_format($totalSangatBaik/$countFields, 1) }}%</td>
+                                        <td class="text-center">{{ number_format($totalBaik/$countFields, 1) }}%</td>
+                                        <td class="text-center">{{ number_format($totalCukup/$countFields, 1) }}%</td>
+                                        <td class="text-center">{{ number_format($totalKurang/$countFields, 1) }}%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Satisfaction Charts -->
+                <div class="row g-4">
+                    @php
+                        $satisfactionCharts = [
+                            ['title' => 'Kerjasama Tim', 'icon' => 'users', 'color' => 'primary', 'field' => 'kerjasama_tim'],
+                            ['title' => 'Keahlian TI', 'icon' => 'laptop-code', 'color' => 'success', 'field' => 'keahlian_ti'],
+                            ['title' => 'Bahasa Inggris', 'icon' => 'language', 'color' => 'info', 'field' => 'bahasa_asing'],
+                            ['title' => 'Komunikasi', 'icon' => 'comments', 'color' => 'warning', 'field' => 'komunikasi'],
+                            ['title' => 'Pengembangan Diri', 'icon' => 'user-graduate', 'color' => 'danger', 'field' => 'pengembangan_diri'],
+                            ['title' => 'Kepemimpinan', 'icon' => 'chess-king', 'color' => 'secondary', 'field' => 'kepemimpinan'],
+                            ['title' => 'Etos Kerja', 'icon' => 'business-time', 'color' => 'dark', 'field' => 'etos_kerja']
+                        ];
+                    @endphp
+
+                    @foreach($satisfactionCharts as $index => $chart)
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="mb-0 text-{{ $chart['color'] }}">
+                                    <i class="fas fa-{{ $chart['icon'] }} me-2"></i> {{ $chart['title'] }}
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container" style="height:200px">
+                                    <canvas id="chart{{ $index }}"></canvas>
+                                </div>
+                                @php
+                                    // Hitung data untuk chart individual
+                                    $chartData = [
+                                        'sangat_baik' => 0,
+                                        'baik' => 0,
+                                        'cukup' => 0,
+                                        'kurang' => 0
+                                    ];
+                                    
+                                    $totalResponden = $kepuasanGroupData->count();
+                                    
+                                    if ($totalResponden > 0) {
+                                        foreach ($kepuasanGroupData as $data) {
+                                            switch ($data->{$chart['field']}) {
+                                                case 'Sangat Baik':
+                                                    $chartData['sangat_baik']++;
+                                                    break;
+                                                case 'Baik':
+                                                    $chartData['baik']++;
+                                                    break;
+                                                case 'Cukup':
+                                                    $chartData['cukup']++;
+                                                    break;
+                                                case 'Kurang':
+                                                    $chartData['kurang']++;
+                                                    break;
+                                            }
+                                        }
+                                        
+                                        // Konversi ke persentase
+                                        $chartPercentage = [
+                                            'sangat_baik' => ($chartData['sangat_baik'] / $totalResponden) * 100,
+                                            'baik' => ($chartData['baik'] / $totalResponden) * 100,
+                                            'cukup' => ($chartData['cukup'] / $totalResponden) * 100,
+                                            'kurang' => ($chartData['kurang'] / $totalResponden) * 100
+                                        ];
+                                    } else {
+                                        $chartPercentage = [
+                                            'sangat_baik' => 0,
+                                            'baik' => 0,
+                                            'cukup' => 0,
+                                            'kurang' => 0
+                                        ];
+                                    }
+                                @endphp
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const ctx{{ $index }} = document.getElementById('chart{{ $index }}').getContext('2d');
+                                        new Chart(ctx{{ $index }}, {
+                                            type: 'pie',
+                                            data: {
+                                                labels: ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'],
+                                                datasets: [{
+                                                    data: [
+                                                        {{ number_format($chartPercentage['sangat_baik'], 1) }},
+                                                        {{ number_format($chartPercentage['baik'], 1) }},
+                                                        {{ number_format($chartPercentage['cukup'], 1) }},
+                                                        {{ number_format($chartPercentage['kurang'], 1) }}
+                                                    ],
+                                                    backgroundColor: [
+                                                        '#28a745',
+                                                        '#17a2b8',
+                                                        '#ffc107',
+                                                        '#dc3545'
+                                                    ],
+                                                    borderWidth: 2,
+                                                    borderColor: '#fff'
+                                                }]
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: {
+                                                    legend: {
+                                                        position: 'bottom',
+                                                        labels: {
+                                                            padding: 10,
+                                                            usePointStyle: true,
+                                                            font: {
+                                                                size: 11
+                                                            }
+                                                        }
+                                                    },
+                                                    tooltip: {
+                                                        callbacks: {
+                                                            label: function(context) {
+                                                                return context.label + ': ' + context.parsed + '%';
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
-        @endforeach
     </div>
 </div>
 
@@ -313,28 +530,42 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // Color system
-    const colors = {
-        primary: '#4e73df',
-        success: '#1cc88a',
-        info: '#36b9cc',
-        warning: '#f6c23e',
-        danger: '#e74a3b',
-        secondary: '#858796',
-        dark: '#5a5c69'
-    };
+    // Extended color palette for multiple data entries
+    const colorPalette = [
+        '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+        '#858796', '#5a5c69', '#fd7e14', '#6f42c1', '#e83e8c',
+        '#20c997', '#ffc107', '#dc3545', '#6c757d', '#343a40',
+        '#17a2b8', '#28a745', '#007bff', '#6610f2', '#e91e63',
+        '#795548', '#607d8b', '#ff5722', '#9c27b0', '#3f51b5',
+        '#2196f3', '#00bcd4', '#009688', '#4caf50', '#8bc34a',
+        '#cddc39', '#ffeb3b', '#ff9800', '#ff5722', '#f44336',
+        '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3'
+    ];
+
+    // Function to generate colors based on data length
+    function getColors(dataLength) {
+        const colors = [];
+        for (let i = 0; i < dataLength; i++) {
+            colors.push(colorPalette[i % colorPalette.length]);
+        }
+        return colors;
+    }
 
     // Profession Chart (Pie)
+    const profesiLabels = @json($profesiData->pluck('nama_profesi'));
+    const profesiValues = @json($profesiData->pluck('total'));
+    
+    // Convert to percentage
+    const profesiTotal = profesiValues.reduce((a, b) => a + b, 0);
+    const profesiPercentages = profesiValues.map(value => profesiTotal > 0 ? ((value / profesiTotal) * 100).toFixed(1) : 0);
+    
     new Chart(document.getElementById('professionChart'), {
         type: 'pie',
         data: {
-            labels: ['Software Engineer', 'Staff IT', 'Administrator', 'Pengajar', 'Teknisi', 'Product QA', 'Customer Service', 'Data Analyst', 'Marketing', 'Pemilik Usaha', 'Lainnya'],
+            labels: profesiLabels,
             datasets: [{
-                data: [31,16.6,6.2,4.1,2.1,3.4,2.1,2.1,3.4,3.4,25.5],
-                backgroundColor: [
-                    colors.primary, colors.success, colors.info, colors.warning, colors.danger,
-                    colors.secondary, colors.dark, '#f8f9fc', '#2e59d9', '#17a673', '#2c9faf'
-                ],
+                data: profesiPercentages,
+                backgroundColor: getColors(profesiValues.length),
                 borderWidth: 1,
                 borderColor: '#fff'
             }]
@@ -344,7 +575,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        label: ctx => `${ctx.label}: ${ctx.raw}%`
+                        label: ctx => {
+                            const label = ctx.label || '';
+                            const percentage = ctx.raw || 0;
+                            return `${label}: ${percentage}%`;
+                        }
                     }
                 }
             }
@@ -352,15 +587,20 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Institution Chart (Pie)
+    const institusiLabels = @json($institusiData->pluck('jenis_instansi'));
+    const institusiValues = @json($institusiData->pluck('total'));
+    
+    // Convert to percentage
+    const institusiTotal = institusiValues.reduce((a, b) => a + b, 0);
+    const institusiPercentages = institusiValues.map(value => institusiTotal > 0 ? ((value / institusiTotal) * 100).toFixed(1) : 0);
+    
     new Chart(document.getElementById('institutionChart'), {
         type: 'pie',
         data: {
-            labels: ['Pendidikan Tinggi', 'Instansi Pemerintah', 'Perusahaan Swasta', 'BUMN'],
+            labels: institusiLabels,
             datasets: [{
-                data: [10, 20, 60, 10],
-                backgroundColor: [
-                    colors.primary, colors.success, colors.info, colors.warning
-                ],
+                data: institusiPercentages,
+                backgroundColor: getColors(institusiValues.length),
                 borderWidth: 1,
                 borderColor: '#fff'
             }]
@@ -370,50 +610,134 @@ document.addEventListener("DOMContentLoaded", function() {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        label: ctx => `${ctx.label}: ${ctx.raw}%`
+                        label: ctx => {
+                            const label = ctx.label || '';
+                            const percentage = ctx.raw || 0;
+                            return `${label}: ${percentage}%`;
+                        }
                     }
                 }
             }
         }
     });
+});
+</script>
 
-    // Satisfaction Charts (All Pie)
-    const satisfactionData = [
-        [36.32, 51.58, 9.47, 2.63],
-        [41.05, 49.47, 7.37, 2.11],
-        [25.79, 55.79, 12.11, 6.32],
-        [57.37, 35.26, 4.74, 2.63],
-        [40.53, 46.32, 9.47, 3.68],
-        [43.68, 45.26, 7.89, 3.16],
-        [34.21, 57.37, 6.32, 2.11]
+<!-- Tambahkan script ini di bagian bawah view atau di layout -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script untuk Chart Terpisah -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    @php
+    $satisfactionFields = [
+        ['title' => 'Kerjasama Tim', 'field' => 'kerjasama_tim'],
+        ['title' => 'Keahlian TI', 'field' => 'keahlian_ti'],
+        ['title' => 'Bahasa Inggris', 'field' => 'bahasa_asing'],
+        ['title' => 'Komunikasi', 'field' => 'komunikasi'],
+        ['title' => 'Pengembangan Diri', 'field' => 'pengembangan_diri'],
+        ['title' => 'Kepemimpinan', 'field' => 'kepemimpinan'],
+        ['title' => 'Etos Kerja', 'field' => 'etos_kerja']
     ];
-
-    satisfactionData.forEach((data, i) => {
-        new Chart(document.getElementById(`chart${i}`), {
-            type: 'pie',
-            data: {
-                labels: ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'],
-                datasets: [{
-                    data: data,
-                    backgroundColor: [
-                        colors.primary, colors.success, colors.warning, colors.danger
-                    ],
-                    borderWidth: 1,
-                    borderColor: '#fff'
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => `${ctx.label}: ${ctx.raw}%`
+    @endphp
+    
+    @foreach($satisfactionFields as $index => $chart)
+        @php
+        // Hitung data untuk chart individual
+        $chartData = [
+            'sangat_baik' => 0,
+            'baik' => 0,
+            'cukup' => 0,
+            'kurang' => 0
+        ];
+        
+        $totalResponden = $kepuasanGroupData->count();
+        
+        if ($totalResponden > 0) {
+            foreach ($kepuasanGroupData as $data) {
+                switch ($data->{$chart['field']}) {
+                    case 'Sangat Baik':
+                        $chartData['sangat_baik']++;
+                        break;
+                    case 'Baik':
+                        $chartData['baik']++;
+                        break;
+                    case 'Cukup':
+                        $chartData['cukup']++;
+                        break;
+                    case 'Kurang':
+                        $chartData['kurang']++;
+                        break;
+                }
+            }
+            
+            // Konversi ke persentase
+            $chartPercentage = [
+                'sangat_baik' => ($chartData['sangat_baik'] / $totalResponden) * 100,
+                'baik' => ($chartData['baik'] / $totalResponden) * 100,
+                'cukup' => ($chartData['cukup'] / $totalResponden) * 100,
+                'kurang' => ($chartData['kurang'] / $totalResponden) * 100
+            ];
+        } else {
+            $chartPercentage = [
+                'sangat_baik' => 0,
+                'baik' => 0,
+                'cukup' => 0,
+                'kurang' => 0
+            ];
+        }
+        @endphp
+        
+        // Chart untuk {{ $chart['title'] }}
+        const ctx{{ $index }} = document.getElementById('chart{{ $index }}');
+        if (ctx{{ $index }}) {
+            new Chart(ctx{{ $index }}, {
+                type: 'pie',
+                data: {
+                    labels: ['Sangat Baik', 'Baik', 'Cukup', 'Kurang'],
+                    datasets: [{
+                        data: [
+                            {{ number_format($chartPercentage['sangat_baik'], 1) }},
+                            {{ number_format($chartPercentage['baik'], 1) }},
+                            {{ number_format($chartPercentage['cukup'], 1) }},
+                            {{ number_format($chartPercentage['kurang'], 1) }}
+                        ],
+                        backgroundColor: [
+                            '#28a745',
+                            '#17a2b8',
+                            '#ffc107',
+                            '#dc3545'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 10,
+                                usePointStyle: true,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.parsed + '%';
+                                }
+                            }
                         }
                     }
                 }
-            }
-        });
-    });
+            });
+        }
+    @endforeach
 });
 </script>
 @endsection

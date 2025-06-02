@@ -25,17 +25,19 @@
                             <h5 class="mb-0"><i class="fas fa-filter me-2"></i> Filter Data</h5>
                         </div>
                         <div class="card-body">
-                            <form method="GET" action="{{ route('dashboard') }}">
+                            <form method="GET" action="{{ route('laporan.index') }}">
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <label class="form-label">Program Studi</label>
                                         @php
-                                            $prodis = ['D4 TI', 'D4 SIB', 'D2 PPLS', 'S2 MRTI'];
-                                            $selectedProdi = request('program_studi', 'D4 TI');
+                                            $prodis = \App\Models\ProgramStudi::all();
+                                            $selectedProdi = request('program_studi', $prodis->first()->id ?? 1);
                                         @endphp
                                         <select name="program_studi" class="form-select">
                                             @foreach ($prodis as $prodi)
-                                                <option value="{{ $prodi }}" {{ $selectedProdi == $prodi ? 'selected' : '' }}>{{ $prodi }}</option>
+                                                <option value="{{ $prodi->id }}" {{ $selectedProdi == $prodi->id ? 'selected' : '' }}>
+                                                    {{ $prodi->nama }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -63,11 +65,12 @@
                             </form>
                         </div>
 
-                        <!-- Info Alert -->
-                        <div class="alert alert-info mb-4">
-                            <i class="fas fa-info-circle me-2"></i> 
-                            Menampilkan data untuk <strong>{{ $selectedProdi }}</strong> tahun <strong>{{ $tahunAwalDefault }} - {{ $tahunAkhirDefault }}</strong>
-                        </div>
+                    <!-- Info Alert -->
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle me-2"></i> 
+                        Menampilkan data untuk <strong>{{ \App\Models\ProgramStudi::find($selectedProdi)->nama ?? 'Semua Program Studi' }}</strong> 
+                        tahun <strong>{{ $tahunAwalDefault }} - {{ $tahunAkhirDefault }}</strong>
+                    </div>
 
 
                     <!-- Halaman Laporan Rekap Tracer & Kepuasan (Export Excel Only) -->
@@ -81,25 +84,45 @@
                             <ul class="list-group list-group-flush mb-3 w-100">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Rekap hasil tracer study lulusan
-                                    <a href="{{ route('laporan.export.tracer') }}" class="btn btn-sm btn-outline-success">
+                                    {{-- Menjadi ini: --}}
+                                    <a href="{{ route('laporan.export.tracer-alumni', [
+                                        'program_studi' => $prodi,
+                                        'tahun_awal' => $tahunAwal,
+                                        'tahun_akhir' => $tahunAkhir
+                                    ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Rekap hasil survei kepuasan pengguna lulusan
-                                    <a href="{{ route('laporan.export.kepuasan') }}" class="btn btn-sm btn-outline-success">
+                                    {{-- Menjadi ini: --}}
+                                    <a href="{{ route('laporan.export.survey-pengguna', [
+                                        'program_studi' => $prodi,
+                                        'tahun_awal' => $tahunAwal,
+                                        'tahun_akhir' => $tahunAkhir
+                                    ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Daftar lulusan yang belum mengisi tracer study
-                                    <a href="{{ route('laporan.export.tracer.belum') }}" class="btn btn-sm btn-outline-success">
+                                    {{-- Menjadi ini: --}}
+                                    <a href="{{ route('laporan.export.alumni-belum-ts', [
+                                        'program_studi' => $prodi,
+                                        'tahun_awal' => $tahunAwal,
+                                        'tahun_akhir' => $tahunAkhir
+                                    ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Daftar pengguna lulusan yang belum mengisi survei kepuasan
-                                    <a href="{{ route('laporan.export.kepuasan.belum') }}" class="btn btn-sm btn-outline-success">
+                                    {{-- Menjadi ini: --}}
+                                    <a href="{{ route('laporan.export.pengguna-belum-survey', [
+                                        'program_studi' => $prodi,
+                                        'tahun_awal' => $tahunAwal,
+                                        'tahun_akhir' => $tahunAkhir
+                                    ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>
                                 </li>

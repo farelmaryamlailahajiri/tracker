@@ -7,9 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alumni extends Model
 {
-    protected $table = 'alumni';
+    use HasFactory;
+
+    // Tetap pertahankan kedua opsi tabel
+    protected $table = 'alumni'; // Untuk kompatibilitas dengan kode lama
+    protected $newTable = 'tracer_study_jti_alumni'; // Untuk tabel baru
 
     protected $fillable = ['nama', 'nim', 'program_studi_id', 'tanggal_lulus', 'token'];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->table = config('database.use_new') ? $this->newTable : $this->table;
+    }
 
     public function programStudi()
     {

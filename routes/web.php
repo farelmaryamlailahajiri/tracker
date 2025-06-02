@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\AlumniLoginController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -32,25 +33,31 @@ Route::get('/form-alumni/detail/{id}', [AlumniController::class, 'detail'])->nam
 Route::get('/form-alumni/kategori', [ProfesiController::class, 'getAllKategori'])->name('alumni.kategori');
 Route::get('/form-alumni/by-kategori', [ProfesiController::class, 'getByKategori'])->name('alumni.by-kategori');
 
+Route::post('/lulusan/import', [AlumniController::class, 'import'])->name('lulusan.import');
+
 Route::get('/pengguna-alumni/create', [PenggunaAlumniController::class, 'create'])->name('pengguna-alumni.create');
 Route::post('/pengguna-alumni', [PenggunaAlumniController::class, 'store'])->name('pengguna-alumni.store');
 Route::get('pengguna-alumni/search', [PenggunaAlumniController::class, 'searchNama'])->name('pengguna-alumni.search');
 Route::get('pengguna-alumni/searchPengguna', [PenggunaAlumniController::class, 'searchNamaPengguna'])->name('pengguna-alumni.searchPenggunaLulusan');
 
 // Dashboard (hanya GET untuk menampilkan halaman dashboard)
-Route::get('/dashboard', function () {
-    return view('dashboard.index'); // Sesuaikan nama file blade yang benar
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/lulusan', [LulusanController::class, 'index'])->name('lulusan.index');
 Route::post('/lulusan/import', [LulusanController::class, 'import'])->name('lulusan.import');
 
-Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-Route::get('/laporan/export/tracer', [LaporanController::class, 'exportTracer'])->name('laporan.export.tracer');
-Route::get('/laporan/export/kepuasan', [LaporanController::class, 'exportKepuasan'])->name('laporan.export.kepuasan');
-Route::get('/laporan/export/tracer/belum', [LaporanController::class, 'exportTracerBelum'])->name('laporan.export.tracer.belum');
-Route::get('/laporan/export/kepuasan/belum', [LaporanController::class, 'exportKepuasanBelum'])->name('laporan.export.kepuasan.belum');
+// Laporan Routes
+Route::prefix('laporan')->group(function () {
+    Route::get('/', [LaporanController::class, 'index'])->name('laporan.index');
+    
+    // Export Routes
+    Route::get('/export/alumni-belum-ts', [LaporanController::class, 'exportAlumniBelumTS'])->name('laporan.export.alumni-belum-ts');
+    Route::get('/export/pengguna-belum-survey', [LaporanController::class, 'exportPenggunaBelumSurvey'])->name('laporan.export.pengguna-belum-survey');
+    Route::get('/export/survey-pengguna', [LaporanController::class, 'exportSurveyPengguna'])->name('laporan.export.survey-pengguna');
+    Route::get('/export/tracer-alumni', [LaporanController::class, 'exportTracerAlumni'])->name('laporan.export.tracer-alumni');
+});
 
 Route::resource('/profesi', ProfesiController::class);
+

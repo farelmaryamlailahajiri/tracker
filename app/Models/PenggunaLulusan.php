@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class PenggunaLulusan extends Model
 {
+    use HasFactory;
+
     protected $table = 'pengguna_lulusan';
-    protected $fillable = ['nama', 'jabatan', 'email', 'telepon', 'instansi_id', 'link_form'];
+    protected $fillable = ['alumni_id','nama', 'jabatan', 'email', 'telepon', 'instansi_id'];
 
     public function instansi()
     {
@@ -17,6 +19,6 @@ class PenggunaLulusan extends Model
 
     public function kepuasanPengguna()
     {
-        return $this->hasMany(KepuasanPengguna::class);
+        return $this->hasMany(KepuasanPengguna::class, 'pengguna_id');
     }
 }

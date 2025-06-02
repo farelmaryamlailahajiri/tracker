@@ -9,7 +9,7 @@ class ProgramStudi extends Model
 {
     protected $table = 'program_studi';
 
-    protected $fillable = ['nama']; // Pastikan kolom ini ada
+    protected $fillable = ['nama'];
 
     public function alumnis()
     {

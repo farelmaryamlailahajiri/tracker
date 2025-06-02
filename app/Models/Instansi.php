@@ -7,8 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Instansi extends Model
 {
-    protected $table = 'instansi';
+    use HasFactory;
+
+    // Tetap pertahankan kedua opsi tabel
+    protected $table = 'instansi'; // Untuk kompatibilitas dengan kode lama
+    protected $newTable = 'tracer_study_jti_instansi'; // Untuk tabel baru
+
     protected $fillable = ['nama_instansi', 'jenis_instansi', 'skala', 'lokasi'];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->table = config('database.use_new') ? $this->newTable : $this->table;
+    }
 
     public function tracers()
     {
@@ -17,6 +28,6 @@ class Instansi extends Model
 
     public function penggunaLulusan()
     {
-        return $this->hasMany(PenggunaLulusan::class);
+        return $this->hasMany(PenggunaLulusan::class, 'instansi_id');
     }
 }

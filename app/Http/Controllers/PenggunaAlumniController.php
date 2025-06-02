@@ -30,7 +30,7 @@ class PenggunaAlumniController extends Controller
     {
         $validated = $request->validate([
             'tracer_id' => 'required|exists:tracer,id',
-            'pengguna_id' => 'required|exists:alumni,id',
+            'pengguna_id' => 'required|exists:pengguna_lulusan,id',
             'kerjasama_tim' => 'required',
             'keahlian_ti' => 'required',
             'bahasa_asing' => 'required',

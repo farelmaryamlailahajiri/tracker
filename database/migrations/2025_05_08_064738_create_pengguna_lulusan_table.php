@@ -4,20 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePenggunaLulusanTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('pengguna_lulusan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('alumni_id')->constrained('alumni');
+            $table->foreignId('instansi_id')->constrained('instansi');
             $table->string('nama');
             $table->string('jabatan');
-            $table->string('email')->nullable();
+            $table->string('email');
             $table->string('telepon')->nullable();
-            $table->foreignId('instansi_id')->constrained('instansi');
             $table->string('link_form')->nullable();
             $table->timestamps();
         });
@@ -25,9 +28,11 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('pengguna_lulusan');
     }
-};
+}

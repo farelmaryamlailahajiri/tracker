@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('tracer', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alumni_id')->constrained('alumni');
-            $table->foreignId('profesi_id')->nullable()->constrained('profesi');
-            $table->foreignId('instansi_id')->nullable()->constrained('instansi');
+            $table->foreignId('alumni_id')->constrained('alumni'); // Mengarah ke tabel alumni
+            $table->foreignId('profesi_id')->constrained('profesi'); // Mengarah ke tabel profesi
+            $table->foreignId('instansi_id')->constrained('instansi'); // Mengarah ke tabel instansi
             $table->string('email');
             $table->string('no_hp');
-            $table->string('tahun_lulus');
+            $table->integer('tahun_lulus')->nullable();
+            $table->date('tanggal_lulus')->nullable();
             $table->date('tanggal_pertama_kerja')->nullable();
             $table->date('tanggal_mulai_kerja_saat_ini')->nullable();
-            $table->float('waktu_tunggu')->nullable();
+            $table->integer('waktu_tunggu')->nullable();
+            $table->string('lokasi_kerja')->nullable();
+            $table->string('kategori_profesi')->nullable();
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kepuasan_pengguna', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tracer_id')->constrained('tracer');
+            $table->foreignId('tracer_id')->constrained('tracer'); // Perbaiki referensi ke tabel 'tracer'
             $table->foreignId('pengguna_id')->constrained('pengguna_lulusan');
             $table->string('kerjasama_tim');
             $table->string('keahlian_ti');

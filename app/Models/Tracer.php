@@ -7,12 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tracer extends Model
 {
-   protected $table = 'tracer';
-   protected $fillable = [
+    use HasFactory;
+
+    // Tetap pertahankan kedua opsi tabel
+    protected $table = 'tracer'; // Untuk kompatibilitas dengan kode lama
+    protected $newTable = 'tracer_study_jti_tracer'; // Untuk tabel baru
+
+    protected $fillable = [
         'alumni_id', 'profesi_id', 'instansi_id', 'email', 'no_hp', 'tahun_lulus',
         'tanggal_pertama_kerja', 'tanggal_mulai_kerja_saat_ini', 
         'lokasi_kerja', 'waktu_tunggu'
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->table = config('database.use_new') ? $this->newTable : $this->table;
+    }
 
     public function alumni()
     {
