@@ -3,19 +3,20 @@
 namespace App\Exports;
 
 use App\Models\KepuasanPengguna;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class SurveyPenggunaExport implements FromQuery, WithHeadings, WithMapping
 {
-    protected $prodi;
+    protected $program_studi_id;
     protected $tahunAwal;
     protected $tahunAkhir;
 
-    public function __construct($prodi, $tahunAwal, $tahunAkhir)
+    public function __construct($program_studi_id, $tahunAwal, $tahunAkhir)
     {
-        $this->prodi = $prodi;
+        $this->program_studi_id = $program_studi_id;
         $this->tahunAwal = $tahunAwal;
         $this->tahunAkhir = $tahunAkhir;
     }
@@ -23,14 +24,14 @@ class SurveyPenggunaExport implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         return KepuasanPengguna::query()
-            ->whereHas('penggunaLulusan.alumni.programStudi', function($query) {
-                $query->where('nama', $this->prodi);
-            })
             ->whereHas('penggunaLulusan.alumni', function($query) {
-                $query->whereBetween('tahun_lulus', [$this->tahunAwal, $this->tahunAkhir]);
+                $query->where('program_studi_id', $this->program_studi_id)
+                    ->whereNotNull('tanggal_lulus')
+                    ->whereBetween(DB::raw('YEAR(tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir]);
             })
             ->with(['penggunaLulusan.alumni.programStudi', 'penggunaLulusan.instansi']);
     }
+
 
     public function headings(): array
     {
@@ -48,20 +49,22 @@ class SurveyPenggunaExport implements FromQuery, WithHeadings, WithMapping
             'Pengembangan Diri',
             'Kepemimpinan',
             'Etos Kerja',
-            'Kompetensi yang Dibutuhkan tapi Belum Dapat Dipenuhi',
-            'Saran untuk Kurikulum Program Studi'
+            'Kompetensi yang Belum Dipenuhi',
+            'Saran untuk Kurikulum'
         ];
     }
 
     public function map($kepuasan): array
     {
+        $pengguna = $kepuasan->penggunaLulusan;
+
         return [
-            $kepuasan->penggunaLulusan->nama,
-            $kepuasan->penggunaLulusan->instansi->nama_instansi,
-            $kepuasan->penggunaLulusan->jabatan,
-            $kepuasan->penggunaLulusan->email,
-            $kepuasan->penggunaLulusan->alumni->nama,
-            $kepuasan->penggunaLulusan->alumni->programStudi->nama,
+            $pengguna?->nama ?? '',
+            $pengguna?->instansi?->nama_instansi ?? '',
+            $pengguna?->jabatan ?? '',
+            $pengguna?->email ?? '',
+            $pengguna?->alumni?->nama ?? '',
+            $pengguna?->alumni?->programStudi?->nama ?? '',
             $kepuasan->kerjasama_tim,
             $kepuasan->keahlian_ti,
             $kepuasan->bahasa_asing,

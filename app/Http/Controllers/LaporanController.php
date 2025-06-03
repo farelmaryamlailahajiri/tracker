@@ -10,75 +10,80 @@ use App\Exports\{
     SurveyPenggunaExport,
     TracerAlumniExport
 };
-use App\Models\{
-    Alumni,
-    ProgramStudi,
-    Tracer,
-    PenggunaLulusan,
-    KepuasanPengguna
-};
+use App\Models\ProgramStudi;
 
 class LaporanController extends Controller
 {
-    // Menampilkan halaman laporan
     public function index(Request $request)
     {
         $prodi = $request->input('program_studi', 'D4 TI');
         $tahunAwal = $request->input('tahun_awal', date('Y') - 3);
         $tahunAkhir = $request->input('tahun_akhir', date('Y'));
-        
+
         return view('dashboard.laporan', compact('prodi', 'tahunAwal', 'tahunAkhir'));
     }
 
-    // Export untuk Alumni Belum Isi Tracer Study
     public function exportAlumniBelumTS(Request $request)
     {
-        $prodi = $request->input('program_studi', 'D4 TI');
-        $tahunAwal = $request->input('tahun_awal', date('Y') - 3);
-        $tahunAkhir = $request->input('tahun_akhir', date('Y'));
-        
+        $request->validate([
+            'program_studi' => 'required|integer',
+            'tahun_awal' => 'required|integer',
+            'tahun_akhir' => 'required|integer'
+        ]);
+
+        $prodi = ProgramStudi::findOrFail($request->program_studi);
+
         return Excel::download(
-            new AlumniBelumIsiTSExport($prodi, $tahunAwal, $tahunAkhir), 
-            "rekap_alumni_belum_isi_ts_{$prodi}_{$tahunAwal}_{$tahunAkhir}.xlsx"
+            new AlumniBelumIsiTSExport($request->program_studi, $request->tahun_awal, $request->tahun_akhir),
+            "rekap_alumni_belum_isi_ts_{$prodi->nama}_{$request->tahun_awal}_{$request->tahun_akhir}.xlsx"
         );
     }
 
-    // Export untuk Pengguna Belum Isi Survey
     public function exportPenggunaBelumSurvey(Request $request)
     {
-        $prodi = $request->input('program_studi', 'D4 TI');
-        $tahunAwal = $request->input('tahun_awal', date('Y') - 3);
-        $tahunAkhir = $request->input('tahun_akhir', date('Y'));
-        
+        $request->validate([
+            'program_studi' => 'required|integer',
+            'tahun_awal' => 'required|integer',
+            'tahun_akhir' => 'required|integer'
+        ]);
+
+        $prodi = ProgramStudi::findOrFail($request->program_studi);
+
         return Excel::download(
-            new PenggunaBelumIsiSurveyExport($prodi, $tahunAwal, $tahunAkhir), 
-            "rekap_pengguna_belum_isi_survey_{$prodi}_{$tahunAwal}_{$tahunAkhir}.xlsx"
+            new PenggunaBelumIsiSurveyExport($request->program_studi, $request->tahun_awal, $request->tahun_akhir),
+            "rekap_pengguna_belum_isi_survey_{$prodi->nama}_{$request->tahun_awal}_{$request->tahun_akhir}.xlsx"
         );
     }
 
-    // Export untuk Survey Pengguna
     public function exportSurveyPengguna(Request $request)
     {
-        $prodi = $request->input('program_studi', 'D4 TI');
-        $tahunAwal = $request->input('tahun_awal', date('Y') - 3);
-        $tahunAkhir = $request->input('tahun_akhir', date('Y'));
-        
+        $request->validate([
+            'program_studi' => 'required|integer',
+            'tahun_awal' => 'required|integer',
+            'tahun_akhir' => 'required|integer'
+        ]);
+
+        $prodi = ProgramStudi::findOrFail($request->program_studi);
+
         return Excel::download(
-            new SurveyPenggunaExport($prodi, $tahunAwal, $tahunAkhir), 
-            "rekap_survey_pengguna_{$prodi}_{$tahunAwal}_{$tahunAkhir}.xlsx"
+            new SurveyPenggunaExport($request->program_studi, $request->tahun_awal, $request->tahun_akhir),
+            "rekap_survey_pengguna_{$prodi->nama}_{$request->tahun_awal}_{$request->tahun_akhir}.xlsx"
         );
     }
 
-    // Export untuk Tracer Alumni
     public function exportTracerAlumni(Request $request)
     {
-        $prodi = $request->input('program_studi', 'D4 TI');
-        $tahunAwal = $request->input('tahun_awal', date('Y') - 3);
-        $tahunAkhir = $request->input('tahun_akhir', date('Y'));
-        
+        $request->validate([
+            'program_studi' => 'required|integer',
+            'tahun_awal' => 'required|integer',
+            'tahun_akhir' => 'required|integer'
+        ]);
+
+        $prodi = ProgramStudi::findOrFail($request->program_studi);
+
         return Excel::download(
-            new TracerAlumniExport($prodi, $tahunAwal, $tahunAkhir), 
-            "rekap_tracer_alumni_{$prodi}_{$tahunAwal}_{$tahunAkhir}.xlsx"
+            new TracerAlumniExport($request->program_studi, $request->tahun_awal, $request->tahun_akhir),
+            "Rekap_hasil_tracer_study_lulusan_{$prodi->nama}_{$request->tahun_awal}_{$request->tahun_akhir}.xlsx"
         );
     }
 }

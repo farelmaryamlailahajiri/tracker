@@ -12,13 +12,25 @@ class PenggunaLulusan extends Model
     protected $table = 'pengguna_lulusan';
     protected $fillable = ['alumni_id','nama', 'jabatan', 'email', 'telepon', 'instansi_id'];
 
+    public function alumni()
+    {
+        return $this->belongsTo(Alumni::class, 'alumni_id');
+    }
+
     public function instansi()
     {
-        return $this->belongsTo(Instansi::class);
+        return $this->belongsTo(Instansi::class, 'instansi_id');
     }
 
     public function kepuasanPengguna()
     {
-        return $this->hasMany(KepuasanPengguna::class, 'pengguna_id');
+        return $this->hasOne(KepuasanPengguna::class, 'pengguna_id');
     }
+    
+    public function tracer()
+    {
+        return $this->hasOne(Tracer::class, 'pengguna_id');
+    }
+
+    
 }

@@ -56,7 +56,7 @@ Route::prefix('laporan')->group(function () {
     Route::get('/export/alumni-belum-ts', [LaporanController::class, 'exportAlumniBelumTS'])->name('laporan.export.alumni-belum-ts');
     Route::get('/export/pengguna-belum-survey', [LaporanController::class, 'exportPenggunaBelumSurvey'])->name('laporan.export.pengguna-belum-survey');
     Route::get('/export/survey-pengguna', [LaporanController::class, 'exportSurveyPengguna'])->name('laporan.export.survey-pengguna');
-    Route::get('/export/tracer-alumni', [LaporanController::class, 'exportTracerAlumni'])->name('laporan.export.tracer-alumni');
+    Route::get('/laporan/export/tracer-alumni', [LaporanController::class, 'exportTracerAlumni'])->name('laporan.export.tracer-alumni');
 });
 
 Route::resource('/profesi', ProfesiController::class);

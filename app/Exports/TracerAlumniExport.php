@@ -3,19 +3,20 @@
 namespace App\Exports;
 
 use App\Models\Tracer;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class TracerAlumniExport implements FromQuery, WithHeadings, WithMapping
 {
-    protected $prodi;
+    protected $program_studi_id;
     protected $tahunAwal;
     protected $tahunAkhir;
 
-    public function __construct($prodi, $tahunAwal, $tahunAkhir)
+    public function __construct($program_studi_id, $tahunAwal, $tahunAkhir)
     {
-        $this->prodi = $prodi;
+        $this->program_studi_id = $program_studi_id;
         $this->tahunAwal = $tahunAwal;
         $this->tahunAkhir = $tahunAkhir;
     }
@@ -23,13 +24,12 @@ class TracerAlumniExport implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         return Tracer::query()
-            ->whereHas('alumni.programStudi', function($query) {
-                $query->where('nama', $this->prodi); // Pastikan ini sesuai dengan nama kolom di database
+            ->whereHas('alumni', function ($query) {
+                $query->where('program_studi_id', $this->program_studi_id)
+                      ->whereNotNull('tanggal_lulus')
+                      ->whereBetween(DB::raw('YEAR(tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir]);
             })
-            ->whereHas('alumni', function($query) {
-                $query->whereBetween('tahun_lulus', [$this->tahunAwal, $this->tahunAkhir]);
-            })
-            ->with(['alumni.programStudi', 'instansi', 'profesi']);
+            ->with(['alumni.programStudi', 'instansi', 'profesi', 'pengguna']);
     }
 
     public function headings(): array
@@ -60,27 +60,33 @@ class TracerAlumniExport implements FromQuery, WithHeadings, WithMapping
 
     public function map($tracer): array
     {
+        $alumni = $tracer->alumni;
+        $programStudi = $alumni?->programStudi;
+        $instansi = $tracer->instansi;
+        $profesi = $tracer->profesi;
+        $pengguna = $tracer->pengguna;
+
         return [
-            $tracer->alumni->programStudi->nama ?? '',
-            $tracer->alumni->nim ?? '',
-            $tracer->alumni->nama ?? '',
+            $programStudi?->nama ?? '',
+            $alumni?->nim ?? '',
+            $alumni?->nama ?? '',
             $tracer->no_hp ?? '',
             $tracer->email ?? '',
-            $tracer->alumni->tanggal_lulus ?? '',
-            $tracer->alumni->tahun_lulus ?? '',
+            $alumni?->tanggal_lulus ?? '',
+            $alumni?->tanggal_lulus ? date('Y', strtotime($alumni->tanggal_lulus)) : '',
             $tracer->tanggal_pertama_kerja ?? '',
             $tracer->waktu_tunggu ?? '',
             $tracer->tanggal_mulai_kerja_saat_ini ?? '',
-            $tracer->instansi->jenis_instansi ?? '',
-            $tracer->instansi->nama_instansi ?? '',
-            $tracer->instansi->skala ?? '',
-            $tracer->instansi->lokasi ?? '',
-            $tracer->profesi->kategori ?? '',
-            $tracer->profesi->nama_profesi ?? '',
-            $tracer->nama_atasan_langsung ?? '',
-            $tracer->jabatan_atasan ?? '',
-            $tracer->no_hp_atasan ?? '',
-            $tracer->email_atasan ?? ''
+            $instansi?->jenis_instansi ?? '',
+            $instansi?->nama_instansi ?? '',
+            $instansi?->skala ?? '',
+            $instansi?->lokasi ?? '',
+            $profesi?->kategori ?? '',
+            $profesi?->nama_profesi ?? '',
+            $pengguna?->nama ?? '',
+            $pengguna?->jabatan ?? '',
+            $pengguna?->telepon ?? '',
+            $pengguna?->email ?? ''
         ];
     }
 }

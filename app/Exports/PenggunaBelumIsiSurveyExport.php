@@ -3,19 +3,20 @@
 namespace App\Exports;
 
 use App\Models\PenggunaLulusan;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class PenggunaBelumIsiSurveyExport implements FromQuery, WithHeadings, WithMapping
 {
-    protected $prodi;
+    protected $program_studi_id;
     protected $tahunAwal;
     protected $tahunAkhir;
 
-    public function __construct($prodi, $tahunAwal, $tahunAkhir)
+    public function __construct($program_studi_id, $tahunAwal, $tahunAkhir)
     {
-        $this->prodi = $prodi;
+        $this->program_studi_id = $program_studi_id;
         $this->tahunAwal = $tahunAwal;
         $this->tahunAkhir = $tahunAkhir;
     }
@@ -24,14 +25,14 @@ class PenggunaBelumIsiSurveyExport implements FromQuery, WithHeadings, WithMappi
     {
         return PenggunaLulusan::query()
             ->whereDoesntHave('kepuasanPengguna')
-            ->whereHas('alumni.programStudi', function($query) {
-                $query->where('nama', $this->prodi);
-            })
-            ->whereHas('alumni', function($query) {
-                $query->whereBetween('tahun_lulus', [$this->tahunAwal, $this->tahunAkhir]);
+            ->whereHas('alumni', function ($query) {
+                $query->where('program_studi_id', $this->program_studi_id)
+                    ->whereNotNull('tanggal_lulus')
+                    ->whereBetween(DB::raw('YEAR(tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir]);
             })
             ->with(['alumni.programStudi', 'instansi']);
     }
+
 
     public function headings(): array
     {
@@ -49,15 +50,18 @@ class PenggunaBelumIsiSurveyExport implements FromQuery, WithHeadings, WithMappi
 
     public function map($pengguna): array
     {
+        $alumni = $pengguna->alumni;
+        $programStudi = $alumni?->programStudi;
+
         return [
             $pengguna->nama,
-            $pengguna->instansi->nama_instansi,
+            $pengguna->instansi?->nama_instansi ?? '',
             $pengguna->jabatan,
             $pengguna->telepon,
             $pengguna->email,
-            $pengguna->alumni->nama,
-            $pengguna->alumni->programStudi->nama,
-            $pengguna->alumni->tahun_lulus
+            $alumni?->nama ?? '',
+            $programStudi?->nama ?? '',
+            $alumni?->tanggal_lulus ? date('Y', strtotime($alumni->tanggal_lulus)) : ''
         ];
     }
 }

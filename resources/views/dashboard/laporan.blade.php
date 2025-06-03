@@ -86,9 +86,9 @@
                                     Rekap hasil tracer study lulusan
                                     {{-- Menjadi ini: --}}
                                     <a href="{{ route('laporan.export.tracer-alumni', [
-                                        'program_studi' => $prodi,
-                                        'tahun_awal' => $tahunAwal,
-                                        'tahun_akhir' => $tahunAkhir
+                                        'program_studi' => $selectedProdi,
+                                        'tahun_awal' => $tahunAwalDefault,
+                                        'tahun_akhir' => $tahunAkhirDefault
                                     ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>
@@ -97,9 +97,9 @@
                                     Rekap hasil survei kepuasan pengguna lulusan
                                     {{-- Menjadi ini: --}}
                                     <a href="{{ route('laporan.export.survey-pengguna', [
-                                        'program_studi' => $prodi,
-                                        'tahun_awal' => $tahunAwal,
-                                        'tahun_akhir' => $tahunAkhir
+                                        'program_studi' => $selectedProdi,
+                                        'tahun_awal' => $tahunAwalDefault,
+                                        'tahun_akhir' => $tahunAkhirDefault
                                     ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>
@@ -108,9 +108,9 @@
                                     Daftar lulusan yang belum mengisi tracer study
                                     {{-- Menjadi ini: --}}
                                     <a href="{{ route('laporan.export.alumni-belum-ts', [
-                                        'program_studi' => $prodi,
-                                        'tahun_awal' => $tahunAwal,
-                                        'tahun_akhir' => $tahunAkhir
+                                        'program_studi' => $selectedProdi,
+                                        'tahun_awal' => $tahunAwalDefault,
+                                        'tahun_akhir' => $tahunAkhirDefault
                                     ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>
@@ -119,9 +119,9 @@
                                     Daftar pengguna lulusan yang belum mengisi survei kepuasan
                                     {{-- Menjadi ini: --}}
                                     <a href="{{ route('laporan.export.pengguna-belum-survey', [
-                                        'program_studi' => $prodi,
-                                        'tahun_awal' => $tahunAwal,
-                                        'tahun_akhir' => $tahunAkhir
+                                        'program_studi' => $selectedProdi,
+                                        'tahun_awal' => $tahunAwalDefault,
+                                        'tahun_akhir' => $tahunAkhirDefault
                                     ]) }}" class="btn btn-sm btn-outline-success">
                                         <i class="fas fa-file-excel"></i> Download Excel
                                     </a>

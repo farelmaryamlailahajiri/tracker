@@ -44,4 +44,10 @@ class Tracer extends Model
     {
         return $this->hasMany(KepuasanPengguna::class);
     }
+
+    public function pengguna()
+    {
+        return $this->belongsTo(PenggunaLulusan::class, 'pengguna_id');
+    }
+
 }
