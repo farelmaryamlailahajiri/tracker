@@ -15,7 +15,6 @@ class CreatePenggunaLulusanTable extends Migration
     {
         Schema::create('pengguna_lulusan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alumni_id')->constrained('alumni');
             $table->foreignId('instansi_id')->constrained('instansi');
             $table->string('nama');
             $table->string('jabatan');

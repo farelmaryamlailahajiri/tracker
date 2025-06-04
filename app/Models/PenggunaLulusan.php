@@ -10,12 +10,7 @@ class PenggunaLulusan extends Model
     use HasFactory;
 
     protected $table = 'pengguna_lulusan';
-    protected $fillable = ['alumni_id','nama', 'jabatan', 'email', 'telepon', 'instansi_id'];
-
-    public function alumni()
-    {
-        return $this->belongsTo(Alumni::class, 'alumni_id');
-    }
+    protected $fillable = ['nama', 'jabatan', 'email', 'telepon', 'instansi_id', 'link_form'];
 
     public function instansi()
     {

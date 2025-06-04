@@ -24,13 +24,18 @@ class PenggunaBelumIsiSurveyExport implements FromQuery, WithHeadings, WithMappi
     public function query()
     {
         return PenggunaLulusan::query()
-            ->whereDoesntHave('kepuasanPengguna')
-            ->whereHas('alumni', function ($query) {
-                $query->where('program_studi_id', $this->program_studi_id)
-                    ->whereNotNull('tanggal_lulus')
-                    ->whereBetween(DB::raw('YEAR(tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir]);
-            })
-            ->with(['alumni.programStudi', 'instansi']);
+        ->join('instansi as i', 'pengguna_lulusan.instansi_id', '=', 'i.id')
+        ->join('tracer as t', 't.instansi_id', '=', 'i.id')
+        ->join('alumni as a', 't.alumni_id', '=', 'a.id')
+        ->join('program_studi as ps', 'a.program_studi_id', '=', 'ps.id')
+        ->whereNotIn('t.id', function ($query) {
+            $query->select('tracer_id')->from('kepuasan_pengguna');
+        })
+        ->where('a.program_studi_id', $this->program_studi_id)
+        ->whereNotNull('a.tanggal_lulus')
+        ->whereBetween(DB::raw('YEAR(a.tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir])
+        ->select('pengguna_lulusan.*')
+        ->with(['alumni.programStudi', 'instansi']);
     }
 
 

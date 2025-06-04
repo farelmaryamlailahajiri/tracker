@@ -26,6 +26,13 @@
 
         <form action="{{ route('alumni.store') }}" method="POST" class="alumni-form">
             @csrf
+
+            <div class="d-flex justify-content-end mb-4">
+                <a href="{{ url('/') }}" class="btn btn-danger rounded fw-bold">
+                    &larr; Kembali
+                </a>
+            </div>
+
             <div class="section-heading text-center">
                 <h2>Form <em>Alumni</em></h2>
                 <p>Silakan lengkapi data berikut sebagai bagian dari tracer study alumni</p>
@@ -146,11 +153,6 @@
                         <button type="submit" class="btn btn-kirim mt-3">Kirim Data</button>
                     </div>
 
-                    <div class="form-group col-12 text-center">
-                        <a href="{{ url('/') }}" class="btn btn-kembali mt-3">
-                            &larr; Kembali
-                        </a>
-                    </div>
                 </div>
         </form>
     @push('scripts')
@@ -200,6 +202,24 @@
                 const profesiSelect = $('#profesi');
                 const isTidakBekerja = kategori === 'Tidak Bekerja';
 
+                // Semua field setelah profesi
+                const fieldsAfterProfesi = $('#profesi')
+                    .closest('.form-group')
+                    .nextAll('.form-group')
+                    .find('input, select, textarea, button');
+
+                if (!kategori) {
+                    profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
+                    profesiSelect.prop('disabled', true);
+
+                    // Disable semua field setelah profesi
+                    fieldsAfterProfesi.prop('disabled', true).val('');
+                    return;
+                }
+
+                // Enable semua field setelah profesi (nanti bisa diatur lagi jika "Tidak Bekerja")
+                fieldsAfterProfesi.prop('disabled', false);
+
                 // Disable/enable instansi fields
                 $('#jenis_instansi, #nama_instansi, #skala_instansi, #lokasi_instansi, #tgl_pertama_kerja, #tgl_mulai_instansi')
                     .prop('disabled', isTidakBekerja)
@@ -214,7 +234,7 @@
                     profesiSelect.empty()
                         .append('<option value="Tidak Bekerja" selected>Tidak Bekerja</option>')
                         .prop('disabled', true);
-                } else if (kategori) {
+                } else {
                     profesiSelect.empty().append('<option value="">Memuat data...</option>');
                     profesiSelect.prop('disabled', true);
 
@@ -226,9 +246,6 @@
                         });
                         profesiSelect.prop('disabled', false);
                     });
-                } else {
-                    profesiSelect.empty().append('<option value="">-- Pilih Profesi --</option>');
-                    profesiSelect.prop('disabled', true);
                 }
             }).trigger('change');
 
@@ -252,7 +269,18 @@
                 }, function (res) {
                     if (res.status === 'success') {
                         $('#form-lanjutan').slideDown();
-                        $('#alumni_id, #token').prop('readonly', true);
+                        // Nonaktifkan select2 dan tambahkan hidden input agar value tetap terkirim
+                        var alumniId = $('#alumni_id').val();
+                        $('#alumni_id').prop('disabled', true);
+                        // Hapus hidden input jika sudah ada
+                        $('input[name="alumni_id_hidden"]').remove();
+                        // Tambahkan hidden input
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: 'alumni_id',
+                            value: alumniId
+                        }).appendTo('form.alumni-form');
+                        $('#token').prop('readonly', true);
                         $('#btn-verifikasi').prop('disabled', true).text('Terverifikasi');
                     } else {
                         Swal.fire({

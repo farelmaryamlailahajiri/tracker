@@ -24,12 +24,15 @@ class SurveyPenggunaExport implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         return KepuasanPengguna::query()
-            ->whereHas('penggunaLulusan.alumni', function($query) {
-                $query->where('program_studi_id', $this->program_studi_id)
-                    ->whereNotNull('tanggal_lulus')
-                    ->whereBetween(DB::raw('YEAR(tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir]);
-            })
-            ->with(['penggunaLulusan.alumni.programStudi', 'penggunaLulusan.instansi']);
+            ->select('kepuasan_pengguna.*')
+            ->join('tracer', 'kepuasan_pengguna.tracer_id', '=', 'tracer.id')
+            ->join('pengguna_lulusan', 'kepuasan_pengguna.pengguna_id', '=', 'pengguna_lulusan.id')
+            ->join('alumni', 'tracer.alumni_id', '=', 'alumni.id')
+            ->join('program_studi', 'alumni.program_studi_id', '=', 'program_studi.id')
+            ->join('instansi', 'tracer.instansi_id', '=', 'instansi.id')
+            ->where('alumni.program_studi_id', $this->program_studi_id)
+            ->whereNotNull('alumni.tanggal_lulus')
+            ->whereBetween(DB::raw('YEAR(alumni.tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir]);
     }
 
 
