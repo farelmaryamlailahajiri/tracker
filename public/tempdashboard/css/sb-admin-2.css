@@ -41,6 +41,24 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+
+#logoutConfirm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050; /* Lebih tinggi dari modal biasa */
+    background: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 0.35rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58,59,69,.15);
+    border: 1px solid #e3e6f0;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    animation: growIn 0.2s;
+}
+
 *,
 *::before,
 *::after {

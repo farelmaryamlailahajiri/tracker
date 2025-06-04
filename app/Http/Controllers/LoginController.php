@@ -37,4 +37,14 @@ class LoginController extends Controller
             ],
         ]);
     }
+
+    public function logout(Request $request)
+    {
+        $request->session()->flush(); // Hapus semua session
+        return response()->json([
+            'status' => true,
+            'message' => 'Logout successful.',
+            'redirect' => url('/'), // Redirect ke halaman utama
+        ]);
+    }
 }

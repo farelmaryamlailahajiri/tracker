@@ -44,6 +44,7 @@ Route::get('pengguna-alumni/searchPengguna', [PenggunaAlumniController::class, '
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/lulusan', [LulusanController::class, 'index'])->name('lulusan.index');
 Route::post('/lulusan/import', [LulusanController::class, 'import'])->name('lulusan.import');
