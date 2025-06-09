@@ -14,7 +14,7 @@ class Tracer extends Model
     protected $newTable = 'tracer_study_jti_tracer'; // Untuk tabel baru
 
     protected $fillable = [
-        'alumni_id', 'profesi_id', 'instansi_id', 'email', 'no_hp', 'tahun_lulus',
+        'alumni_id', 'instansi_id', 'profesi_id', 'pengguna_id', 'email', 'no_hp', 'tahun_lulus',
         'tanggal_pertama_kerja', 'tanggal_mulai_kerja_saat_ini', 
         'lokasi_kerja', 'waktu_tunggu'
     ];

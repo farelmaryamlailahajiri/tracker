@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('tracer', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alumni_id')->constrained('alumni'); // Mengarah ke tabel alumni
-            $table->foreignId('profesi_id')->constrained('profesi'); // Mengarah ke tabel profesi
-            $table->foreignId('instansi_id')->constrained('instansi'); // Mengarah ke tabel instansi
+            $table->foreignId('alumni_id')->constrained('alumni'); 
+            $table->foreignId('profesi_id')->nullable()->constrained('profesi'); 
+            $table->foreignId('instansi_id')->nullable()->constrained('instansi');
+            $table->foreignId('pengguna_id')->nullable()->constrained('pengguna_lulusan'); 
             $table->string('email');
             $table->string('no_hp');
             $table->integer('tahun_lulus')->nullable();

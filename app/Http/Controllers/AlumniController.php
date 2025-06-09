@@ -111,14 +111,15 @@ class AlumniController extends Controller
                 [
                     'profesi_id' => $profesi ? $profesi->id : null,
                     'instansi_id' => $instansi ? $instansi->id : null,
+                    'pengguna_id' => $penggunaLulusan ? $penggunaLulusan->id : null,
                     'email' => $validated['email'],
                     'no_hp' => $validated['no_hp'],
                     'tahun_lulus' => date('Y', strtotime($alumni->tanggal_lulus)),
-                    'tanggal_pertama_kerja' => $validated['tgl_pertama_kerja'],
-                    'tanggal_mulai_kerja_saat_ini' => $validated['tgl_mulai_instansi'],
+                    'tanggal_pertama_kerja' => $validated['tgl_pertama_kerja'] ?? null,
+                    'tanggal_mulai_kerja_saat_ini' => $validated['tgl_mulai_instansi'] ?? null,
                     'waktu_tunggu' => $this->calculateWaitingTime(
                         $alumni->tanggal_lulus, 
-                        $validated['tgl_pertama_kerja']
+                        $validated['tgl_pertama_kerja'] ?? null
                     ),
                 ]
             );

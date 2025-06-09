@@ -24,7 +24,11 @@ class SurveyPenggunaExport implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         return KepuasanPengguna::query()
-            ->select('kepuasan_pengguna.*')
+            ->select(
+                'kepuasan_pengguna.*',
+                'alumni.nama as nama_alumni',
+                'program_studi.nama as nama_program_studi'
+            )
             ->join('tracer', 'kepuasan_pengguna.tracer_id', '=', 'tracer.id')
             ->join('pengguna_lulusan', 'kepuasan_pengguna.pengguna_id', '=', 'pengguna_lulusan.id')
             ->join('alumni', 'tracer.alumni_id', '=', 'alumni.id')
@@ -66,8 +70,8 @@ class SurveyPenggunaExport implements FromQuery, WithHeadings, WithMapping
             $pengguna?->instansi?->nama_instansi ?? '',
             $pengguna?->jabatan ?? '',
             $pengguna?->email ?? '',
-            $pengguna?->alumni?->nama ?? '',
-            $pengguna?->alumni?->programStudi?->nama ?? '',
+            $kepuasan->nama_alumni ?? '', // ambil dari hasil join
+            $kepuasan->nama_program_studi ?? '', // ambil dari hasil join
             $kepuasan->kerjasama_tim,
             $kepuasan->keahlian_ti,
             $kepuasan->bahasa_asing,
