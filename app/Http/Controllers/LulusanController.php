@@ -46,7 +46,8 @@ class LulusanController extends Controller
                     'nim' => $row[1],
                     'nama' => $row[2],
                     'tanggal_lulus' => date('Y-m-d', strtotime($row[3])),
-                    'token' => $row[4]
+                    'token' => $row[4],
+                    'no_tlpn' => $row[5]
                 ]);
             }
 

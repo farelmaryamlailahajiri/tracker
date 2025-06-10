@@ -13,7 +13,7 @@ class Alumni extends Model
     protected $table = 'alumni'; // Untuk kompatibilitas dengan kode lama
     protected $newTable = 'tracer_study_jti_alumni'; // Untuk tabel baru
 
-    protected $fillable = ['nama', 'nim', 'program_studi_id', 'tanggal_lulus', 'token'];
+    protected $fillable = ['nama', 'nim', 'program_studi_id', 'tanggal_lulus', 'token', 'no_tlpn'];
 
     public function __construct(array $attributes = [])
     {

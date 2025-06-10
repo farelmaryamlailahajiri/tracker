@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('program_studi_id')->constrained('program_studi');
             $table->date('tanggal_lulus');
             $table->string('token')->nullable();
+            $table->string('no_tlpn')->nullable();
             $table->timestamps();
         });
     }

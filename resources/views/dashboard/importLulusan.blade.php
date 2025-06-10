@@ -37,6 +37,7 @@
                                     <th>NIM</th>
                                     <th>Tanggal Lulus</th>
                                     <th>Token</th>
+                                    <th>No Telepon</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,6 +49,7 @@
                                     <td>{{ $index->nim }}</td>
                                     <td>{{ $index->tanggal_lulus }}</td>
                                     <td>{{ $index->token }}</td>
+                                    <td>{{ $index->no_tlpn }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
