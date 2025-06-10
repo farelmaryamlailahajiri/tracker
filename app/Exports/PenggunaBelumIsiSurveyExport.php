@@ -23,19 +23,27 @@ class PenggunaBelumIsiSurveyExport implements FromQuery, WithHeadings, WithMappi
 
     public function query()
     {
-        return PenggunaLulusan::query()
-        ->join('instansi as i', 'pengguna_lulusan.instansi_id', '=', 'i.id')
-        ->join('tracer as t', 't.instansi_id', '=', 'i.id')
-        ->join('alumni as a', 't.alumni_id', '=', 'a.id')
+        return DB::table('tracer')
+        ->join('alumni as a', 'tracer.alumni_id', '=', 'a.id')
         ->join('program_studi as ps', 'a.program_studi_id', '=', 'ps.id')
-        ->whereNotIn('t.id', function ($query) {
-            $query->select('tracer_id')->from('kepuasan_pengguna');
-        })
+        ->join('instansi as i', 'tracer.instansi_id', '=', 'i.id')
+        ->join('pengguna_lulusan as pl', 'tracer.pengguna_id', '=', 'pl.id')
+        ->leftJoin('profesi as p', 'tracer.profesi_id', '=', 'p.id')
         ->where('a.program_studi_id', $this->program_studi_id)
         ->whereNotNull('a.tanggal_lulus')
         ->whereBetween(DB::raw('YEAR(a.tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir])
-        ->select('pengguna_lulusan.*')
-        ->with(['alumni.programStudi', 'instansi']);
+        ->select([
+            'pl.nama as nama_pengguna',
+            'i.nama_instansi',
+            'pl.jabatan',
+            'pl.telepon',
+            'pl.email',
+            'a.nama as nama_alumni',
+            'ps.nama as nama_program_studi',
+            'a.tanggal_lulus',
+            'pl.link_form'
+        ])
+        ->orderBy('tracer.id');
     }
 
 
@@ -49,24 +57,23 @@ class PenggunaBelumIsiSurveyExport implements FromQuery, WithHeadings, WithMappi
             'Email',
             'Nama Alumni',
             'Program Studi',
-            'Tahun Lulus'
+            'Tahun Lulus',
+            'Link Form'
         ];
     }
 
-    public function map($pengguna): array
+    public function map($row): array
     {
-        $alumni = $pengguna->alumni;
-        $programStudi = $alumni?->programStudi;
-
         return [
-            $pengguna->nama,
-            $pengguna->instansi?->nama_instansi ?? '',
-            $pengguna->jabatan,
-            $pengguna->telepon,
-            $pengguna->email,
-            $alumni?->nama ?? '',
-            $programStudi?->nama ?? '',
-            $alumni?->tanggal_lulus ? date('Y', strtotime($alumni->tanggal_lulus)) : ''
+            $row->nama_pengguna,
+            $row->nama_instansi,
+            $row->jabatan,
+            $row->telepon,
+            $row->email,
+            $row->nama_alumni,
+            $row->nama_program_studi,
+            $row->tanggal_lulus ? date('Y', strtotime($row->tanggal_lulus)) : '',
+            $row->link_form,
         ];
     }
 }

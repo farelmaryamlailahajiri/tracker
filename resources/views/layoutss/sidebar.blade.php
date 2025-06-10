@@ -58,20 +58,6 @@
                     <span>Laporan</span>
                 </a>
             </div>
-
-            <!-- Communication Section -->
-            <div class="menu-section">KOMUNIKASI</div>
-            
-            <div class="menu-item">
-                <a href="kirim-email">
-                    <div class="menu-icon">
-                        <div class="icon-bg">
-                            <i class="fas fa-fw fa-envelope"></i>
-                        </div>
-                    </div>
-                    <span>Kirim Email</span>
-                </a>
-            </div>
         </div>
     </div>
 </div>
