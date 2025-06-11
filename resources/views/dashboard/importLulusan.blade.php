@@ -13,8 +13,8 @@
                     <h1 class="h3 mb-0 text-primary">
                         <i class="fas fa-fw fa-file-import"></i>Import Lulusan
                     </h1>
-                    <button class="btn btn-outline-danger">
-                        <i class="fas fa-sign-out-alt me-1"></i> Keluar
+                    <button id="logoutButton" class="btn btn-outline-danger">
+                            <i class="fas fa-sign-out-alt me-1"></i> Keluar
                     </button>
                 </div>
 
@@ -88,7 +88,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -125,6 +124,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Script -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -174,4 +174,53 @@
         });
     });
 </script>
+
+<!-- Modal Logout Bootstrap -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin akan keluar?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                    <button type="button" id="confirmLogout" class="btn btn-danger">Ya, Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+                myModal.show();
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                fetch('{{ route('logout') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status) {
+                            window.location.href = data.redirect;
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            });
+        });
+    </script>
 @endsection
