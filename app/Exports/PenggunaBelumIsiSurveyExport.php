@@ -29,9 +29,11 @@ class PenggunaBelumIsiSurveyExport implements FromQuery, WithHeadings, WithMappi
         ->join('instansi as i', 'tracer.instansi_id', '=', 'i.id')
         ->join('pengguna_lulusan as pl', 'tracer.pengguna_id', '=', 'pl.id')
         ->leftJoin('profesi as p', 'tracer.profesi_id', '=', 'p.id')
+        ->leftJoin('kepuasan_pengguna as kp', 'tracer.id', '=', 'kp.tracer_id')
         ->where('a.program_studi_id', $this->program_studi_id)
         ->whereNotNull('a.tanggal_lulus')
         ->whereBetween(DB::raw('YEAR(a.tanggal_lulus)'), [$this->tahunAwal, $this->tahunAkhir])
+        ->whereNull('kp.id')
         ->select([
             'pl.nama as nama_pengguna',
             'i.nama_instansi',
