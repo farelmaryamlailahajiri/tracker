@@ -105,7 +105,10 @@
                         <select name="jenis_instansi" id="jenis_instansi" class="form-control">
                             <option value="">-- Pilih --</option>
                             <option value="BUMN">BUMN</option>
-                            <option value="Wiraswasta">Wiraswasta</option>
+                            <option value="Perusahaan Swasta">Perusahaan Swasta</option>
+                            <option value="Instansi Pemerintah">Instansi Pemerintah</option>
+                            <option value="Pendidikan Tinggi">Pendidikan Tinggi</option>
+                            <option value=""></option>
                         </select>
                     </div>
 
@@ -119,7 +122,8 @@
                         <select name="skala_instansi" id="skala_instansi" class="form-control">
                             <option value="">-- Pilih --</option>
                             <option value="Nasional">Nasional</option>
-                            <option value="Internasional">Internasional</option>
+                            <option value="Multinasional">Multinasional</option>
+                            <option value="Wirausaha">Wirausaha</option>
                         </select>
                     </div>
 
