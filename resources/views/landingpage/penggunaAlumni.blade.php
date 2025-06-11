@@ -25,6 +25,13 @@
     <div class="container">
         <form action="{{ route('pengguna-alumni.store') }}" method="POST" class="alumni-form">
             @csrf
+
+            <div class="d-flex justify-content-end mb-4">
+                <a href="{{ url('/') }}" class="btn btn-outline-danger rounded fw-bold">
+                    X
+                </a>
+            </div>
+
             <div class="section-heading text-center">
                 <h2>Form <em>Pengguna Alumni</em></h2>
                 <p>Silakan lengkapi data berikut sebagai salah satu indikator JTI dalam evaluasi dan perbaikan</p>

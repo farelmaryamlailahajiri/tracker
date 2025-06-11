@@ -108,7 +108,7 @@
                             <option value="Perusahaan Swasta">Perusahaan Swasta</option>
                             <option value="Instansi Pemerintah">Instansi Pemerintah</option>
                             <option value="Pendidikan Tinggi">Pendidikan Tinggi</option>
-                            <option value=""></option>
+                            <option value="Wirausaha">Wirausaha</option>
                         </select>
                     </div>
 
@@ -252,6 +252,21 @@
                     });
                 }
             }).trigger('change');
+
+            // Ketika profesi dipilih
+            $('#profesi').change(function() {
+                const profesi = $(this).val();
+                const isWirausaha = profesi === 'Wirausahawan (Non-IT)';
+
+                // Field atasan
+                const atasanFields = $('#nama_atasan, #jabatan_atasan, #no_hp_atasan, #email_atasan');
+
+                if (isWirausaha) {
+                    atasanFields.prop('disabled', true).val('');
+                } else {
+                    atasanFields.prop('disabled', false);
+                }
+            });
 
             $('#btn-verifikasi').click(function () {
                 const alumniId = $('#alumni_id').val();
