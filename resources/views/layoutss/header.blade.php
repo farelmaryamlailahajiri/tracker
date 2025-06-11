@@ -20,4 +20,6 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('tempdashboard/css/sb-admin-2.css') }}" rel="stylesheet">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 </head>

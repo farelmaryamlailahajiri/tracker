@@ -62,3 +62,4 @@ Route::prefix('laporan')->group(function () {
 
 Route::resource('/profesi', ProfesiController::class);
 
+

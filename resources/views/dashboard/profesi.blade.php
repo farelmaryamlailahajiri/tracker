@@ -18,6 +18,9 @@
                     </button>
                 </div>
 
+                {{-- Alert Messages will be dynamically added by showAlert function below --}}
+                {{-- No need for @if(session('success')) or @if(session('error')) here for JS-driven alerts --}}
+
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">Data Profesi</h6>
@@ -33,6 +36,7 @@
                                         <th>No</th>
                                         <th>Nama Profesi</th>
                                         <th>Kategori</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -43,24 +47,42 @@
                                             <td>{{ $profesi->nama_profesi }}</td>
                                             <td>{{ $profesi->kategori }}</td>
                                             <td>
+                                                @if($profesi->is_used)
+                                                    <span class="badge bg-warning">Digunakan</span>
+                                                @else
+                                                    <span class="badge bg-success">Tersedia</span>
+                                                @endif
+                                            </td>
+                                            <td>
                                                 <button class="btn btn-sm btn-warning btnEditProfesi"
-                                                    data-id="{{ $profesi->id }}" data-nama="{{ $profesi->nama_profesi }}"
-                                                    data-kategori="{{ $profesi->kategori }}" data-bs-toggle="modal"
-                                                    data-bs-target="#modalEditProfesi">
-                                                    Edit
+                                                    data-id="{{ $profesi->id }}"
+                                                    data-nama="{{ $profesi->nama_profesi }}"
+                                                    data-kategori="{{ $profesi->kategori }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalEditProfesi"> {{-- Tambahkan data-bs-toggle dan data-bs-target --}}
+                                                    <i class="fas fa-edit"></i> Edit
                                                 </button>
 
-                                                <button type="button" class="btn btn-sm btn-danger btnHapus"
-                                                    data-id="{{ $profesi->id }}" data-bs-toggle="modal"
-                                                    data-bs-target="#modalDeleteProfesi">
-                                                    Hapus
-                                                </button>
+                                                {{-- Tombol Hapus hanya muncul jika profesi belum digunakan --}}
+                                                @if(!$profesi->is_used)
+                                                    <button type="button" class="btn btn-sm btn-danger btnHapus"
+                                                        data-id="{{ $profesi->id }}"
+                                                        data-nama="{{ $profesi->nama_profesi }}"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalDeleteProfesi">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button>
+                                                @else
+                                                    <button type="button" class="btn btn-sm btn-secondary" disabled title="Tidak dapat dihapus karena sudah digunakan">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
                                     @if ($profesis->isEmpty())
                                         <tr>
-                                            <td colspan="4" class="text-center">Tidak ada data profesi.</td>
+                                            <td colspan="5" class="text-center">Tidak ada data profesi.</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -68,6 +90,7 @@
                         </div>
                     </div>
                 </div>
+                {{-- These includes bring in the modal HTML and their specific JS logic --}}
                 @include('dashboard.createProfesi')
                 @include('dashboard.editProfesi')
                 @include('dashboard.deleteProfesi')
@@ -95,34 +118,67 @@
     </div>
 
     <script>
+        // Global function to display alerts (can be called from any script)
+        function showAlert(type, message) {
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+
+            const container = document.querySelector('.container-fluid.px-4') || document.querySelector('.container-fluid');
+            const existingAlert = container.querySelector('.alert');
+
+            if (existingAlert) {
+                existingAlert.remove(); // Remove any existing alert
+            }
+
+            const topNav = container.querySelector('.d-flex.justify-content-between.align-items-center');
+            if (topNav) {
+                topNav.insertAdjacentHTML('afterend', alertHtml); // Insert after the navigation title
+            } else {
+                container.insertAdjacentHTML('afterbegin', alertHtml); // Fallback to insert at top
+            }
+            
+            // Auto hide alert after 5 seconds
+            setTimeout(() => {
+                const alert = container.querySelector('.alert');
+                if (alert) {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }
+            }, 5000);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Logout functionality
             document.getElementById('logoutButton').addEventListener('click', function() {
                 var myModal = new bootstrap.Modal(document.getElementById('logoutModal'));
                 myModal.show();
             });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+
             document.getElementById('confirmLogout').addEventListener('click', function() {
-                fetch('{{ route('logout') }}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json'
-                        },
-                    })
-                    .then(response => response.json())
-                    .then(data => {
+                // Menggunakan jQuery AJAX untuk logout agar konsisten
+                $.ajax({
+                    url: '{{ route('logout') }}',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
                         if (data.status) {
                             window.location.href = data.redirect;
                         } else {
-                            alert(data.message);
+                            showAlert('danger', data.message);
                         }
-                    });
+                    },
+                    error: function(xhr) {
+                        showAlert('danger', 'Terjadi kesalahan saat mencoba logout.');
+                        console.error('Logout error:', xhr);
+                    }
+                });
             });
         });
     </script>
 @endsection
-
-
