@@ -77,6 +77,17 @@
                         tahun <strong>{{ $tahunAwalDefault }} - {{ $tahunAkhirDefault }}</strong>
                     </div>
 
+                    @php
+                        // Hitung rata-rata masa tunggu keseluruhan dari $waktuTungguData
+                        $totalWaktuTunggu = 0;
+                        $countTahun = 0;
+                        foreach ($waktuTungguData as $item) {
+                            $totalWaktuTunggu += $item->rata_waktu_tunggu ?? 0;
+                            $countTahun++;
+                        }
+                        $rataRataKeseluruhan = $countTahun > 0 ? $totalWaktuTunggu / $countTahun : 0;
+                    @endphp
+
                     <!-- Stats Cards -->
                     <div class="row g-4 mb-4">
                         <div class="col-md-4">
@@ -111,7 +122,7 @@
                                     <div class="d-flex justify-content-between">
                                         <div>
                                             <h6 class="text-uppercase">Waktu Tunggu</h6>
-                                            <h2 class="mb-0">{{ number_format($rataWaktuTunggu, 1) }}
+                                            <h2 class="mb-0">{{ number_format($rataRataKeseluruhan, 1) }}
                                                 <small>bulan</small>
                                             </h2>
                                         </div>
