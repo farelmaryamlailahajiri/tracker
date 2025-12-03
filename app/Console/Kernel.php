@@ -24,4 +24,19 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+    protected $commands = [
+    \App\Console\Commands\ImportTracerCommand::class,
+    \App\Console\Commands\ImportAlumniCommand::class,
+    \App\Console\Commands\ImportKepuasanPenggunaCommand::class,
+    \App\Console\Commands\ImportInstansiFromSurveyCommand::class,
+    \App\Console\Commands\ImportInstansiCommand::class,
+    \App\Console\Commands\ImportProfesiFromSurveyCommand::class,
+    \App\Console\Commands\ImportProfesiCommand::class,
+    \App\Console\Commands\ImportPenggunaLulusanCommand::class,
+
+    ];
+
+    
+
 }

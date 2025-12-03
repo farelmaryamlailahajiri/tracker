@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,25 +13,34 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
+        $admins = [
             [
-
                 'username' => 'admin1',
-                'password' => Hash::make('admin1'),
                 'nama_lengkap' => 'Farel Maryam Laila H.',
                 'email' => 'admin1@example.com',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'password' => Hash::make('admin1'), // Ganti password sesuai kebutuhan
             ],
             [
                 'username' => 'admin2',
-                'password' => Hash::make('admin2'),
                 'nama_lengkap' => 'Dwi Septa Satria Agung',
                 'email' => 'admin2@example.com',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'password' => Hash::make('admin2'), // Ganti password sesuai kebutuhan
             ]
-            ];
-        DB::table('admins')->insert($data);
+        ];
+
+        foreach ($admins as $admin) {
+            DB::table('admins')->updateOrInsert(
+                ['username' => $admin['username']], // Unik berdasarkan username
+                [
+                    'nama_lengkap' => $admin['nama_lengkap'],
+                    'email' => $admin['email'],
+                    'password' => $admin['password'],
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+        }
+
+        echo "✅ Seeder admin berhasil dijalankan tanpa duplikasi.\n";
     }
 }

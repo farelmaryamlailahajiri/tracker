@@ -1,4 +1,5 @@
-<form action="{{ url('/login') }}" method="POST" id="form-login">
+<!-- Form login -->
+<form action="{{ route('login') }}" method="POST" id="form-login">
     @csrf
     <div id="loginModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-md" role="document">
@@ -26,50 +27,49 @@
     </div>
 </form>
 
+<!-- Pastikan SweetAlert2 sudah disertakan -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-    $(document).ready(function () {
-        $("#form-login").on("submit", function (e) {
-            e.preventDefault();
-            let form = this;
-    
-            $.ajax({
-                url: $(form).attr('action'),
-                type: $(form).attr('method'),
-                data: $(form).serialize(),
-                success: function (response) {
-                    if (response.status) {
-                        $('#loginModal').modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil Login',
-                            text: response.message,
-                            timer: 1500,
-                            showConfirmButton: false
-                        }).then(() => {
-                            window.location.reload(); // atau redirect sesuai kebutuhan
-                        });
-                    } else {
-                        $('.form-text.text-danger').text('');
-                        $.each(response.msgField || {}, function (field, message) {
-                            $('#error-' + field).text(message[0]);
-                        });
-    
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Login Gagal',
-                            text: response.message
-                        });
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Server Error',
-                        text: 'Terjadi kesalahan saat memproses login.'
-                    });
-                }
-            });
+$(document).ready(function () {
+    $("#form-login").on("submit", function (e) {
+        e.preventDefault();  // Mencegah form submit biasa
+
+        let form = this; 
+
+        $.ajax({
+            url: $(form).attr('action'),  // Mengambil URL dari action form
+            type: $(form).attr('method'),  // Mengambil metode dari form
+            data: $(form).serialize(),  // Menyertakan semua data form
+            success: function (response) {
+    if (response.status) {
+        $('#loginModal').modal('hide');  // Close the modal after successful login
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil Login',
+            text: response.message,
+            timer: 1500,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = response.redirect;  // Redirect to the dashboard
+        });
+    } else {
+        // Display errors
+        $('.form-text.text-danger').text('');
+        $.each(response.msgField || {}, function (field, message) {
+            $('#error-' + field).text(message[0]);  // Show error message
+        });
+
+        // Show error notification
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Gagal',
+            text: response.message
+        });
+    }
+}
+
         });
     });
-    </script>
-    
+});
+</script>

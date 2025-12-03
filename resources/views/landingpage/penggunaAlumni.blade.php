@@ -1,39 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
+@if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     <div class="container">
         <form action="{{ route('pengguna-alumni.store') }}" method="POST" class="alumni-form">
             @csrf
+
+            <div class="d-flex justify-content-end mb-4">
+                <a href="{{ url('/') }}" class="btn btn-outline-danger rounded fw-bold">
+                    X
+                </a>
+            </div>
+
             <div class="section-heading text-center">
                 <h2>Form <em>Pengguna Alumni</em></h2>
                 <p>Silakan lengkapi data berikut sebagai salah satu indikator JTI dalam evaluasi dan perbaikan</p>
             </div>
 
-            <div class="form-group">
-                <label for="nama">Nama</label>
-                <input type="text" name="nama" id="nama" required>
-            </div>
-
-            <div class="form-group">
-                <label for="instansi">Instansi</label>
-                <input type="text" name="instansi" id="instansi" required>
-            </div>
-
-            <div class="form-group">
-                <label for="jabatan">Jabatan</label>
-                <input type="text" name="jabatan" id="jabatan" required>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="alumni_info">Nama Alumni, Program Studi, Tahun Lulus</label>
-                <input type="text" name="alumni_info" id="alumni_info"
-                    placeholder="Contoh: Informatika - 2022 - Budi Santoso" required>
-            </div>
+            <input type="hidden" name="pengguna_id" id="pengguna_id" value="{{ $penggunaId }}">
+            <input type="hidden" name="tracer_id" id="tracer_id" value="{{ $tracerId }}">
 
             @php
                 $aspek = [

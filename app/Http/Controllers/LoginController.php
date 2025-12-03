@@ -3,30 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        // Validasi input
-        $validator = Validator::make($request->all(), [
+        // Validate the request input
+        $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
+        // Fetch user from the database
+        $user = DB::table('admins')->where('username', $request->username)->first();
+
+        // Check if user exists and password matches
+        if ($user && password_verify($request->password, $user->password)) {
+            // Successful login
             return response()->json([
-                'status' => false,
-                'msgField' => $validator->errors(),
-                'message' => 'Validasi gagal.'
+                'status' => true,
+                'message' => 'Login successful.',
+                'redirect' => route('dashboard'), // Redirect URL
             ]);
         }
 
-        // Untuk testing: tidak perlu autentikasi, langsung kirim respons sukses
+        // Failed login
+        return response()->json([
+            'status' => false,
+            'message' => 'Invalid username or password.',
+            'msgField' => [
+                'username' => ['Invalid username or password.'],
+            ],
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->flush(); // Hapus semua session
         return response()->json([
             'status' => true,
-            'message' => 'Login berhasil (dummy controller).'
+            'message' => 'Logout successful.',
+            'redirect' => url('/'), // Redirect ke halaman utama
         ]);
     }
 }

@@ -31,8 +31,6 @@
                             <li class="scroll-to-section"><a href="#abouts">Tentang</a></li>
                             <li class="scroll-to-section"><a href="#tujuan">Tujuan</a></li>
                             <li class="scroll-to-section"><a href="{{ route('alumni.create') }}">Alumni</a></li>
-                            <li class="scroll-to-section"><a href="{{ route('pengguna-alumni.create') }}">Pengguna
-                                    Alumni</a></li>
                             <li class="scroll-to-section">
                                 <button onclick="$('#loginModal').modal('show')" class="main-red-button">Login</button>
                             </li>
