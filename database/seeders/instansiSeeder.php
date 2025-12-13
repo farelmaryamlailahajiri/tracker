@@ -6,38 +6,32 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class prodiSeeder extends Seeder
+
+class AlumniSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        {
         $data = [
             [
-
-                'nama' => 'D4 Teknik Informatika',
+                'nama_instansi' => 'Universitas Negeri Jakarta',
+                'jenis_instansi' => 'Pendidikan Tinggi',
+                'skala' => 'Nasional',
+                'lokasi' => 'Jakarta',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'D4 Sistem Informasi Bisnis',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'D2 PPLS',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'S2 MRTI',
+                'nama_instansi' => 'Kementerian Pendidikan dan Kebudayaan',
+                'jenis_instansi' => 'Pemerintahan',
+                'skala' => 'Nasional',
+                'lokasi' => 'Bandung',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]
             ];
-        DB::table('program_studi')->insert($data);
-    }
+        DB::table('instansi')->insert($data);
     }
 }
