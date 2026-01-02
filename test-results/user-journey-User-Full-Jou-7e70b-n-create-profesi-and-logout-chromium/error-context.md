@@ -1,0 +1,807 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Logo" [ref=e5] [cursor=pointer]:
+      - /url: dashboard
+      - img "Logo" [ref=e6]
+    - generic [ref=e7]:
+      - link " Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: dashboard
+        - generic [ref=e12]: 
+        - generic [ref=e13]: Dashboard
+      - generic [ref=e14]: DATA
+      - link " Import Lulusan" [ref=e16] [cursor=pointer]:
+        - /url: http://127.0.0.1:8000/lulusan
+        - generic [ref=e19]: 
+        - generic [ref=e20]: Import Lulusan
+      - link " Kelola Profesi" [ref=e22] [cursor=pointer]:
+        - /url: http://127.0.0.1:8000/profesi
+        - generic [ref=e25]: 
+        - generic [ref=e26]: Kelola Profesi
+      - generic [ref=e27]: LAPORAN
+      - link " Laporan" [ref=e29] [cursor=pointer]:
+        - /url: laporan
+        - generic [ref=e32]: 
+        - generic [ref=e33]: Laporan
+  - generic [ref=e35]:
+    - generic [ref=e40]:
+      - generic [ref=e41]:
+        - heading " Kelola Profesi" [level=1] [ref=e42]:
+          - generic [ref=e43]: 
+          - text: Kelola Profesi
+        - button " Keluar" [ref=e44] [cursor=pointer]:
+          - generic [ref=e45]: 
+          - text: Keluar
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - heading "Data Profesi" [level=6] [ref=e48]
+          - button "+ Tambah Profesi" [ref=e49] [cursor=pointer]
+        - table [ref=e52]:
+          - rowgroup [ref=e53]:
+            - row "No Nama Profesi Kategori Status Aksi" [ref=e54]:
+              - cell "No" [ref=e55]
+              - cell "Nama Profesi" [ref=e56]
+              - cell "Kategori" [ref=e57]
+              - cell "Status" [ref=e58]
+              - cell "Aksi" [ref=e59]
+          - rowgroup [ref=e60]:
+            - row "1 Developer/Programmer/Software Engineer Infokom Digunakan  Edit  Hapus" [ref=e61]:
+              - cell "1" [ref=e62]
+              - cell "Developer/Programmer/Software Engineer" [ref=e63]
+              - cell "Infokom" [ref=e64]
+              - cell "Digunakan" [ref=e65]:
+                - generic [ref=e66]: Digunakan
+              - cell " Edit  Hapus" [ref=e67]:
+                - button " Edit" [ref=e68] [cursor=pointer]:
+                  - generic [ref=e69]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "2 IT Support/IT Administrator Infokom Digunakan  Edit  Hapus" [ref=e70]:
+              - cell "2" [ref=e71]
+              - cell "IT Support/IT Administrator" [ref=e72]
+              - cell "Infokom" [ref=e73]
+              - cell "Digunakan" [ref=e74]:
+                - generic [ref=e75]: Digunakan
+              - cell " Edit  Hapus" [ref=e76]:
+                - button " Edit" [ref=e77] [cursor=pointer]:
+                  - generic [ref=e78]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "3 Infrastructure Enggineer Infokom Tersedia  Edit  Hapus" [ref=e79]:
+              - cell "3" [ref=e80]
+              - cell "Infrastructure Enggineer" [ref=e81]
+              - cell "Infokom" [ref=e82]
+              - cell "Tersedia" [ref=e83]:
+                - generic [ref=e84]: Tersedia
+              - cell " Edit  Hapus" [ref=e85]:
+                - button " Edit" [ref=e86] [cursor=pointer]:
+                  - generic [ref=e87]: 
+                  - text: Edit
+                - button " Hapus" [ref=e88] [cursor=pointer]:
+                  - generic [ref=e89]: 
+                  - text: Hapus
+            - row "4 Digital Marketing Specialist Infokom Tersedia  Edit  Hapus" [ref=e90]:
+              - cell "4" [ref=e91]
+              - cell "Digital Marketing Specialist" [ref=e92]
+              - cell "Infokom" [ref=e93]
+              - cell "Tersedia" [ref=e94]:
+                - generic [ref=e95]: Tersedia
+              - cell " Edit  Hapus" [ref=e96]:
+                - button " Edit" [ref=e97] [cursor=pointer]:
+                  - generic [ref=e98]: 
+                  - text: Edit
+                - button " Hapus" [ref=e99] [cursor=pointer]:
+                  - generic [ref=e100]: 
+                  - text: Hapus
+            - row "5 Graphic Designer/Multimedia Designer Infokom Tersedia  Edit  Hapus" [ref=e101]:
+              - cell "5" [ref=e102]
+              - cell "Graphic Designer/Multimedia Designer" [ref=e103]
+              - cell "Infokom" [ref=e104]
+              - cell "Tersedia" [ref=e105]:
+                - generic [ref=e106]: Tersedia
+              - cell " Edit  Hapus" [ref=e107]:
+                - button " Edit" [ref=e108] [cursor=pointer]:
+                  - generic [ref=e109]: 
+                  - text: Edit
+                - button " Hapus" [ref=e110] [cursor=pointer]:
+                  - generic [ref=e111]: 
+                  - text: Hapus
+            - row "6 Business Analyst Infokom Tersedia  Edit  Hapus" [ref=e112]:
+              - cell "6" [ref=e113]
+              - cell "Business Analyst" [ref=e114]
+              - cell "Infokom" [ref=e115]
+              - cell "Tersedia" [ref=e116]:
+                - generic [ref=e117]: Tersedia
+              - cell " Edit  Hapus" [ref=e118]:
+                - button " Edit" [ref=e119] [cursor=pointer]:
+                  - generic [ref=e120]: 
+                  - text: Edit
+                - button " Hapus" [ref=e121] [cursor=pointer]:
+                  - generic [ref=e122]: 
+                  - text: Hapus
+            - row "7 QA Engineer/Tester Infokom Tersedia  Edit  Hapus" [ref=e123]:
+              - cell "7" [ref=e124]
+              - cell "QA Engineer/Tester" [ref=e125]
+              - cell "Infokom" [ref=e126]
+              - cell "Tersedia" [ref=e127]:
+                - generic [ref=e128]: Tersedia
+              - cell " Edit  Hapus" [ref=e129]:
+                - button " Edit" [ref=e130] [cursor=pointer]:
+                  - generic [ref=e131]: 
+                  - text: Edit
+                - button " Hapus" [ref=e132] [cursor=pointer]:
+                  - generic [ref=e133]: 
+                  - text: Hapus
+            - row "8 IT Enterpreneur Infokom Tersedia  Edit  Hapus" [ref=e134]:
+              - cell "8" [ref=e135]
+              - cell "IT Enterpreneur" [ref=e136]
+              - cell "Infokom" [ref=e137]
+              - cell "Tersedia" [ref=e138]:
+                - generic [ref=e139]: Tersedia
+              - cell " Edit  Hapus" [ref=e140]:
+                - button " Edit" [ref=e141] [cursor=pointer]:
+                  - generic [ref=e142]: 
+                  - text: Edit
+                - button " Hapus" [ref=e143] [cursor=pointer]:
+                  - generic [ref=e144]: 
+                  - text: Hapus
+            - row "9 Trainer/Guru/Dosen (IT) Infokom Tersedia  Edit  Hapus" [ref=e145]:
+              - cell "9" [ref=e146]
+              - cell "Trainer/Guru/Dosen (IT)" [ref=e147]
+              - cell "Infokom" [ref=e148]
+              - cell "Tersedia" [ref=e149]:
+                - generic [ref=e150]: Tersedia
+              - cell " Edit  Hapus" [ref=e151]:
+                - button " Edit" [ref=e152] [cursor=pointer]:
+                  - generic [ref=e153]: 
+                  - text: Edit
+                - button " Hapus" [ref=e154] [cursor=pointer]:
+                  - generic [ref=e155]: 
+                  - text: Hapus
+            - row "10 Lainnya Infokom Tersedia  Edit  Hapus" [ref=e156]:
+              - cell "10" [ref=e157]
+              - cell "Lainnya" [ref=e158]
+              - cell "Infokom" [ref=e159]
+              - cell "Tersedia" [ref=e160]:
+                - generic [ref=e161]: Tersedia
+              - cell " Edit  Hapus" [ref=e162]:
+                - button " Edit" [ref=e163] [cursor=pointer]:
+                  - generic [ref=e164]: 
+                  - text: Edit
+                - button " Hapus" [ref=e165] [cursor=pointer]:
+                  - generic [ref=e166]: 
+                  - text: Hapus
+            - row "11 Procurement & Operational Team Infokom Tersedia  Edit  Hapus" [ref=e167]:
+              - cell "11" [ref=e168]
+              - cell "Procurement & Operational Team" [ref=e169]
+              - cell "Infokom" [ref=e170]
+              - cell "Tersedia" [ref=e171]:
+                - generic [ref=e172]: Tersedia
+              - cell " Edit  Hapus" [ref=e173]:
+                - button " Edit" [ref=e174] [cursor=pointer]:
+                  - generic [ref=e175]: 
+                  - text: Edit
+                - button " Hapus" [ref=e176] [cursor=pointer]:
+                  - generic [ref=e177]: 
+                  - text: Hapus
+            - row "12 Wirausahawan (Non-IT) Infokom Tersedia  Edit  Hapus" [ref=e178]:
+              - cell "12" [ref=e179]
+              - cell "Wirausahawan (Non-IT)" [ref=e180]
+              - cell "Infokom" [ref=e181]
+              - cell "Tersedia" [ref=e182]:
+                - generic [ref=e183]: Tersedia
+              - cell " Edit  Hapus" [ref=e184]:
+                - button " Edit" [ref=e185] [cursor=pointer]:
+                  - generic [ref=e186]: 
+                  - text: Edit
+                - button " Hapus" [ref=e187] [cursor=pointer]:
+                  - generic [ref=e188]: 
+                  - text: Hapus
+            - row "13 Trainer/Guru/Dosen (Non-IT) Infokom Tersedia  Edit  Hapus" [ref=e189]:
+              - cell "13" [ref=e190]
+              - cell "Trainer/Guru/Dosen (Non-IT)" [ref=e191]
+              - cell "Infokom" [ref=e192]
+              - cell "Tersedia" [ref=e193]:
+                - generic [ref=e194]: Tersedia
+              - cell " Edit  Hapus" [ref=e195]:
+                - button " Edit" [ref=e196] [cursor=pointer]:
+                  - generic [ref=e197]: 
+                  - text: Edit
+                - button " Hapus" [ref=e198] [cursor=pointer]:
+                  - generic [ref=e199]: 
+                  - text: Hapus
+            - row "14 Mahasiswa Infokom Tersedia  Edit  Hapus" [ref=e200]:
+              - cell "14" [ref=e201]
+              - cell "Mahasiswa" [ref=e202]
+              - cell "Infokom" [ref=e203]
+              - cell "Tersedia" [ref=e204]:
+                - generic [ref=e205]: Tersedia
+              - cell " Edit  Hapus" [ref=e206]:
+                - button " Edit" [ref=e207] [cursor=pointer]:
+                  - generic [ref=e208]: 
+                  - text: Edit
+                - button " Hapus" [ref=e209] [cursor=pointer]:
+                  - generic [ref=e210]: 
+                  - text: Hapus
+            - row "15 Lainnya Infokom Tersedia  Edit  Hapus" [ref=e211]:
+              - cell "15" [ref=e212]
+              - cell "Lainnya" [ref=e213]
+              - cell "Infokom" [ref=e214]
+              - cell "Tersedia" [ref=e215]:
+                - generic [ref=e216]: Tersedia
+              - cell " Edit  Hapus" [ref=e217]:
+                - button " Edit" [ref=e218] [cursor=pointer]:
+                  - generic [ref=e219]: 
+                  - text: Edit
+                - button " Hapus" [ref=e220] [cursor=pointer]:
+                  - generic [ref=e221]: 
+                  - text: Hapus
+            - row "16 Tidak Bekerja Tidak Bekerja Tersedia  Edit  Hapus" [ref=e222]:
+              - cell "16" [ref=e223]
+              - cell "Tidak Bekerja" [ref=e224]
+              - cell "Tidak Bekerja" [ref=e225]
+              - cell "Tersedia" [ref=e226]:
+                - generic [ref=e227]: Tersedia
+              - cell " Edit  Hapus" [ref=e228]:
+                - button " Edit" [ref=e229] [cursor=pointer]:
+                  - generic [ref=e230]: 
+                  - text: Edit
+                - button " Hapus" [ref=e231] [cursor=pointer]:
+                  - generic [ref=e232]: 
+                  - text: Hapus
+            - row "17 Dosen Non-Infokom Digunakan  Edit  Hapus" [ref=e233]:
+              - cell "17" [ref=e234]
+              - cell "Dosen" [ref=e235]
+              - cell "Non-Infokom" [ref=e236]
+              - cell "Digunakan" [ref=e237]:
+                - generic [ref=e238]: Digunakan
+              - cell " Edit  Hapus" [ref=e239]:
+                - button " Edit" [ref=e240] [cursor=pointer]:
+                  - generic [ref=e241]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "18 Wirausaha Non-Infokom Digunakan  Edit  Hapus" [ref=e242]:
+              - cell "18" [ref=e243]
+              - cell "Wirausaha" [ref=e244]
+              - cell "Non-Infokom" [ref=e245]
+              - cell "Digunakan" [ref=e246]:
+                - generic [ref=e247]: Digunakan
+              - cell " Edit  Hapus" [ref=e248]:
+                - button " Edit" [ref=e249] [cursor=pointer]:
+                  - generic [ref=e250]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "19 Network Engineer Infokom Digunakan  Edit  Hapus" [ref=e251]:
+              - cell "19" [ref=e252]
+              - cell "Network Engineer" [ref=e253]
+              - cell "Infokom" [ref=e254]
+              - cell "Digunakan" [ref=e255]:
+                - generic [ref=e256]: Digunakan
+              - cell " Edit  Hapus" [ref=e257]:
+                - button " Edit" [ref=e258] [cursor=pointer]:
+                  - generic [ref=e259]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "20 Software Engineer Infokom Digunakan  Edit  Hapus" [ref=e260]:
+              - cell "20" [ref=e261]
+              - cell "Software Engineer" [ref=e262]
+              - cell "Infokom" [ref=e263]
+              - cell "Digunakan" [ref=e264]:
+                - generic [ref=e265]: Digunakan
+              - cell " Edit  Hapus" [ref=e266]:
+                - button " Edit" [ref=e267] [cursor=pointer]:
+                  - generic [ref=e268]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "21 Analis Kebencanaan Non-Infokom Digunakan  Edit  Hapus" [ref=e269]:
+              - cell "21" [ref=e270]
+              - cell "Analis Kebencanaan" [ref=e271]
+              - cell "Non-Infokom" [ref=e272]
+              - cell "Digunakan" [ref=e273]:
+                - generic [ref=e274]: Digunakan
+              - cell " Edit  Hapus" [ref=e275]:
+                - button " Edit" [ref=e276] [cursor=pointer]:
+                  - generic [ref=e277]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "22 Staf Operasional Migas Non-Infokom Digunakan  Edit  Hapus" [ref=e278]:
+              - cell "22" [ref=e279]
+              - cell "Staf Operasional Migas" [ref=e280]
+              - cell "Non-Infokom" [ref=e281]
+              - cell "Digunakan" [ref=e282]:
+                - generic [ref=e283]: Digunakan
+              - cell " Edit  Hapus" [ref=e284]:
+                - button " Edit" [ref=e285] [cursor=pointer]:
+                  - generic [ref=e286]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "23 Brand Manager Non-Infokom Digunakan  Edit  Hapus" [ref=e287]:
+              - cell "23" [ref=e288]
+              - cell "Brand Manager" [ref=e289]
+              - cell "Non-Infokom" [ref=e290]
+              - cell "Digunakan" [ref=e291]:
+                - generic [ref=e292]: Digunakan
+              - cell " Edit  Hapus" [ref=e293]:
+                - button " Edit" [ref=e294] [cursor=pointer]:
+                  - generic [ref=e295]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "24 Tenaga Kesehatan Digital Infokom Tersedia  Edit  Hapus" [ref=e296]:
+              - cell "24" [ref=e297]
+              - cell "Tenaga Kesehatan Digital" [ref=e298]
+              - cell "Infokom" [ref=e299]
+              - cell "Tersedia" [ref=e300]:
+                - generic [ref=e301]: Tersedia
+              - cell " Edit  Hapus" [ref=e302]:
+                - button " Edit" [ref=e303] [cursor=pointer]:
+                  - generic [ref=e304]: 
+                  - text: Edit
+                - button " Hapus" [ref=e305] [cursor=pointer]:
+                  - generic [ref=e306]: 
+                  - text: Hapus
+            - row "25 Peneliti Non-Infokom Digunakan  Edit  Hapus" [ref=e307]:
+              - cell "25" [ref=e308]
+              - cell "Peneliti" [ref=e309]
+              - cell "Non-Infokom" [ref=e310]
+              - cell "Digunakan" [ref=e311]:
+                - generic [ref=e312]: Digunakan
+              - cell " Edit  Hapus" [ref=e313]:
+                - button " Edit" [ref=e314] [cursor=pointer]:
+                  - generic [ref=e315]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "26 Customer Service Non-Infokom Digunakan  Edit  Hapus" [ref=e316]:
+              - cell "26" [ref=e317]
+              - cell "Customer Service" [ref=e318]
+              - cell "Non-Infokom" [ref=e319]
+              - cell "Digunakan" [ref=e320]:
+                - generic [ref=e321]: Digunakan
+              - cell " Edit  Hapus" [ref=e322]:
+                - button " Edit" [ref=e323] [cursor=pointer]:
+                  - generic [ref=e324]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "27 Dosen Teknologi Informasi Infokom Digunakan  Edit  Hapus" [ref=e325]:
+              - cell "27" [ref=e326]
+              - cell "Dosen Teknologi Informasi" [ref=e327]
+              - cell "Infokom" [ref=e328]
+              - cell "Digunakan" [ref=e329]:
+                - generic [ref=e330]: Digunakan
+              - cell " Edit  Hapus" [ref=e331]:
+                - button " Edit" [ref=e332] [cursor=pointer]:
+                  - generic [ref=e333]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "28 Petugas Pajak Non-Infokom Digunakan  Edit  Hapus" [ref=e334]:
+              - cell "28" [ref=e335]
+              - cell "Petugas Pajak" [ref=e336]
+              - cell "Non-Infokom" [ref=e337]
+              - cell "Digunakan" [ref=e338]:
+                - generic [ref=e339]: Digunakan
+              - cell " Edit  Hapus" [ref=e340]:
+                - button " Edit" [ref=e341] [cursor=pointer]:
+                  - generic [ref=e342]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "29 IT Support Infokom Digunakan  Edit  Hapus" [ref=e343]:
+              - cell "29" [ref=e344]
+              - cell "IT Support" [ref=e345]
+              - cell "Infokom" [ref=e346]
+              - cell "Digunakan" [ref=e347]:
+                - generic [ref=e348]: Digunakan
+              - cell " Edit  Hapus" [ref=e349]:
+                - button " Edit" [ref=e350] [cursor=pointer]:
+                  - generic [ref=e351]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "30 Staf Administrasi Non-Infokom Digunakan  Edit  Hapus" [ref=e352]:
+              - cell "30" [ref=e353]
+              - cell "Staf Administrasi" [ref=e354]
+              - cell "Non-Infokom" [ref=e355]
+              - cell "Digunakan" [ref=e356]:
+                - generic [ref=e357]: Digunakan
+              - cell " Edit  Hapus" [ref=e358]:
+                - button " Edit" [ref=e359] [cursor=pointer]:
+                  - generic [ref=e360]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "31 Akuntan Non-Infokom Digunakan  Edit  Hapus" [ref=e361]:
+              - cell "31" [ref=e362]
+              - cell "Akuntan" [ref=e363]
+              - cell "Non-Infokom" [ref=e364]
+              - cell "Digunakan" [ref=e365]:
+                - generic [ref=e366]: Digunakan
+              - cell " Edit  Hapus" [ref=e367]:
+                - button " Edit" [ref=e368] [cursor=pointer]:
+                  - generic [ref=e369]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "32 IT Project Manager Infokom Digunakan  Edit  Hapus" [ref=e370]:
+              - cell "32" [ref=e371]
+              - cell "IT Project Manager" [ref=e372]
+              - cell "Infokom" [ref=e373]
+              - cell "Digunakan" [ref=e374]:
+                - generic [ref=e375]: Digunakan
+              - cell " Edit  Hapus" [ref=e376]:
+                - button " Edit" [ref=e377] [cursor=pointer]:
+                  - generic [ref=e378]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "33 Tenaga Kependidikan Non-Infokom Digunakan  Edit  Hapus" [ref=e379]:
+              - cell "33" [ref=e380]
+              - cell "Tenaga Kependidikan" [ref=e381]
+              - cell "Non-Infokom" [ref=e382]
+              - cell "Digunakan" [ref=e383]:
+                - generic [ref=e384]: Digunakan
+              - cell " Edit  Hapus" [ref=e385]:
+                - button " Edit" [ref=e386] [cursor=pointer]:
+                  - generic [ref=e387]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "34 Statistikawan Infokom Digunakan  Edit  Hapus" [ref=e388]:
+              - cell "34" [ref=e389]
+              - cell "Statistikawan" [ref=e390]
+              - cell "Infokom" [ref=e391]
+              - cell "Digunakan" [ref=e392]:
+                - generic [ref=e393]: Digunakan
+              - cell " Edit  Hapus" [ref=e394]:
+                - button " Edit" [ref=e395] [cursor=pointer]:
+                  - generic [ref=e396]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "35 Marketing Non-Infokom Digunakan  Edit  Hapus" [ref=e397]:
+              - cell "35" [ref=e398]
+              - cell "Marketing" [ref=e399]
+              - cell "Non-Infokom" [ref=e400]
+              - cell "Digunakan" [ref=e401]:
+                - generic [ref=e402]: Digunakan
+              - cell " Edit  Hapus" [ref=e403]:
+                - button " Edit" [ref=e404] [cursor=pointer]:
+                  - generic [ref=e405]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "36 Analis Keuangan Non-Infokom Digunakan  Edit  Hapus" [ref=e406]:
+              - cell "36" [ref=e407]
+              - cell "Analis Keuangan" [ref=e408]
+              - cell "Non-Infokom" [ref=e409]
+              - cell "Digunakan" [ref=e410]:
+                - generic [ref=e411]: Digunakan
+              - cell " Edit  Hapus" [ref=e412]:
+                - button " Edit" [ref=e413] [cursor=pointer]:
+                  - generic [ref=e414]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "37 IT Consultant Infokom Digunakan  Edit  Hapus" [ref=e415]:
+              - cell "37" [ref=e416]
+              - cell "IT Consultant" [ref=e417]
+              - cell "Infokom" [ref=e418]
+              - cell "Digunakan" [ref=e419]:
+                - generic [ref=e420]: Digunakan
+              - cell " Edit  Hapus" [ref=e421]:
+                - button " Edit" [ref=e422] [cursor=pointer]:
+                  - generic [ref=e423]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "38 Insinyur Gas Infokom Digunakan  Edit  Hapus" [ref=e424]:
+              - cell "38" [ref=e425]
+              - cell "Insinyur Gas" [ref=e426]
+              - cell "Infokom" [ref=e427]
+              - cell "Digunakan" [ref=e428]:
+                - generic [ref=e429]: Digunakan
+              - cell " Edit  Hapus" [ref=e430]:
+                - button " Edit" [ref=e431] [cursor=pointer]:
+                  - generic [ref=e432]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "39 Product Manager Non-Infokom Digunakan  Edit  Hapus" [ref=e433]:
+              - cell "39" [ref=e434]
+              - cell "Product Manager" [ref=e435]
+              - cell "Non-Infokom" [ref=e436]
+              - cell "Digunakan" [ref=e437]:
+                - generic [ref=e438]: Digunakan
+              - cell " Edit  Hapus" [ref=e439]:
+                - button " Edit" [ref=e440] [cursor=pointer]:
+                  - generic [ref=e441]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "40 Ahli Geologi Infokom Digunakan  Edit  Hapus" [ref=e442]:
+              - cell "40" [ref=e443]
+              - cell "Ahli Geologi" [ref=e444]
+              - cell "Infokom" [ref=e445]
+              - cell "Digunakan" [ref=e446]:
+                - generic [ref=e447]: Digunakan
+              - cell " Edit  Hapus" [ref=e448]:
+                - button " Edit" [ref=e449] [cursor=pointer]:
+                  - generic [ref=e450]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "41 Staf Akademik Non-Infokom Digunakan  Edit  Hapus" [ref=e451]:
+              - cell "41" [ref=e452]
+              - cell "Staf Akademik" [ref=e453]
+              - cell "Non-Infokom" [ref=e454]
+              - cell "Digunakan" [ref=e455]:
+                - generic [ref=e456]: Digunakan
+              - cell " Edit  Hapus" [ref=e457]:
+                - button " Edit" [ref=e458] [cursor=pointer]:
+                  - generic [ref=e459]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "42 Apoteker Infokom Digunakan  Edit  Hapus" [ref=e460]:
+              - cell "42" [ref=e461]
+              - cell "Apoteker" [ref=e462]
+              - cell "Infokom" [ref=e463]
+              - cell "Digunakan" [ref=e464]:
+                - generic [ref=e465]: Digunakan
+              - cell " Edit  Hapus" [ref=e466]:
+                - button " Edit" [ref=e467] [cursor=pointer]:
+                  - generic [ref=e468]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "43 Driver Ojek Online Non-Infokom Digunakan  Edit  Hapus" [ref=e469]:
+              - cell "43" [ref=e470]
+              - cell "Driver Ojek Online" [ref=e471]
+              - cell "Non-Infokom" [ref=e472]
+              - cell "Digunakan" [ref=e473]:
+                - generic [ref=e474]: Digunakan
+              - cell " Edit  Hapus" [ref=e475]:
+                - button " Edit" [ref=e476] [cursor=pointer]:
+                  - generic [ref=e477]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "44 Diplomat Infokom Digunakan  Edit  Hapus" [ref=e478]:
+              - cell "44" [ref=e479]
+              - cell "Diplomat" [ref=e480]
+              - cell "Infokom" [ref=e481]
+              - cell "Digunakan" [ref=e482]:
+                - generic [ref=e483]: Digunakan
+              - cell " Edit  Hapus" [ref=e484]:
+                - button " Edit" [ref=e485] [cursor=pointer]:
+                  - generic [ref=e486]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "45 Staf Bandara Non-Infokom Digunakan  Edit  Hapus" [ref=e487]:
+              - cell "45" [ref=e488]
+              - cell "Staf Bandara" [ref=e489]
+              - cell "Non-Infokom" [ref=e490]
+              - cell "Digunakan" [ref=e491]:
+                - generic [ref=e492]: Digunakan
+              - cell " Edit  Hapus" [ref=e493]:
+                - button " Edit" [ref=e494] [cursor=pointer]:
+                  - generic [ref=e495]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "46 Insinyur Sipil Infokom Digunakan  Edit  Hapus" [ref=e496]:
+              - cell "46" [ref=e497]
+              - cell "Insinyur Sipil" [ref=e498]
+              - cell "Infokom" [ref=e499]
+              - cell "Digunakan" [ref=e500]:
+                - generic [ref=e501]: Digunakan
+              - cell " Edit  Hapus" [ref=e502]:
+                - button " Edit" [ref=e503] [cursor=pointer]:
+                  - generic [ref=e504]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "47 Sales Executive Non-Infokom Digunakan  Edit  Hapus" [ref=e505]:
+              - cell "47" [ref=e506]
+              - cell "Sales Executive" [ref=e507]
+              - cell "Non-Infokom" [ref=e508]
+              - cell "Digunakan" [ref=e509]:
+                - generic [ref=e510]: Digunakan
+              - cell " Edit  Hapus" [ref=e511]:
+                - button " Edit" [ref=e512] [cursor=pointer]:
+                  - generic [ref=e513]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "48 Staf Sosial Infokom Digunakan  Edit  Hapus" [ref=e514]:
+              - cell "48" [ref=e515]
+              - cell "Staf Sosial" [ref=e516]
+              - cell "Infokom" [ref=e517]
+              - cell "Digunakan" [ref=e518]:
+                - generic [ref=e519]: Digunakan
+              - cell " Edit  Hapus" [ref=e520]:
+                - button " Edit" [ref=e521] [cursor=pointer]:
+                  - generic [ref=e522]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "49 Tenaga Pengajar Non-Infokom Digunakan  Edit  Hapus" [ref=e523]:
+              - cell "49" [ref=e524]
+              - cell "Tenaga Pengajar" [ref=e525]
+              - cell "Non-Infokom" [ref=e526]
+              - cell "Digunakan" [ref=e527]:
+                - generic [ref=e528]: Digunakan
+              - cell " Edit  Hapus" [ref=e529]:
+                - button " Edit" [ref=e530] [cursor=pointer]:
+                  - generic [ref=e531]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "50 Staf Operasional Jalan Raya edit Non-Infokom Digunakan  Edit  Hapus" [ref=e532]:
+              - cell "50" [ref=e533]
+              - cell "Staf Operasional Jalan Raya edit" [ref=e534]
+              - cell "Non-Infokom" [ref=e535]
+              - cell "Digunakan" [ref=e536]:
+                - generic [ref=e537]: Digunakan
+              - cell " Edit  Hapus" [ref=e538]:
+                - button " Edit" [ref=e539] [cursor=pointer]:
+                  - generic [ref=e540]: 
+                  - text: Edit
+                - button " Hapus" [disabled]:
+                  - generic: 
+                  - text: Hapus
+            - row "51 Playwright Engineer Infokom Tersedia  Edit  Hapus" [ref=e541]:
+              - cell "51" [ref=e542]
+              - cell "Playwright Engineer" [ref=e543]
+              - cell "Infokom" [ref=e544]
+              - cell "Tersedia" [ref=e545]:
+                - generic [ref=e546]: Tersedia
+              - cell " Edit  Hapus" [ref=e547]:
+                - button " Edit" [ref=e548] [cursor=pointer]:
+                  - generic [ref=e549]: 
+                  - text: Edit
+                - button " Hapus" [ref=e550] [cursor=pointer]:
+                  - generic [ref=e551]: 
+                  - text: Hapus
+            - row "52 Playwright Engineer Infokom Tersedia  Edit  Hapus" [ref=e552]:
+              - cell "52" [ref=e553]
+              - cell "Playwright Engineer" [ref=e554]
+              - cell "Infokom" [ref=e555]
+              - cell "Tersedia" [ref=e556]:
+                - generic [ref=e557]: Tersedia
+              - cell " Edit  Hapus" [ref=e558]:
+                - button " Edit" [ref=e559] [cursor=pointer]:
+                  - generic [ref=e560]: 
+                  - text: Edit
+                - button " Hapus" [ref=e561] [cursor=pointer]:
+                  - generic [ref=e562]: 
+                  - text: Hapus
+            - row "53 Playwright Engineer Infokom Tersedia  Edit  Hapus" [ref=e563]:
+              - cell "53" [ref=e564]
+              - cell "Playwright Engineer" [ref=e565]
+              - cell "Infokom" [ref=e566]
+              - cell "Tersedia" [ref=e567]:
+                - generic [ref=e568]: Tersedia
+              - cell " Edit  Hapus" [ref=e569]:
+                - button " Edit" [ref=e570] [cursor=pointer]:
+                  - generic [ref=e571]: 
+                  - text: Edit
+                - button " Hapus" [ref=e572] [cursor=pointer]:
+                  - generic [ref=e573]: 
+                  - text: Hapus
+            - row "54 Playwright Engineer Infokom Tersedia  Edit  Hapus" [ref=e574]:
+              - cell "54" [ref=e575]
+              - cell "Playwright Engineer" [ref=e576]
+              - cell "Infokom" [ref=e577]
+              - cell "Tersedia" [ref=e578]:
+                - generic [ref=e579]: Tersedia
+              - cell " Edit  Hapus" [ref=e580]:
+                - button " Edit" [ref=e581] [cursor=pointer]:
+                  - generic [ref=e582]: 
+                  - text: Edit
+                - button " Hapus" [ref=e583] [cursor=pointer]:
+                  - generic [ref=e584]: 
+                  - text: Hapus
+            - row "55 Playwright Engineer Infokom Tersedia  Edit  Hapus" [ref=e585]:
+              - cell "55" [ref=e586]
+              - cell "Playwright Engineer" [ref=e587]
+              - cell "Infokom" [ref=e588]
+              - cell "Tersedia" [ref=e589]:
+                - generic [ref=e590]: Tersedia
+              - cell " Edit  Hapus" [ref=e591]:
+                - button " Edit" [ref=e592] [cursor=pointer]:
+                  - generic [ref=e593]: 
+                  - text: Edit
+                - button " Hapus" [ref=e594] [cursor=pointer]:
+                  - generic [ref=e595]: 
+                  - text: Hapus
+            - row "56 API Tester Playwright 1763996804214 Infokom Tersedia  Edit  Hapus" [ref=e596]:
+              - cell "56" [ref=e597]
+              - cell "API Tester Playwright 1763996804214" [ref=e598]
+              - cell "Infokom" [ref=e599]
+              - cell "Tersedia" [ref=e600]:
+                - generic [ref=e601]: Tersedia
+              - cell " Edit  Hapus" [ref=e602]:
+                - button " Edit" [ref=e603] [cursor=pointer]:
+                  - generic [ref=e604]: 
+                  - text: Edit
+                - button " Hapus" [ref=e605] [cursor=pointer]:
+                  - generic [ref=e606]: 
+                  - text: Hapus
+            - row "57 Playwright Engineer Infokom Tersedia  Edit  Hapus" [ref=e607]:
+              - cell "57" [ref=e608]
+              - cell "Playwright Engineer" [ref=e609]
+              - cell "Infokom" [ref=e610]
+              - cell "Tersedia" [ref=e611]:
+                - generic [ref=e612]: Tersedia
+              - cell " Edit  Hapus" [ref=e613]:
+                - button " Edit" [ref=e614] [cursor=pointer]:
+                  - generic [ref=e615]: 
+                  - text: Edit
+                - button " Hapus" [ref=e616] [cursor=pointer]:
+                  - generic [ref=e617]: 
+                  - text: Hapus
+            - row "58 Playwright Engineer Infokom Tersedia  Edit  Hapus" [ref=e618]:
+              - cell "58" [ref=e619]
+              - cell "Playwright Engineer" [ref=e620]
+              - cell "Infokom" [ref=e621]
+              - cell "Tersedia" [ref=e622]:
+                - generic [ref=e623]: Tersedia
+              - cell " Edit  Hapus" [ref=e624]:
+                - button " Edit" [ref=e625] [cursor=pointer]:
+                  - generic [ref=e626]: 
+                  - text: Edit
+                - button " Hapus" [ref=e627] [cursor=pointer]:
+                  - generic [ref=e628]: 
+                  - text: Hapus
+      - text:  
+    - contentinfo [ref=e629]:
+      - generic [ref=e631]: Copyright © 2025 Kelompok 6 JTI TRACKER
+```

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 
 class LoginController extends Controller
 {
@@ -15,11 +17,14 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Fetch user from the database
-        $user = DB::table('admins')->where('username', $request->username)->first();
+        // Fetch user from the admins table
+        $user = Admin::where('username', $request->username)->first();
 
         // Check if user exists and password matches
-        if ($user && password_verify($request->password, $user->password)) {
+        if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+            // Log the user in
+            Auth::login($user);
+
             // Successful login
             return response()->json([
                 'status' => true,
@@ -40,7 +45,10 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->flush(); // Hapus semua session
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return response()->json([
             'status' => true,
             'message' => 'Logout successful.',
